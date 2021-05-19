@@ -28,9 +28,9 @@ namespace WMS_API.Helpers.Utilities
         {
             var count = await source.CountAsync();
             int skip = (pageNumber - 1) * pageSize;
-            var items = await source.ToListAsync();
-            if (isPaging)
-                items = await source.Skip(skip).Take(pageSize).ToListAsync(); 
+            var items = await source.Skip(skip).Take(pageSize).ToListAsync();
+            if (!isPaging)
+                items = await source.ToListAsync(); 
             return new PageListUtility<T>(items, count, pageNumber, pageSize, skip);
         }
 
@@ -38,9 +38,9 @@ namespace WMS_API.Helpers.Utilities
         {
             var count = source.Count();
             int skip = (pageNumber - 1) * pageSize;
-            var items = source.ToList();
-            if (isPaging)
-                items = source.Skip(skip).Take(pageSize).ToList(); 
+            var items = source.Skip(skip).Take(pageSize).ToList();
+            if (!isPaging)
+                items = source.ToList(); 
             return new PageListUtility<T>(items, count, pageNumber, pageSize, skip);
         }
         public class PagedResultBase
