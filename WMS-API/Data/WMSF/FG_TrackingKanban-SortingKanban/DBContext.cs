@@ -11,6 +11,7 @@ namespace WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban
         public virtual DbSet<WMSF_FGIN_Locat> WMSF_FGIN_Locat { get; set; }
         public virtual DbSet<WMSF_FGIN_PersonInCharge> WMSF_FGIN_PersonInCharge { get; set; }
         public virtual DbSet<WMS_Location> WMS_Location { get; set; }
+        public virtual DbSet<VW_FGIN_LOCAT_LIST> VW_FGIN_LOCAT_LIST { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -225,6 +226,39 @@ namespace WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban
                 entity.Property(e => e.Update_Time).HasComment("異動時間");
 
                 entity.Property(e => e.Warehouse_Name).HasComment("庫別名稱");
+            });
+
+            modelBuilder.Entity<VW_FGIN_LOCAT_LIST>(entity =>
+            {
+                entity.ToView("VW_FGIN_LOCAT_LIST");
+
+                entity.Property(e => e.Article).IsUnicode(false);
+
+                entity.Property(e => e.Cdr_No)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.ColorRow).IsUnicode(false);
+
+                entity.Property(e => e.Dept_ID)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Factory_ID).IsUnicode(false);
+
+                entity.Property(e => e.Line_Desc).IsUnicode(false);
+
+                entity.Property(e => e.Locat).IsUnicode(false);
+
+                entity.Property(e => e.Model_Name).IsUnicode(false);
+
+                entity.Property(e => e.Suggest_Locat)
+                    .IsUnicode(false)
+                    .UseCollation("Chinese_Taiwan_Stroke_90_CI_AS");
+
+                entity.Property(e => e.Up_Trno)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
             });
 
             OnModelCreatingPartial(modelBuilder);
