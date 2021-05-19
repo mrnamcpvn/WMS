@@ -12,6 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WMS_API._Repositories;
+using WMS_API._Repositories.Interfaces;
+using WMS_API._Repositories.Repositories;
+using WMS_API._Services.Interface;
+using WMS_API._Services.Services;
 using WMS_API.Helpers.AutoMapper;
 
 namespace WMS_API
@@ -45,9 +50,17 @@ namespace WMS_API
             services.AddScoped<IMapper>(sp => new Mapper(AutoMapperConfig.RegisterMappings()));
             services.AddSingleton(AutoMapperConfig.RegisterMappings());
 
-            // services.AddScoped<IRepository, Repository>();
+            //repo
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IWMS_LocationRepository, WMS_LocationRepository>();
+            services.AddTransient<IWMSF_Carton_LocatRepository, WMSF_Carton_LocatRepository>();
+            services.AddTransient<IWMSF_Rack_AreaRepository, WMSF_Rack_AreaRepository>();
 
-            // services.AddScoped<IService, Service>();
+            //Services
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IWMS_LocationService, WMS_LocationService>();
+            services.AddTransient<IWMSF_Carton_LocatService, WMSF_Carton_LocatService>();
+            services.AddTransient<IWMSF_Rack_AreaService, WMSF_Rack_AreaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
