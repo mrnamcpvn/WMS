@@ -10,11 +10,11 @@ using WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban;
 namespace WMS_API._Repositories.Repositories.WMSF.FG_TrackingKanban_SortingKanban
 {
 
-    public class DBContext_EEPRepository<T> : IRepository<T> where T : class
+    public class CB_EEPRepository<T> : IRepository<T> where T : class
     {
-        private readonly DBContext_EEP _context;
+        private readonly CB_EEPContext _context;
 
-        public DBContext_EEPRepository(DBContext_EEP context)
+        public CB_EEPRepository(CB_EEPContext context)
         {
             _context = context;
         }

@@ -95,17 +95,17 @@ namespace WMS_API._Services.Services.WMSF.FG_TrackingKanban_SortingKanban
             return data;
         }
 
-        public async Task<VW_FGIN_LOCAT_LISTDto> SearchFginLocat(string deptId, string receivedTime, string sortBy, string sortType, string optionData, int page = 1)
+        public async Task<VW_FGIN_LOCAT_LISTDto> SearchFginLocat(SearchParams searchParams)
         {
             //Cấu hình page
             int pageSize = 10;
 
-            var data = await GetData(deptId, receivedTime, optionData, sortBy, sortType);
+            var data = await GetData(searchParams.deptId, searchParams.receivedTime, searchParams.optionData, searchParams.sortBy, searchParams.sortType);
 
             decimal sumCartons = data.Sum(x => x.CTN_Qty ?? 0);
             decimal sumPairs = data.Sum(x => x.Qty ?? 0);
             decimal sumCBM = data.Sum(x => x.Meas);
-            var result = PageListUtility<VW_FGIN_LOCAT_LIST>.PageList(data, page, pageSize);
+            var result = PageListUtility<VW_FGIN_LOCAT_LIST>.PageList(data, searchParams.page, pageSize);
 
             return new VW_FGIN_LOCAT_LISTDto
             {

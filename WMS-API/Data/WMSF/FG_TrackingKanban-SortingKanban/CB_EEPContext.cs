@@ -3,9 +3,9 @@ using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.EEP;
 
 namespace WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban
 {
-    public partial class DBContext_EEP : DbContext
+    public partial class CB_EEPContext : DbContext
     {
-        public DBContext_EEP(DbContextOptions<DBContext_EEP> options) : base(options) { } //Add this
+        public CB_EEPContext(DbContextOptions<CB_EEPContext> options) : base(options) { }
 
         public virtual DbSet<FRI_PO> FRI_PO { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -7,11 +7,18 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WMS_API._Repositories.Interfaces;
+using WMS_API._Repositories.Interfaces.WMSF.FG_TrackingKanban_SortingKanban;
+using WMS_API._Repositories.Repositories.WMSF.FG_TrackingKanban_SortingKanban;
+using WMS_API._Services.Interfaces.WMSF.FG_TrackingKanban_SortingKanban;
+using WMS_API._Services.Services.WMSF.FG_TrackingKanban_SortingKanban;
+using WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban;
 using WMS_API.Helpers.AutoMapper;
 
 namespace WMS_API
@@ -39,6 +46,9 @@ namespace WMS_API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WMS_API", Version = "v1" });
             });
 
+            services.AddDbContext<CB_WMSContext>(o => o.UseSqlServer(Configuration.GetConnectionString("CB_WMSConnection")));
+            services.AddDbContext<CB_EEPContext>(o => o.UseSqlServer(Configuration.GetConnectionString("CB_EEPConnection")));
+
             services.AddCors();
 
             services.AddAutoMapper(typeof(Startup));
@@ -46,8 +56,12 @@ namespace WMS_API
             services.AddSingleton(AutoMapperConfig.RegisterMappings());
 
             // services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IVW_FGIN_LOCAT_LISTRepository, VW_FGIN_LOCAT_LISTRepository>();
+            services.AddScoped<IVW_WMS_DepartmentRepository, VW_WMS_DepartmentRepository>();
 
             // services.AddScoped<IService, Service>();
+            services.AddScoped<IVW_FGIN_LOCAT_LISTService, VW_FGIN_LOCAT_LISTService>();
+            services.AddScoped<IVW_WMS_DepartmentService, VW_WMS_DepartmentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

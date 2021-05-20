@@ -3,9 +3,9 @@ using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban;
 
 namespace WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban
 {
-    public partial class DBContext : DbContext
+    public partial class CB_WMSContext : DbContext
     {
-        public DBContext(DbContextOptions<DBContext> options) : base(options) { } //Add this
+        public CB_WMSContext(DbContextOptions<CB_WMSContext> options) : base(options) { }
         public virtual DbSet<VW_WMS_Department> VW_WMS_Department { get; set; }
         public virtual DbSet<WMSF_Carton_Locat> WMSF_Carton_Locat { get; set; }
         public virtual DbSet<WMSF_FGIN_Locat> WMSF_FGIN_Locat { get; set; }
@@ -16,6 +16,7 @@ namespace WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Chinese_Taiwan_Stroke_CS_AS");
+            modelBuilder.Entity<VW_WMS_Department>().HasNoKey();
             modelBuilder.Entity<VW_WMS_Department>(entity =>
             {
                 entity.ToView("VW_WMS_Department");
@@ -227,7 +228,7 @@ namespace WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban
 
                 entity.Property(e => e.Warehouse_Name).HasComment("庫別名稱");
             });
-
+            modelBuilder.Entity<VW_FGIN_LOCAT_LIST>().HasNoKey();
             modelBuilder.Entity<VW_FGIN_LOCAT_LIST>(entity =>
             {
                 entity.ToView("VW_FGIN_LOCAT_LIST");

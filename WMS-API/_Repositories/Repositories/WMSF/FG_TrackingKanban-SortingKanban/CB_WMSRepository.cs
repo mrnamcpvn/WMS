@@ -9,11 +9,11 @@ using WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban;
 
 namespace WMS_API._Repositories.Repositories.WMSF.FG_TrackingKanban_SortingKanban
 {
-    public class DbContextRepository<T> : IRepository<T> where T : class
+    public class CB_WMSRepository<T> : IRepository<T> where T : class
     {
-        private readonly DBContext _context;
+        private readonly CB_WMSContext _context;
 
-        public DbContextRepository(DBContext context)
+        public CB_WMSRepository(CB_WMSContext context)
         {
             _context = context;
         }
