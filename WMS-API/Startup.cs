@@ -7,11 +7,17 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WMS_API._Repositories.Interfaces.WMSF.FG_REPORT_COMPARE;
+using WMS_API._Repositories.Repositories.WMSF.FG_REPORT_COMPARE;
+using WMS_API._Services.Interfaces.WMSF.FG_REPORT_COMPARE;
+using WMS_API._Services.Services.WMSF.FG_REPORT_COMPARE;
+using WMS_API.Data.WMSF.FG_REPORT_COMPARE;
 using WMS_API.Helpers.AutoMapper;
 
 namespace WMS_API
@@ -41,13 +47,25 @@ namespace WMS_API
 
             services.AddCors();
 
+            //AddDbContext
+            services.AddDbContext<DBContext_WMS>(q => q.UseSqlServer(Configuration.GetConnectionString("TSH_WMSConnection")));
+            services.AddDbContext<DBContext_EEP>(q => q.UseSqlServer(Configuration.GetConnectionString("TSH_EEPConnection")));
+
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IMapper>(sp => new Mapper(AutoMapperConfig.RegisterMappings()));
+            services.AddSingleton(AutoMapperConfig.RegisterMappings());
+
+            //AddAutoMapper
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IMapper>(sp => new Mapper(AutoMapperConfig.RegisterMappings()));
             services.AddSingleton(AutoMapperConfig.RegisterMappings());
 
             // services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IWMSF_FG_CompareReportRepository, WMSF_FG_CompareReportRepository>();
+            services.AddScoped<IFRI_PORepository, FRI_PORepository>();
 
             // services.AddScoped<IService, Service>();
+            services.AddScoped<IWMSF_FG_CompareReportService, WMSF_FG_CompareReportService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

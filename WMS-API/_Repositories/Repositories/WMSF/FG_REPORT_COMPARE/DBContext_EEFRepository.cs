@@ -9,11 +9,11 @@ using WMS_API.Data.WMSF.FG_REPORT_COMPARE;
 
 namespace WMS_API._Repositories.Repository.WMSF.FG_REPORT_COMPARE
 {
-    public class FG_REPORT_COMPARERepository<T> : IRepository<T> where T : class
+    public class DBContext_EEFRepository<T> : IRepository<T> where T : class
     {
-        private readonly DBContext_WMS _context;
+        private readonly DBContext_EEP _context;
 
-        public FG_REPORT_COMPARERepository(DBContext_WMS context)
+        public DBContext_EEFRepository(DBContext_EEP context)
         {
             _context = context;
         }

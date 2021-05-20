@@ -7,6 +7,7 @@ namespace WMS_API.Helpers.AutoMapper
         public DtoToEfMappingProfile()
         {
             // CreateMap<Dto, Model>();
+
         }
     }
 }
