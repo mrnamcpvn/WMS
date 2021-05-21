@@ -1,0 +1,13 @@
+<div class="orgchart-container" (wheel)="zoom ? zoomHandler($event) : true"
+    (mouseup)="pan && panning ? panEndHandler() : true">
+    <div class="orgchart"
+        (mousedown)="pan ? panStartHandler($event) : true" (mousemove)="pan && panning ? panHandler($event) : true"
+        (click)="onClickChart($event)">
+        <!-- <ngx-org-chart [contentEditable]="true" [nodes]="nodes" direction="horizontal">
+            
+        </ngx-org-chart> -->
+    </div>
+</div>
+
+
+<!-- <organization-chart [datasource]="ds" [pan]="true" [zoom]="true"></organization-chart> -->

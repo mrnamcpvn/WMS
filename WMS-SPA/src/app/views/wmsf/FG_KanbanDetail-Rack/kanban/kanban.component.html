@@ -1,0 +1,18 @@
+<div class="container-fluid kaban-main">
+
+  <ng-container>
+    <app-kanban-char #kanbanChar>
+    </app-kanban-char>
+  </ng-container>
+
+  <ng-container>
+    <app-kanban-detail #kanbanDetail>
+    </app-kanban-detail>
+  </ng-container>
+  <div class="bottom-main">
+    <ng-container *ngFor="let item of listRackPairs;let i = index">
+      <div class='col title-bottom {{"footer-title-o"+ i}}'> <span class="">{{item.area_Short_Title}}</span></div>
+      <div class="col title-bottom"><span class="title-bottom">{{item.pairs_Subtotal | number}}</span></div>
+    </ng-container>
+  </div>
+</div>

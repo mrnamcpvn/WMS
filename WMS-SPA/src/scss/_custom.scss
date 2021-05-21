@@ -1,1 +1,434 @@
 // Here you can add other styles
+.app {
+  background-image: initial !important;
+  background-color: rgb(28, 35, 38);
+}
+/*
+ * Organization Chart Web Components
+ * https://github.com/dabeng/org-chart-Webcomponents
+ *
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+body {
+  font-family: "Myriad Pro Regular" !important;
+}
+
+/*#region custom style */
+
+html, body, .btn {
+  font-family: Myriad Pro Regular !important;
+  background: #242234 !important;
+}
+
+.m-portlet {
+  margin-bottom: 0;
+}
+
+.backgroundChart {
+  background: #242234 !important;
+}
+
+.backgroundDetail {
+  background: #14131d !important;
+}
+
+/*#endregion */
+
+/*#region styles loading */
+
+/*Loading*/
+#main-loading {
+  width: 100%;
+  height: 100%;
+  background-color: #2d2424;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.5;
+  z-index: 9999;
+}
+
+.lds-ripple {
+  position: fixed;
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+  .lds-ripple div {
+    position: absolute;
+    border: 4px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+
+    .lds-ripple div:nth-child(2) {
+      animation-delay: -0.5s;
+    }
+
+@keyframes lds-ripple {
+  0% {
+    top: 28px;
+    left: 28px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+
+  100% {
+    top: -1px;
+    left: -1px;
+    width: 58px;
+    height: 58px;
+    opacity: 0;
+  }
+}
+
+
+/*#endregion */
+
+/*#region styles kanban detail */
+.m-portlet {
+  margin-bottom: 0;
+}
+
+.m-portlet__head {
+  border: none !important;
+}
+
+/*line color header command footer*/
+.line-gradient {
+  height: 2px;
+  background-image: linear-gradient( to top right, #0ff3a6, #c909f4 );
+}
+/*search annd button resfesh*/
+
+#grid-kanban-detail {
+  background-color: #14131d !important;
+  padding-bottom: 2.2rem;
+}
+
+.kanban_detail_header {
+  color: #fff !important;
+  font-size: 28px !important;
+  display: table-cell;
+  vertical-align: middle;
+  font-weight: 500;
+  font-family: Myriad Pro Regular !important;
+}
+
+.content-background-output {
+  border: 1px solid #fff;
+  color: #323232;
+  /*background: linear-gradient(to right, #d7d7d7, #fff) !important;*/
+  background: #fff !important;
+}
+
+.content-background-input {
+  border: 1px solid #fff;
+  color: #000;
+  /*background: #c0c0c0 !important;*/
+  background: #fff !important;
+}
+
+a.btn-back {
+  color: #fff;
+  border: 2px solid;
+  border-image-source: linear-gradient(to bottom, #c909f4, #0ff3a6 ) !important;
+  border-image-slice: 1;
+  background: #14131d;
+}
+
+  a.btn-back:hover {
+    color: #fff;
+    border: 2px solid;
+    border-image-source: linear-gradient(to bottom, #c909f4, #0ff3a6 ) !important;
+    border-image-slice: 1;
+    background: #14131d;
+  }
+
+.btn-refresh, .btn-export {
+  border: 1px solid #fff !important;
+  color: #fff !important;
+  background: #7178cf !important;
+}
+
+label.auto-refesh {
+  color: #fff;
+}
+
+/*table kanban detail*/
+table.table-kanban-detail tr th {
+  text-align: center;
+  /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
+  background: #fff !important;
+  color: #000;
+  opacity: 0.88;
+  border: 1px solid #c0c0c0;
+}
+
+table.table-kanban-detail tr td {
+  background: #282849;
+  color: #fff;
+  border: 1px solid #c0c0c0;
+}
+/*label tiêu đề form select, input*/
+.lable-bgr {
+  background-color: #1d1d3f;
+  color: #fff;
+  margin: 0;
+  line-height: 29px;
+  padding: 0;
+  text-align: center;
+  border: 1px solid #fff;
+}
+/*Paginate*/
+.pagination .page-item:nth-child(2) .page-link,
+.pagination .page-item:nth-last-child(2) .page-link,
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+  color: #0ff3a6 !important;
+  border: 1px solid #fff !important;
+  background: #14131d !important;
+  text-transform: uppercase;
+}
+
+.page-item .page-link {
+  border: 1px solid #fff !important;
+  color: #fff !important;
+  background: #14131d !important;
+}
+
+.page-item.active .page-link {
+  color: #30303c !important;
+  background: #fcfcfc !important;
+}
+/*styles content footer*/
+.footer-title {
+  border: 1px solid #fff;
+  height: 50px;
+  font-weight: bold;
+  display: table;
+}
+
+  .footer-title span, .footer-value span {
+    display: table-cell;
+    vertical-align: middle !important;
+  }
+
+.footer-value {
+  /*background: linear-gradient(to right, #d7d7d7, #fff) !important;*/
+  background: #fff !important;
+  color: #000;
+  height: 50px;
+  display: table;
+  font-size: 14px;
+  border-right: 2px solid #212529 !important;
+}
+
+.footer-title-o {
+  background: linear-gradient(to right, #36a9b3, #39bfcb) !important;
+}
+
+.footer-title-o1 {
+  background: linear-gradient(to right, #bcc22e, #c8cd57) !important;
+}
+
+.footer-title-o2 {
+  background: linear-gradient(to right, #d7405e, #d1576f) !important;
+}
+
+.footer-title-o3 {
+  background: linear-gradient(to right, #51b272, #71d593) !important;
+}
+
+.footer-title-o4 {
+  background: linear-gradient(to right, #eac927, #f9d732) !important;
+}
+
+.footer-title-o5 {
+  background: linear-gradient(to right, #ff8e0a, #f89d32) !important;
+}
+.footer-title-o6 {
+  /*background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)*/
+  background: linear-gradient(to right,#de3e89,#cf8cab) !important;
+}
+.footer-title-o7 {
+  /*background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)*/
+  background: linear-gradient(to right,#c49b85,#cb5414) !important;
+/*  background: linear-gradient(to right,#3a4ed1,#3a4ed1) !important;*/
+}
+/* styles button auto refresh */
+.auto-refesh:before, .auto-refesh:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.form-group input.check-box {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.form-group .label-check-box {
+  position: relative;
+  cursor: pointer;
+}
+
+  .form-group .label-check-box:before {
+    content: '';
+    -webkit-appearance: none;
+    background-color: #1d1d3f;
+    border: 1px solid #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+    padding: 8px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+
+.form-group input.check-box:checked + .label-check-box:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 7px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/*style cho cột sort*/
+table th.sort {
+  cursor: pointer;
+}
+
+/*#endregion */
+
+/*#region style KanbanCharComponent */
+#contentKanban {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#grid-chart {
+  background: #242234 !important;
+}
+
+  #grid-chart #chart-container {
+    overflow: inherit !important;
+  }
+
+.orgchart {
+  background-image: none !important;
+}
+
+  .orgchart.l2r {
+    width: 100vh;
+    position: relative !important;
+  }
+
+.class0 {
+  width: 52px !important;
+  height: 160px !important;
+}
+
+  .class0 .title {
+    background-color: #dcdcdc !important;
+    color: #000 !important;
+    border: 2px solid;
+    border-image-source: linear-gradient(to top, #0ff3a6, #c909f4);
+    border-image-slice: 1;
+    position: absolute;
+    left: 13px;
+    top: -5px;
+    height: 44px !important;
+    line-height: 44px !important;
+    width: 144px !important;
+    font-weight: bold !important;
+    font-size: 17px !important;
+  }
+
+  .class0 .content {
+    border: none !important;
+    display: none;
+  }
+
+.class1 .title, .class2 .title, .class3 .title, .class4 .title {
+  color: #000 !important;
+  border: 1px solid #fff !important;
+  border-bottom: none !important;
+  width: 148px !important;
+  height: 34px !important;
+  line-height: 34px !important;
+  font-size: 20px !important;
+  padding: 0 2px;
+}
+
+/*.class1 .content, .class2 .content, .class3 .content, .class4 .content {
+  background-color: #14131d !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+  border-top: none !important;
+  width: 148px !important;
+  height: 110px !important;
+  line-height: 22px !important;
+  font-size: 18px !important;
+  white-space: pre !important;
+  font-weight: 300;
+  padding: 5px 0;
+}*/
+
+.class1 .title {
+  background-color: #39bfcb !important;
+}
+
+.class2 .title {
+  background-color: #c7cc53 !important;
+}
+
+.class3 .title {
+  background-color: #d2556d !important;
+}
+
+.class4 .title {
+  background-color: #f8d731 !important;
+}
+
+.orgchart.r2l .node:not(.class0),
+.orgchart.l2r .node:not(.class0) {
+  width: 117px !important;
+  height: 158px !important;
+}
+
+i.symbol {
+  display: none;
+}
+
+.title-bottom {
+    font-size: 2rem;
+}
+.title-bottom-number {
+   font-weight:bold;
+}
+/*#endregion */

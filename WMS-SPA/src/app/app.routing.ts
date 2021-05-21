@@ -4,34 +4,26 @@ import { Routes, RouterModule } from '@angular/router';
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 import { LoginComponent } from './views/login/login.component';
+import { KanbanComponent } from './views/wmsf/FG_KanbanDetail-Rack/kanban/kanban.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      title: 'Login Page'
-    }
-  },
-  {
-    path: '',
-    component: DefaultLayoutComponent,
+    path: 'wmsf/fg-kanban-detail-rack',
     data: {
       title: 'Home'
     },
     children: [
       {
-        path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
+        path: '',
+        loadChildren: () => import('./views/wmsf/FG_KanbanDetail-Rack/kanban.module').then(m => m.KanbanModule)
       }
     ]
   },
-  { path: '**', redirectTo: 'dashboard' }
 ];
 
 @NgModule({

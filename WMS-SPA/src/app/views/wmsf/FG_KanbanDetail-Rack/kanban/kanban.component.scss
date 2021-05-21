@@ -1,0 +1,235 @@
+.kaban-main {
+  color: #fff;
+}
+
+.footer-title-o0 {
+  background: linear-gradient(to right, #36a9b3, #39bfcb) !important;
+}
+
+.footer-title-o1 {
+  background: linear-gradient(to right, #bcc22e, #c8cd57) !important;
+}
+
+.footer-title-o2 {
+  background: linear-gradient(to right, #d7405e, #d1576f) !important;
+}
+
+.footer-title-o3 {
+  background: linear-gradient(to right, #51b272, #71d593) !important;
+}
+
+.footer-title-o4 {
+  background: linear-gradient(to right, #eac927, #f9d732) !important;
+}
+
+.footer-title-o5 {
+  background: linear-gradient(to right, #ff8e0a, #f89d32) !important;
+}
+.footer-title-o6 {
+  background: linear-gradient(to right, #de3e89, #cf8cab) !important;
+}
+.title-bottom {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1px;
+  color: #000;  
+}
+.form-control {
+  border-radius: 0px;
+}
+.container {
+  max-width: 100% !important;
+  background-image: initial !important;
+  background-color: rgb(28, 35, 38);
+}
+.class1 .content,
+.class2 .content,
+.class3 .content,
+.class4 .content {
+  background-color: #14131d !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+  border-top: none !important;
+  width: 148px !important;
+  height: 100px !important;
+  line-height: 22px !important;
+  font-size: 18px !important;
+  white-space: pre !important;
+  font-weight: 300;
+  padding: 5px 0;
+}
+
+.orgchart.l2r .node:not(.class0) {
+  margin-right: 20px !important;
+}
+
+.classTextTitle {
+  float: left;
+  padding-left: 5px;
+}
+
+.classTextData {
+  float: right;
+  padding-right: 5px;
+}
+
+.orgchart.r2l .node:not(.class0),
+.orgchart.l2r .node:not(.class0) {
+  width: 144px !important;
+  height: 158px !important;
+}
+
+.rack_table {
+  /*margin-top:-100px !important;*/
+}
+
+th {
+  width: 100px !important;
+  height: 50px !important;
+}
+
+.div-main1 {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 700;
+  /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
+  background: #fff !important;
+  color: #000;
+  opacity: 0.88;
+  border: 1px solid #c0c0c0;
+  width: 130px;
+}
+
+.div-main2 {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 700;
+  /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
+  background: #fff !important;
+  color: #000;
+  opacity: 0.88;
+  border: 1px solid #c0c0c0;
+  width: 70px;
+  /*margin-right:4px;*/
+  /*background-color: #242234;*/
+}
+
+.display-center {
+  position: relative;
+}
+
+.center-me {
+  font-weight: 700;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bottom-main {
+  display: flex;
+  background: #242234;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}
+.chart-main {
+  margin-top: 30px !important;
+}
+
+
+//// kanban
+
+.class1 .content, .class2 .content, .class3 .content, .class4 .content {
+  background-color: #14131d !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+  border-top: none !important;
+  width: 148px !important;
+  height: 100px !important;
+  line-height: 22px !important;
+  font-size: 18px !important;
+  white-space: pre !important;
+  font-weight: 300;
+  padding: 5px 0;
+}
+
+.orgchart.l2r .node:not(.class0) {
+  margin-right: 20px !important;
+}
+
+.classTextTitle {
+  float: left;
+  padding-left: 5px;
+}
+
+.classTextData {
+  float: right;
+  padding-right: 5px;
+}
+
+.orgchart.r2l .node:not(.class0),
+.orgchart.l2r .node:not(.class0) {
+  width: 144px !important;
+  height: 158px !important;
+}
+
+.rack_table {
+  /*margin-top:-100px !important;*/
+}
+
+th {
+  width: 100px !important;
+  height: 50px !important;
+}
+
+.div-main1 {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 700;
+  /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
+  background: #fff !important;
+  color: #000;
+  opacity: 0.88;
+  border: 1px solid #c0c0c0;
+  width: 130px;
+}
+
+.div-main2 {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 700;
+  /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
+  background: #fff !important;
+  color: #000;
+  opacity: 0.88;
+  border: 1px solid #c0c0c0;
+  width: 70px;
+  /*margin-right:4px;*/
+  /*background-color: #242234;*/
+}
+
+.display-center {
+  position: relative;
+}
+
+.center-me {
+  font-weight: 700;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bottom-main {
+  display: flex;
+  background: #fff;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+
+.chart-main {
+  margin-top: 30px !important;
+}

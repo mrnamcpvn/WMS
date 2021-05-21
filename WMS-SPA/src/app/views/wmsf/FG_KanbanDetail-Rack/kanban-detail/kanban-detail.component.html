@@ -1,0 +1,241 @@
+<div>
+
+  <div id="grid-kanban-detail container">
+    <div class="m-portlet__head row">
+      <div class="m-portlet__head-caption col-6">
+        <div class="m-portlet__head-title">
+          <h3 class="m-portlet__head-text kanban_detail_header">
+            Kanban Detail <br />
+          </h3>
+        </div>
+      </div>
+      <div class="m-portlet__head-tools col-6">
+        <a href="javascript:;" class="btn btn-back btn-dark fr">
+          <!-- <a href="javascript:;" @click="backTable" class="btn btn-back btn-dark"> -->
+          <span>
+            <i class="cil-arrow-left whitr"></i>
+            <span>
+              Back
+            </span>
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="line-gradient mb-4"></div>
+    <div class="m-portlet__head container">
+      <div class="row">
+        <div class="col">
+          <div class="form-group row">
+            <label class="col-md-3 lable-bgr">WH</label>
+            <div class="col-sm-9" style="margin-left:-15px;">
+              <!-- <ng-select2 class="form-control p0" [data]="listWareHouses" width="100%"
+                [(ngModel)]="objectSearch.wareHouseId">
+              </ng-select2> -->
+              <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.wareHouseId">
+                <option value="">All Warehouse</option>
+                <option *ngFor="let item of listWareHouses" value={{item.id}}>{{item.id}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group row">
+            <label class="col-sm-4 lable-bgr">Building</label>
+            <div class="col-sm-8" style="margin-left:-15px;">
+              <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.buildingId">
+                <option value="">All Building</option>
+                <option *ngFor="let item of listBuildings" value={{item.id}}>{{item.text}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group row">
+            <label class="col-sm-5 lable-bgr">Floor</label>
+            <div class="col-sm-7" style="margin-left:-15px;">
+              <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.floorId">
+                <option value="">All Floor</option>
+                <option *ngFor="let item of listFloors" value={{item.id}}>{{item.text}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group row">
+            <label class="col-sm-3 lable-bgr">Area</label>
+            <div class="col-sm-9" style="margin-left:-15px;">
+              <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.areaId">
+                <option value="">All Area</option>
+                <option *ngFor="let item of listAreas" value={{item.id}}>{{item.text}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group row">
+            <label class="col-sm-5  lable-bgr">Rack</label>
+            <div class="col-sm-7" style="margin-left:-15px;">
+              <input type="text" [(ngModel)]="objectSearch.rackNo"
+                class="form-control content-background-input rounded-0">
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group row">
+            <label class="col-sm-3 lable-bgr">PO</label>
+            <div class="col-sm-9" style="margin-left:-15px;">
+              <input type="text" [(ngModel)]="objectSearch.poNo"
+                class="form-control content-background-input rounded-0">
+            </div>
+          </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-sm-2">
+          <div class="form-group row">
+            <label class="col-md-4 lable-bgr">Date Type</label>
+            <div class="col-sm-8" style="margin-left:-15px;">
+              <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.dateType">
+                <!-- @change="onChangeDateType($event)"> -->
+                <option value="">Please select date type</option>
+                <option value="cfm_date">CFM Date</option>
+                <option value="export_date">Export Date</option>
+                <option value="lpd">LPD</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group row">
+            <label class="col-sm-4 lable-bgr">From Date</label>
+            <div class="col-sm-8" style="margin-left:-15px;">
+              <input placeholder="Datepicker" type="text" class="form-control" bsDatepicker #dp="bsDatepicker"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker [outsideClick]="true"
+                [(ngModel)]="objectSearch.fromDate">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group row">
+            <label class="col-sm-4  lable-bgr">To Date</label>
+            <div class="col-sm-8" style="margin-left:-15px;">
+              <input placeholder="Datepicker" type="text" class="form-control" bsDatepicker #dp="bsDatepicker"
+                [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker [outsideClick]="true"
+                [(ngModel)]="objectSearch.toDate">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <!-- <button type="button" @click="refresh()" style="margin-left:-15px;" -->
+          <button type="button" style="margin-left:-15px;"
+            class="btn btn-primary btn-refresh rounded-0">Refresh</button>
+          <div class="form-group d-inline-block pl-2">
+            <input type="checkbox" class="check-box" v-model="isAutoRefresh" id="auto-refesh" />
+            <label class="label-check-box auto-refesh" for="auto-refesh">Auto Refresh</label>
+          </div>
+        </div>
+        <!--</div>-->
+        <div class="col">
+          <!-- <button type="button" @click="exportExcel" v-bind:disabled="lstLocation.length <= 0 ? true : false" -->
+          <button type="button" v-bind:disabled="lstLocation.length <= 0 ? true : false" style="margin-left:-15px;"
+            class="btn btn-info btn-export rounded-0">
+            <i class="fa fa-file-excel-o"></i>&nbsp;Export Excel
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-bordered table-kanban-detail">
+          <thead>
+            <tr>
+              <!-- <th scope="col" class="sort" @click="sort('cfmdate')"> -->
+              <th scope="col" class="sort">
+                CFM Date &nbsp;
+                <i
+                  :class="sortCFMDate == '' ? 'fa fa-arrows-v' : sortCFMDate == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+              </th>
+              <!-- <th scope="col" class="sort" @click="sort('exportdate')"> -->
+              <th scope="col" class="sort">
+                Export Date &nbsp;
+                <i
+                  :class="sortExportDate == '' ? 'fa fa-arrows-v' : sortExportDate == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+              </th>
+              <!-- <th scope="col" class="sort" @click="sort('lpd')"> -->
+              <th scope="col" class="sort">
+                LPD &nbsp;
+                <i
+                  :class="sortLPD == '' ? 'fa fa-arrows-v' : sortLPD == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+              </th>
+              <!-- <th scope="col" class="sort" @click="sort('pono')"> -->
+              <th scope="col" class="sort">
+                Po No. &nbsp;
+                <i
+                  :class="sortPoNo == '' ? 'fa fa-arrows-v' : sortPoNo == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+              </th>
+              <th scope="col">Model Name</th>
+              <th scope="col">ART</th>
+              <th scope="col">WH</th>
+              <th scope="col">Building</th>
+              <th scope="col">Floor</th>
+              <th scope="col">Area</th>
+              <th scope="col">Rack</th>
+              <th scope="col">PO Qty</th>
+              <th scope="col">WH Qty</th>
+              <th scope="col">Rack Qty</th>
+              <th scope="col">Rack CTN</th>
+              <th scope="col">CBM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of listData">
+              <td scope="col">{{item.comfirmed_Date | date: "yyyy/MM/dd"}}</td>
+              <!--CFM Date-->
+              <td scope="col">{{item.plan_Ship_Date| date: "yyyy/MM/dd"}}</td>
+              <!--Export Date-->
+              <td scope="col">{{item.real_Finish_Date| date: "yyyy/MM/dd"}}</td>
+              <!--LPD-->
+              <td scope="col">{{item.order_ID}}</td>
+              <!--Po No.-->
+              <td scope="col">{{item.model_Name}}</td>
+              <!--Model Name-->
+              <td scope="col">{{item.article}}</td>
+              <!--ART-->
+              <td scope="col">{{item.warehouse_Id}}</td>
+              <!--WH-->
+              <td scope="col">{{item.building_Name}}</td>
+              <!--Building-->
+              <td scope="col">{{item.floor_Name}}</td>
+              <!--Floor-->
+              <td scope="col" class="text-capitalize">{{item.area_Name}}</td>
+              <!--Area-->
+              <td scope="col">{{item.location_ID}}</td>
+              <!--Rack-->
+              <td scope="col" class="text-right">{{item.order_Qty | number}}</td>
+              <!--PO Qty-->
+              <td scope="col" class="text-right">{{item.countStockQty | number}}</td>
+              <!--WH Qty-->
+              <td scope="col" class="text-right">{{item.countCartonPairs | number}}</td>
+              <!--Rack Qty-->
+              <td scope="col" class="text-right">{{item.countCartons | number}}</td>
+              <!--Rack CTN-->
+              <td scope="col" class="text-right">{{item.volume | number}}</td>
+              <!--CBM-->
+            </tr>
+
+
+            <tr *ngIf="listData.length < 1">
+              <td colspan="16">
+                <div class="alert alert-warning text-center text-uppercase text-dark font-weight-bold" role="alert">
+                  No data found !
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination class="float-right" name="pagination" *ngIf="pagination.totalPage > 1"
+          [totalItems]="pagination.totalCount" [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)"
+          [itemsPerPage]="pagination.pageSize" [rotate]="false" [maxSize]="5" [boundaryLinks]="true"
+          previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
+      </div>
+      <div class="line-gradient mt-4"></div>
+    </div>
+  </div>

@@ -6,3 +6,12 @@
 
 // If you want to add something do it here
 @import "custom";
+
+//chart
+@import '~ngx-org-chart/_theming.scss';
+
+// Import bsdatepicker
+@import "../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss";
+
+// Import select 2
+@import "../../node_modules/select2-bootstrap-theme/dist/select2-bootstrap.min.css";
