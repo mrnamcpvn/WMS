@@ -4,13 +4,14 @@ using AutoMapper;
 using WMS_API._Repositories.Interfaces.WMSF.FG_TrackingKanban_SortingKanban;
 using WMS_API._Services.Interfaces.WMSF.FG_TrackingKanban_SortingKanban;
 using WMS_API.Helpers.Params.WMSF.FG_TrackingKanban_SortingKanban;
-using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban;
 using System;
 using System.Linq;
 using WMS_API.Helpers.Utilities;
 using WMS_API.Dtos.WMSF.FG_TrackingKanban_SortingKanban;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.CB_WMS;
+using WMS_API.Helpers.Params;
 
 namespace WMS_API._Services.Services.WMSF.FG_TrackingKanban_SortingKanban
 {
@@ -27,7 +28,7 @@ namespace WMS_API._Services.Services.WMSF.FG_TrackingKanban_SortingKanban
             _mapper = mapper;
             _configMapper = configMapper;
         }
-        public async Task<List<VW_FGIN_LOCAT_LIST>> ExportExcel(DataSearchParams dataExport)
+        public async Task<List<VW_FGIN_LOCAT_LIST>> ExportExcel(SearchParams dataExport)
         {
             return await GetData(dataExport.deptId, dataExport.receivedTime, dataExport.optionData, dataExport.sortBy, dataExport.sortType);
         }
@@ -37,7 +38,7 @@ namespace WMS_API._Services.Services.WMSF.FG_TrackingKanban_SortingKanban
             var pred = PredicateBuilder.New<VW_FGIN_LOCAT_LIST>(true);
 
             // Line
-            if (deptId != string.Empty)
+            if (!string.IsNullOrEmpty(deptId))
             {
                 pred = pred.And(x => x.Dept_ID.Contains(deptId));
             }
@@ -95,17 +96,14 @@ namespace WMS_API._Services.Services.WMSF.FG_TrackingKanban_SortingKanban
             return data;
         }
 
-        public async Task<VW_FGIN_LOCAT_LISTDto> SearchFginLocat(SearchParams searchParams)
+        public async Task<VW_FGIN_LOCAT_LISTDto> SearchFginLocat(SearchParams searchParams, PaginationParams paginationParams)
         {
-            //Cấu hình page
-            int pageSize = 10;
-
             var data = await GetData(searchParams.deptId, searchParams.receivedTime, searchParams.optionData, searchParams.sortBy, searchParams.sortType);
 
             decimal sumCartons = data.Sum(x => x.CTN_Qty ?? 0);
             decimal sumPairs = data.Sum(x => x.Qty ?? 0);
             decimal sumCBM = data.Sum(x => x.Meas);
-            var result = PageListUtility<VW_FGIN_LOCAT_LIST>.PageList(data, searchParams.page, pageSize);
+            var result = PageListUtility<VW_FGIN_LOCAT_LIST>.PageList(data, paginationParams.PageNumber, paginationParams.PageSize);
 
             return new VW_FGIN_LOCAT_LISTDto
             {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban
+namespace WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.CB_WMS
 {
     public partial class VW_WMS_Department
     {

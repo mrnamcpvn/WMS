@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban
+namespace WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.CB_WMS
 {
     public partial class WMSF_FGIN_PersonInCharge
     {

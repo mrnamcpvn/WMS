@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.EEP
+namespace WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.CB_EEP
 {
     public partial class FRI_PO
     {

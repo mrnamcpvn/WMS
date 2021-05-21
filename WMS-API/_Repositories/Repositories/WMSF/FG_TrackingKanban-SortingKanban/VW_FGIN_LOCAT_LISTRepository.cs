@@ -1,6 +1,7 @@
 using WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban;
-using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban;
+
 using WMS_API._Repositories.Interfaces.WMSF.FG_TrackingKanban_SortingKanban;
+using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.CB_WMS;
 
 namespace WMS_API._Repositories.Repositories.WMSF.FG_TrackingKanban_SortingKanban
 {

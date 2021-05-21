@@ -1,0 +1,130 @@
+<div>
+  <div class="container-fluid header clearfix">
+    <p class="pl-4 pt-3 header-title">FG Tracking Kanban - Sorting Kanban</p>
+  </div>
+  <div class="line-gradient"></div>
+  <div class="container-fluid content-page p-4 clearfix">
+    <div class="row ml-3 mr-3 mt-3">
+      <div class="col-3">
+        <div class="form-group row">
+          <label class="col-4 input-group-text label-line">Line</label>
+          <div class="col-8 ml-c">
+            <ng-select2 [data]="lines" [value]="searchParams.deptId" [(ngModel)]="searchParams.deptId" width="100%"
+              name="active">
+            </ng-select2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="form-group row">
+          <label class="col-5 input-group-text label-received-time" id="received-time">Received Time</label>
+          <div class="col-7 ml-c">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker value="searchParams.receivedTime"
+              [(ngModel)]="searchParams.receivedTime" [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }">
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="form-group">
+          <select [(ngModel)]="searchParams.optionData" id="options" [value]="searchParams.optionData"
+            class="form-control">
+            <option value="completed">Completed</option>
+            <option value="nocompleted">No Completed</option>
+            <option value="manual">Manual Sorting</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-4">
+        <button type="button" class="btn btn-info btn-search" (click)="search()">Search</button>
+        <button type="button" class="btn btn-default btn-reset ml-3" (click)="reset()">Reset</button>
+        <button type="button" class="btn btn-info btn-search" (click)="exportExcel()">Export Excel</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9">
+
+      </div>
+      <div class="col-3">
+        <div class="form-group d-inline-block pl-2">
+          <input type="checkbox" class="check-box" id="auto-refesh" />
+          <label class="label-check-box auto-refesh" for="auto-refesh">Auto Refresh</label>
+        </div>
+        <div class="form-group d-inline-block pl-2">
+          <input type="checkbox" class="check-box" name="autoPage" id="auto-refesh_page" />
+          <label class="label-check-box auto-refesh" for="auto-refesh_page">Auto Page</label>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered list-detail">
+        <thead>
+          <tr style="text-align: center; align-items: center;">
+            <th>Production Line</th>
+            <th>Transfer Form #</th>
+            <th>PO #</th>
+            <th>Plan Ship Date</th>
+            <th>Model Name</th>
+            <th>Article #</th>
+            <th>Cartons</th>
+            <th>Pairs</th>
+            <th>CBM</th>
+            <th>Received Time</th>
+            <th>Racks PIC</th>
+            <th>Completed Time</th>
+            <th>Rack</th>
+            <th>Suggested Location</th>
+          </tr>
+        </thead>
+        <!-- <tbody *ngIf=" vw_fgin_locat_list.length == 0">
+          <tr>
+            <td colspan="9">
+              <alert class="text-center" type='warning'>
+                <strong>No Data matching!</strong>
+              </alert>
+            </td>
+          </tr>
+        </tbody> -->
+        <tbody *ngFor="let item of vw_fgin_locat_list; let i = index">
+          <tr [style]="item.colorRow" style="text-align: center; align-items: center;">
+            <td>{{item.line_Desc}}</td>
+            <td>{{item.up_Trno}}</td>
+            <td>{{item.cdr_No}}</td>
+            <td>{{item.plan_Export_Date}}</td>
+            <td>{{item.model_Name}}</td>
+            <td>{{item.article}}</td>
+            <td>{{item.ctN_Qty}}</td>
+            <td>{{item.qty}}</td>
+            <td>{{item.meas}}</td>
+            <td>{{item.up_UTC_Dat}}</td>
+            <td>{{item.emp_Name}}</td>
+            <td>{{item.in_UTC_Dat}}</td>
+            <td>{{item.locat}}</td>
+            <td>{{item.suggest_Locat}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div class="row footer">
+        <div class="col row pt-2">
+          <div class="col footer-title footer-title-o"><span>Cartons</span></div>
+          <div class="col footer-value"><span>{{ Cartons }}</span></div>
+          <div class="col footer-title footer-title-o1"><span>Pairs</span></div>
+          <div class="col footer-value"><span>{{ Pairs }}</span></div>
+          <div class="col footer-title footer-title-o2"><span>CBM</span></div>
+          <div class="col footer-value"><span>{{ CBM }}</span></div>
+        </div>
+        <div class="col">
+          <div class="d-flex" *ngIf="this.pagination.totalPage > 1">
+            <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount" [(ngModel)]="pagination.currentPage"
+              [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
+              nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5
+              *ngIf="this.pagination.totalPage > 1">
+            </pagination>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

@@ -7,6 +7,7 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using WMS_API._Services.Interfaces.WMSF.FG_TrackingKanban_SortingKanban;
+using WMS_API.Helpers.Params;
 
 namespace WMS_API.Controllers.WMSF.FG_TrackingKanban_SortingKanban
 {
@@ -24,10 +25,10 @@ namespace WMS_API.Controllers.WMSF.FG_TrackingKanban_SortingKanban
             _vW_FGIN_LOCAT_LISTService = vW_FGIN_LOCAT_LISTService;
             _vW_WMS_DepartmentService = vW_WMS_DepartmentService;
         }
-        [HttpPost("search")]
-        public async Task<IActionResult> Search(SearchParams searchParams)
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] SearchParams searchParams, [FromQuery] PaginationParams paginationParams)
         {
-            var result = await _vW_FGIN_LOCAT_LISTService.SearchFginLocat(searchParams);
+            var result = await _vW_FGIN_LOCAT_LISTService.SearchFginLocat(searchParams, paginationParams);
             return Ok(result);
         }
         [HttpGet("getAllDepartment")]
@@ -38,9 +39,9 @@ namespace WMS_API.Controllers.WMSF.FG_TrackingKanban_SortingKanban
         }
 
         [HttpPost("exportExcel")]
-        public async Task<IActionResult> ExportExcel(DataSearchParams dataSearchParams)
+        public async Task<IActionResult> ExportExcel(SearchParams searchParams)
         {
-            var data = await _vW_FGIN_LOCAT_LISTService.ExportExcel(dataSearchParams);
+            var data = await _vW_FGIN_LOCAT_LISTService.ExportExcel(searchParams);
             var dataExport = data.Select(x => new
             {
                 x.Line_Desc,

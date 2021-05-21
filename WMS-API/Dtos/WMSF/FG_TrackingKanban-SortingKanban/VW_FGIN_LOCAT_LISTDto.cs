@@ -1,6 +1,6 @@
-using System;
+
 using WMS_API.Helpers.Utilities;
-using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban;
+using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.CB_WMS;
 
 namespace WMS_API.Dtos.WMSF.FG_TrackingKanban_SortingKanban
 {

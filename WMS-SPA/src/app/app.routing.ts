@@ -5,10 +5,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
 import { LoginComponent } from './views/login/login.component';
 
+
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: '/dashboard',
     pathMatch: 'full',
   },
   {
@@ -28,8 +29,12 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
-      }
+      },
     ]
+  },
+  {
+    path: 'wmsf/fg-trackingkanban-sortingkanban',
+    loadChildren: () => import('./views/wmsf/fg-trackingkanban-sortingkanban/fg-trackingkanban-sortingkanban.module').then(m => m.TrackingKanBanModule)
   },
   { path: '**', redirectTo: 'dashboard' }
 ];

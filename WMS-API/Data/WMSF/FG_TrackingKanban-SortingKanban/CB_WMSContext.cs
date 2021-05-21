@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban;
+using WMS_API.Models.WMSF.FG_TrackingKanban_SortingKanban.CB_WMS;
 
 namespace WMS_API.Data.WMSF.FG_TrackingKanban_SortingKanban
 {
