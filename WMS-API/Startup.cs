@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Machine_API.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +19,7 @@ using WMS_API._Repositories.Interfaces;
 using WMS_API._Repositories.Repositories;
 using WMS_API._Services.Interface;
 using WMS_API._Services.Services;
+using WMS_API.Data;
 using WMS_API.Helpers.AutoMapper;
 
 namespace WMS_API
@@ -43,7 +46,8 @@ namespace WMS_API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WMS_API", Version = "v1" });
             });
-
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<SHCQDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CB_EEPConnection")));
             services.AddCors();
 
             services.AddAutoMapper(typeof(Startup));
