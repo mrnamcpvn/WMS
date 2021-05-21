@@ -4,7 +4,6 @@ namespace WMS_API.Dtos.WMSF.FG_REPORT_COMPARE
 {
     public class WMSF_FG_CompareReportDto
     {
-
         public string Status { get; set; }
         public string Cdr_No { get; set; }
         public string Model_Name { get; set; }

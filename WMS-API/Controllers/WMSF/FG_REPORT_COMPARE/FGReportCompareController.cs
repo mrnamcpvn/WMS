@@ -90,9 +90,10 @@ namespace WMS_API.Controllers.WMSF.FG_REPORT_COMPARE
 
             // Export
             stream.Position = 0;
-            string excelName = "Report_Compare_By_Rack.xlsx";
+            string excelName = "Report_Compare_By_Rack";
 
-            return File(stream, "application/xlsx", excelName + DateTime.Now.ToString("-MM.dd.yyyy"));
+            return File(stream, "application/xlsx", excelName + DateTime.Now.ToString("-MM.dd.yyyy") + ".xlsx");
+
         }
         [HttpGet("ExportExcelByPO")]
         public async Task<IActionResult> ExportExcelByPO(string reportTime)
@@ -147,9 +148,9 @@ namespace WMS_API.Controllers.WMSF.FG_REPORT_COMPARE
 
             // Export
             stream.Position = 0;
-            string excelName = "Report_Compare_By_PO.xlsx";
+            string excelName = "Report_Compare_By_PO";
 
-            return File(stream, "application/xlsx", excelName + DateTime.Now.ToString("-MM.dd.yyyy"));
+            return File(stream, "application/xlsx", excelName + DateTime.Now.ToString("-MM.dd.yyyy") + ".xlsx");
         }
 
     }

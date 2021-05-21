@@ -1,0 +1,259 @@
+body {
+    font-family: Myriad Pro Regular !important;
+    background: #14131d !important;
+}
+
+/*custom*/
+.select2.select2-container {
+    width: 100% !important;
+}
+
+.btn {
+    border-radius: 0 !important;
+}
+
+.header-title {
+    color: #ffff;
+    font-size: 25px;
+    margin-top: -1%;
+}
+
+/*line color header command footer*/
+.line-gradient {
+    height: 2px;
+    background-image: linear-gradient(to top right, #0ff3a6, #c909f4);
+}
+/*#endregion */
+
+/*#region content-page */
+
+.content-page {
+}
+
+.content-page .card {
+    background: #14131d !important;
+    border: 1px solid #c0c0c0;
+}
+
+.content-page .card .card-header,
+.content-page .card .card-body,
+.content-page .card .card-footer {
+    border: 1px solid #c0c0c0;
+}
+
+.content-page .card .card-header .header-title {
+    font-size: 26px;
+    color: #fff;
+}
+
+/*#endregion */
+
+/*#region table */
+
+table.list-detail tr th {
+    text-align: center;
+    /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
+    background: #fff !important;
+    color: #000;
+    opacity: 0.88;
+    border: 1px solid #c0c0c0;
+}
+
+table.list-detail tr td {
+    color: #fff;
+    border: 1px solid #c0c0c0;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.5em;
+}
+
+/*style cho cột sort*/
+table th.sort {
+    cursor: pointer;
+}
+/*#endregion */
+
+/*#region Loading */
+
+/*Loading*/
+#main-loading {
+    width: 100%;
+    height: 100%;
+    background-color: #2d2424;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.5;
+    z-index: 3;
+}
+
+.lds-ripple {
+    position: fixed;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.lds-ripple div {
+    position: absolute;
+    border: 4px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+
+@keyframes lds-ripple {
+    0% {
+        top: 28px;
+        left: 28px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+
+    100% {
+        top: -1px;
+        left: -1px;
+        width: 58px;
+        height: 58px;
+        opacity: 0;
+    }
+}
+
+/*#endregion */
+
+/*#region Paginate */
+
+.pagination .page-item:nth-child(2):not(.active) .page-link,
+.pagination .page-item:nth-last-child(2):not(.active) .page-link,
+.pagination .page-item:first-child:not(.active) .page-link,
+.pagination .page-item:last-child:not(.active) .page-link {
+    color: #0ff3a6 !important;
+    border: 1px solid #fff !important;
+    background: #14131d !important;
+    text-transform: uppercase;
+}
+
+.page-item.active .page-link {
+    color: #30303c !important;
+    background: #fcfcfc !important;
+}
+
+.page-item .page-link {
+    border: 1px solid #fff !important;
+    color: #fff !important;
+    background: #14131d !important;
+}
+
+/*#endregion */
+
+/*#region Style Modal */
+
+.modal .modal-content {
+    background: none;
+    border-radius: 0 !important;
+}
+
+#modalCreate .modal-content .modal-header {
+    background: #007bff;
+}
+
+#modalModify .modal-content .modal-header {
+    background: #efb91a;
+}
+
+.modal .modal-content .modal-header {
+    border-radius: 0 !important;
+    color: #ffff;
+    text-transform: uppercase;
+}
+
+.modal .modal-content .modal-body {
+    background: #ffff;
+}
+
+.modal .modal-content .modal-footer {
+    background: #ffff;
+}
+
+/*#endregion */
+
+/*#region search */
+.bg-red {
+    background: #d42222;
+}
+.bg-blue {
+    background: #0473ea;
+}
+.bg-yellow {
+    background: #e28716;
+}
+.bg-dark-green {
+    background: #282849;
+}
+
+.ml-c {
+    margin-left: -15px;
+}
+
+.label-line,
+.label-received-time {
+    background: #1d1d3f;
+    border-radius: 0;
+    border: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    display: block;
+}
+
+.input-line,
+.input-received-time {
+    border-radius: 0;
+    border: 1px solid #fff;
+}
+
+.btn-search {
+    background: #7178cf !important;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 6px 25px;
+}
+
+.btn-reset {
+    background: #cacaca !important;
+    color: #000;
+    border: 1px solid #fff;
+    padding: 6px 25px;
+}
+
+.btn-search:hover {
+    border: 1px solid #fff;
+}
+
+.select2-container .select2-selection--single {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    height: 38px !important;
+    border-radius: 0 !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow {
+    margin: 5px 0px;
+}
+/*#endregion */
+
+.classSort {
+    cursor: pointer;
+}

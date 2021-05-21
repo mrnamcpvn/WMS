@@ -1,0 +1,71 @@
+<div>
+  <div class="container-fluid header clearfix">
+    <p class="pl-4 pt-3 header-title">Compare Report</p>
+  </div>
+  <div class="line-gradient"></div>
+  <div class="container-fluid content-page p-4 clearfix content-1">
+    <div class="row ml-3 mr-3">
+      <div class="col-5">
+        <div class="form-group row">
+          <label class="col-5 input-group-text label-received-time" id="received-time">Closing Date</label>
+          <div class="col-7 ml-c">
+            <input placeholder="Datepicker" class="form-control" bsDatepicker>
+          </div>
+        </div>
+      </div>
+      <div class="col-1">
+        <button type="button" class="btn btn-info btn-search">Search</button>
+      </div>
+      <div class="col-1">
+      </div>
+      <div class="col-5">
+        <a class="btn btn-info btn-search button-a">Excel (By PO)</a>
+        <!-- <button class="btn btn-info btn-search" disabled>Excel (By PO)</button> -->
+        <a class="btn btn-info btn-search">Excel
+          (By Rack)</a>
+        <div class="form-group d-inline-block pl-2">
+          <input type="checkbox" class="check-box" ng-model="isAutoPage" id="auto-refesh" />
+          <label class="label-check-box auto-refesh" for="auto-refesh">Auto Page</label>
+        </div>
+      </div>
+    </div>
+    <div class="row div-table">
+      <div class="card-body">
+        <table class="table table-bordered list-detail">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>PO #</th>
+              <th>Model Name</th>
+              <th>Article #</th>
+              <th>Rack</th>
+              <th>WMS Qty</th>
+              <th>HP Qty</th>
+              <th>Balance</th>
+              <th class="classSort">
+                Accuracy &nbsp;
+                <i :class="sortClass"></i>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of wMSF_FG_CompareReport">
+              <td>{{item.Status}}</td>
+              <td></td>
+              <td>{{item.Name}}</td>
+              <td>{{item.Article}}</td>
+              <td>{{item.Rack}}</td>
+              <td></td>
+              <td></td>
+              <td>{{item.Balance}}</td>
+              <td>{{item.Accuracy}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row margin-top-1">
+
+    </div>
+  </div>
+</div>

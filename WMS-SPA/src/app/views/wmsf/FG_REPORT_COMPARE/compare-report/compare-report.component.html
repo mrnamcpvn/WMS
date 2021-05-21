@@ -1,0 +1,37 @@
+<div>
+    <div class="row div-table">
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>PO #</th>
+                        <th>Model Name</th>
+                        <th>Article #</th>
+                        <th>Rack</th>
+                        <th>WMS Qty</th>
+                        <th>HP Qty</th>
+                        <th>Balance</th>
+                        <th class="classSort">
+                            Accuracy &nbsp;
+                            <i :class="sortClass"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of wMSF_FG_CompareReport">
+                        <td>{{item.Status}}</td>
+                        <td></td>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.Article}}</td>
+                        <td>{{item.Rack}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{item.Balance}}</td>
+                        <td>{{item.Accuracy}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
