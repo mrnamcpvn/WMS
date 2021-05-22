@@ -66,20 +66,29 @@
       <table class="table table-bordered list-detail">
         <thead>
           <tr>
-            <th>Production Line</th>
-            <th>Transfer Form #</th>
-            <th>PO #</th>
-            <th>Plan Ship Date</th>
-            <th>Model Name</th>
-            <th>Article #</th>
-            <th>Cartons</th>
-            <th>Pairs</th>
-            <th>CBM</th>
-            <th>Received Time</th>
-            <th>Racks PIC</th>
-            <th>Completed Time</th>
-            <th>Rack</th>
-            <th>Suggested Location</th>
+            <th scope="col">Production Line</th>
+            <th scope="col" class="sort" (click)="sort('transfer_form')">Transfer Form # &nbsp;
+              <i
+                [class]="sortTransferForm === ''? 'fa fa-arrows-v'  : sortTransferForm == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+            </th>
+            <th scope="col">PO #</th>
+            <th scope="col">Plan Ship Date</th>
+            <th scope="col">Model Name</th>
+            <th scope="col">Article #</th>
+            <th scope="col">Cartons</th>
+            <th scope="col">Pairs</th>
+            <th scope="col">CBM</th>
+            <th scope="col" class="sort" (click)="sort('received_time')">Received Time &nbsp;
+              <i
+                [class]="sortReceivedTime === '' ? 'fa fa-arrows-v' : sortReceivedTime == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc' "></i>
+            </th>
+            <th scope="col">Racks PIC</th>
+            <th scope="col" class="sort" (click)="sort('completed_time')">Completed Time &nbsp;
+              <i
+                [class]="sortCompletedTime == '' ? 'fa fa-arrows-v' : sortCompletedTime == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+            </th>
+            <th scope="col">Rack</th>
+            <th scope="col">Suggested Location</th>
           </tr>
         </thead>
         <tbody *ngIf="vw_fgin_locat_list.length === 0">
@@ -93,18 +102,19 @@
         </tbody>
         <tbody *ngFor="let item of vw_fgin_locat_list; let i = index">
           <tr [class]="item.colorRow == 'blue' ? 'bg-dark-green' : 'bg-yellow'">
-            <td>{{item.line_Desc}}</td>
+            <!-- xử lí hiển thị date -->
+            <td scope="row">{{item.line_Desc}}</td>
             <td>{{item.up_Trno}}</td>
             <td>{{item.cdr_No}}</td>
-            <td>{{item.plan_Export_Date}}</td>
+            <td style="text-align: center;">{{convertDate2(item.plan_Export_Date)}}</td>
             <td>{{item.model_Name}}</td>
             <td>{{item.article}}</td>
             <td>{{item.ctN_Qty}}</td>
             <td>{{item.qty}}</td>
             <td>{{item.meas}}</td>
-            <td>{{item.up_UTC_Dat}}</td>
+            <td style="text-align: center;">{{convertDate(item.up_UTC_Dat)}}</td>
             <td>{{item.emp_Name}}</td>
-            <td>{{item.in_UTC_Dat}}</td>
+            <td style="text-align: center;">{{convertDate(item.in_UTC_Dat)}}</td>
             <td>{{item.locat}}</td>
             <td>{{item.suggest_Locat}}</td>
           </tr>
@@ -123,10 +133,10 @@
         </div>
         <div class="col">
           <div class="d-flex float-right pt-3 row" *ngIf="this.pagination.totalPage > 1">
-            <pagination [boundaryLinks]="true" [totalItems]="pagination.totalCount" [(ngModel)]="pagination.currentPage"
-              [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
-              nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [maxSize]=5
-              *ngIf="this.pagination.totalPage > 1">
+            <pagination class="my-pagination" [boundaryLinks]="true" [totalItems]="pagination.totalCount"
+              [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.pageSize"
+              (pageChanged)="pageChanged($event)" previousText="PREVIOUS" nextText="NEXT" firstText="FIRST"
+              lastText="LAST" [maxSize]=7 *ngIf="this.pagination.totalPage > 1">
             </pagination>
           </div>
         </div>

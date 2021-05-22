@@ -5,6 +5,7 @@ import { FgTrackingKanbanSortingkanbanService } from '../../../../_core/services
 import { Pagination } from '../../../../_core/utilities/pagination';
 import { SearchParams } from '../../../../_core/models/wmsf/fg-trackingkanban-sortingkanban/SearchParams';
 import { VW_FGIN_LOCAT_LIST } from '../../../../_core/models/wmsf/fg-trackingkanban-sortingkanban/cb-wms/VW_FGIN_LOCAT_LIST';
+import { stringify } from '@angular/compiler/src/util';
 @Component({
   selector: 'app-fg-trackingkanban-sortingkanban',
   templateUrl: './fg-trackingkanban-sortingkanban.component.html',
@@ -16,6 +17,9 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   Cartons = 0;
   Pairs = 0;
   CBM = 0;
+  sortTransferForm: string = '';
+  sortReceivedTime: string = '';
+  sortCompletedTime: string = 'desc';
   intervalData;
   checkInterval;
   isAutoRefreshAll: boolean = true;
@@ -29,8 +33,8 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   searchParams: SearchParams = {
     deptId: ' ',
     receivedTime: new Date(),
-    sortBy: '',
-    sortType: '',
+    sortBy: 'completed_time',
+    sortType: 'desc',
     optionData: 'nocompleted'
   };
   constructor(
@@ -43,7 +47,6 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
     this.search();
     this.spinner.hide();
   }
-
   search() {
     this.spinner.show();
     if (this.isAutoRefreshAll) {
@@ -88,12 +91,15 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   reset() {
     this.pagination.currentPage = 1;
     this.searchParams = {
-      deptId: '',
+      deptId: ' ',
       receivedTime: new Date(),
-      sortBy: '',
-      sortType: '',
+      sortBy: 'completed_time',
+      sortType: 'desc',
       optionData: 'nocompleted'
     };
+    this.sortTransferForm = '';
+    this.sortReceivedTime = '';
+    this.sortCompletedTime = 'desc';
     this.search();
   }
 
@@ -122,4 +128,43 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
       clearInterval(this.checkInterval);
     }
   }
+
+  sort(typeSort) {
+    if (typeSort == 'transfer_form') {
+      this.sortTransferForm = (this.sortTransferForm == 'asc') ? 'desc' : 'asc';
+      this.searchParams.sortBy = 'transfer_form';
+      this.searchParams.sortType = this.sortTransferForm;
+      this.sortCompletedTime = '';
+      this.sortReceivedTime = '';
+    }
+    else if (typeSort == 'received_time') {
+      this.sortReceivedTime = (this.sortReceivedTime == 'asc') ? 'desc' : 'asc';
+      this.searchParams.sortBy = 'received_time';
+      this.searchParams.sortType = this.sortReceivedTime;
+      this.sortCompletedTime = '';
+      this.sortTransferForm = '';
+    }
+    else if (typeSort == 'completed_time') {
+      this.sortCompletedTime = (this.sortCompletedTime == 'asc') ? 'desc' : 'asc';
+      this.searchParams.sortBy = 'completed_time';
+      this.searchParams.sortType = this.sortCompletedTime;
+      this.sortTransferForm = '';
+      this.sortReceivedTime = '';
+    }
+    this.search();
+  }
+  convertDate(date) {
+    if (date) {
+      return `${date.substr(0, 10).replaceAll('-', '/')} ${date.substr(11, 5)}`;
+    }
+    else return '';
+  }
+  convertDate2(date) {
+    if (date) {
+      return date.substr(0, 10).replaceAll('-', '/');
+    }
+    else return '';
+  }
+
+
 }
