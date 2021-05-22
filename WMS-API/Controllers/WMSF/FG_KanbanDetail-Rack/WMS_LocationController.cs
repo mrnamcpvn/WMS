@@ -31,6 +31,13 @@ namespace WMS_API.Controllers
             var result = await _wMS_LocationService.SearchData(paginationParams, objectSearch);
             return Ok(result);
         }
+        [HttpPost("SearchDataNoPagintion")]
+        public async Task<IActionResult> searchDataNoPagintion(ObjectSearchDto objectSearch)
+        {
+            var result = await _wMS_LocationService.SearchDataNoPagintion(objectSearch);
+            return Ok(result);
+        }
+
         [HttpGet("GetListWarehouse")]
         public async Task<IActionResult> GetListWarehouse()
         {

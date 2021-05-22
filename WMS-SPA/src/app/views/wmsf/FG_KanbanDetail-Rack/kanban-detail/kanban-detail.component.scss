@@ -1,25 +1,31 @@
-.kaban-main {
+.kanban-detail {
   color: #fff;
+  background-color: rgb(23, 28, 31) !important;
+  padding: 0px;
 }
-
+.br {
+  background-color: rgb(13, 19, 22);
+}
+.f12 {
+  font-size: 13px !important;
+}
 .footer-title-o0 {
   background: linear-gradient(to right, #36a9b3, #39bfcb) !important;
 }
 
 .footer-title-o1 {
-  background: linear-gradient(to right, #bcc22e, #c8cd57) !important;
-}
-
-.footer-title-o2 {
   background: linear-gradient(to right, #d7405e, #d1576f) !important;
 }
-
-.footer-title-o3 {
+.footer-title-o2 {
   background: linear-gradient(to right, #51b272, #71d593) !important;
 }
 
-.footer-title-o4 {
+.footer-title-o3 {
   background: linear-gradient(to right, #eac927, #f9d732) !important;
+}
+
+.footer-title-o4 {
+  background: linear-gradient(to right, #bcc22e, #c8cd57) !important;
 }
 
 .footer-title-o5 {
@@ -27,6 +33,10 @@
 }
 .footer-title-o6 {
   background: linear-gradient(to right, #de3e89, #cf8cab) !important;
+}
+
+.footer-value {
+  color: #000;
 }
 .title-bottom {
   font-size: 1.5rem;
@@ -70,7 +80,6 @@
 
 .classTextData {
   float: right;
-  padding-right: 5px;
 }
 
 .orgchart.r2l .node:not(.class0),
@@ -89,7 +98,7 @@ th {
 }
 
 .div-main1 {
-  font-size: 16px;
+  font-size: 12px;
   text-align: center;
   font-weight: 700;
   /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
@@ -101,7 +110,7 @@ th {
 }
 
 .div-main2 {
-  font-size: 16px;
+  font-size: 12px;
   text-align: center;
   font-weight: 700;
   /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
@@ -129,107 +138,10 @@ th {
 .bottom-main {
   display: flex;
   background: #242234;
-  position: fixed;
-  top: 0px;
   width: 100%;
 }
 .chart-main {
   margin-top: 30px !important;
-}
-
-//// kanban
-
-.class1 .content,
-.class2 .content,
-.class3 .content,
-.class4 .content {
-  background-color: #14131d !important;
-  color: #fff !important;
-  border: 1px solid #fff !important;
-  border-top: none !important;
-  width: 148px !important;
-  height: 100px !important;
-  line-height: 22px !important;
-  font-size: 18px !important;
-  white-space: pre !important;
-  font-weight: 300;
-  padding: 5px 0;
-}
-
-.orgchart.l2r .node:not(.class0) {
-  margin-right: 20px !important;
-}
-
-.classTextTitle {
-  float: left;
-  padding-left: 5px;
-}
-
-.classTextData {
-  float: right;
-  padding-right: 5px;
-}
-
-.orgchart.r2l .node:not(.class0),
-.orgchart.l2r .node:not(.class0) {
-  width: 144px !important;
-  height: 158px !important;
-}
-
-.rack_table {
-  /*margin-top:-100px !important;*/
-}
-
-th {
-  width: 100px !important;
-  height: 50px !important;
-}
-
-.div-main1 {
-  font-size: 16px;
-  text-align: center;
-  font-weight: 700;
-  /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
-  background: #fff !important;
-  color: #000;
-  opacity: 0.88;
-  border: 1px solid #c0c0c0;
-  width: 130px;
-}
-
-.div-main2 {
-  font-size: 16px;
-  text-align: center;
-  font-weight: 700;
-  /*background: linear-gradient(to top, #ffffff, #d7d7d7) !important;*/
-  background: #fff !important;
-  color: #000;
-  opacity: 0.88;
-  border: 1px solid #c0c0c0;
-  width: 70px;
-  /*margin-right:4px;*/
-  /*background-color: #242234;*/
-}
-
-.display-center {
-  position: relative;
-}
-
-.center-me {
-  font-weight: 700;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.bottom-main {
-  display: flex;
-  background: #fff;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
 }
 
 .chart-main {
@@ -242,6 +154,252 @@ th {
 .fl {
   float: left;
 }
-.p0{
+.p0 {
   padding: 0px;
 }
+.pt {
+  padding-top: 50px;
+}
+.pl {
+  padding-left: 50px;
+}
+.pr {
+  padding-right: 50px;
+}
+.p {
+  padding: 10px;
+}
+.pb-4 {
+  padding-bottom: 1.5rem !important;
+}
+
+.pt-4 {
+  padding-top: 1.5rem !important;
+}
+
+// <div class="container br">
+//   <div class="m-portlet__head container">
+//     <div class="row">
+//       <div class="col">
+//         <div class="form-group row">
+//           <label class="col-md-3 lable-bgr">WH</label>
+//           <div class="col-sm-9" style="margin-left:-15px;">
+//             <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.wareHouseId">
+//               <option value="">All Warehouse</option>
+//               <option *ngFor="let item of listWareHouses" value={{item.id}}>{{item.id}}</option>
+//             </select>
+//           </div>
+//         </div>
+//       </div>
+//       <div class="col">
+//         <div class="form-group row">
+//           <label class="col-sm-4 lable-bgr">Building</label>
+//           <div class="col-sm-8" style="margin-left:-15px;">
+//             <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.buildingId">
+//               <option value="">All Building</option>
+//               <option *ngFor="let item of listBuildings" value={{item.id}}>{{item.text}}</option>
+//             </select>
+//           </div>
+//         </div>
+//       </div>
+//       <div class="col">
+//         <div class="form-group row">
+//           <label class="col-sm-5 lable-bgr">Floor</label>
+//           <div class="col-sm-7" style="margin-left:-15px;">
+//             <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.floorId">
+//               <option value="">All Floor</option>
+//               <option *ngFor="let item of listFloors" value={{item.id}}>{{item.text}}</option>
+//             </select>
+//           </div>
+//         </div>
+//       </div>
+//       <div class="col">
+//         <div class="form-group row">
+//           <label class="col-sm-3 lable-bgr">Area</label>
+//           <div class="col-sm-9" style="margin-left:-15px;">
+//             <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.areaId">
+//               <option value="">All Area</option>
+//               <option *ngFor="let item of listAreas" value={{item.id}}>{{item.text}}</option>
+//             </select>
+//           </div>
+//         </div>
+//       </div>
+//       <div class="col">
+//         <div class="form-group row">
+//           <label class="col-sm-5  lable-bgr">Rack</label>
+//           <div class="col-sm-7" style="margin-left:-15px;">
+//             <input type="text" [(ngModel)]="objectSearch.rackNo"
+//               class="form-control content-background-input rounded-0">
+//           </div>
+//         </div>
+//       </div>
+//       <div class="col">
+//         <div class="form-group row">
+//           <label class="col-sm-3 lable-bgr">PO</label>
+//           <div class="col-sm-9" style="margin-left:-15px;">
+//             <input type="text" [(ngModel)]="objectSearch.poNo" class="form-control content-background-input rounded-0">
+//           </div>
+//         </div>
+//       </div>
+//       <div class="w-100"></div>
+//       <div class="col-sm-2">
+//         <div class="form-group row">
+//           <label class="col-md-4 lable-bgr">Date Type</label>
+//           <div class="col-sm-8" style="margin-left:-15px;">
+//             <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.dateType">
+//               <!-- @change="onChangeDateType($event)"> -->
+//               <option value="">Please select date type</option>
+//               <option value="cfm_date">CFM Date</option>
+//               <option value="export_date">Export Date</option>
+//               <option value="lpd">LPD</option>
+//             </select>
+//           </div>
+//         </div>
+//       </div>
+//       <div class="col-sm-2">
+//         <div class="form-group row">
+//           <label class="col-sm-4 lable-bgr">From Date</label>
+//           <div class="col-sm-8" style="margin-left:-15px;">
+//             <input placeholder="Datepicker" type="text" class="form-control" bsDatepicker #dp="bsDatepicker"
+//               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker [outsideClick]="true"
+//               [(ngModel)]="objectSearch.fromDate">
+//           </div>
+//         </div>
+//       </div>
+//       <div class="col-sm-2">
+//         <div class="form-group row">
+//           <label class="col-sm-4  lable-bgr">To Date</label>
+//           <div class="col-sm-8" style="margin-left:-15px;">
+//             <input placeholder="Datepicker" type="text" class="form-control" bsDatepicker #dp="bsDatepicker"
+//               [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker [outsideClick]="true"
+//               [(ngModel)]="objectSearch.toDate">
+//           </div>
+//         </div>
+//       </div>
+//       <div class="col-sm-4">
+//         <!-- <button type="button" @click="refresh()" style="margin-left:-15px;" -->
+//         <button type="button" style="margin-left:-15px;" class="btn btn-primary btn-refresh rounded-0"
+//           (click)="loadData()">Refresh</button>
+//         <div class="form-group d-inline-block pl-2">
+//           <input type="checkbox" class="check-box" v-model="isAutoRefresh" id="auto-refesh" />
+//           <label class="label-check-box auto-refesh" for="auto-refesh">Auto Refresh</label>
+//         </div>
+//       </div>
+//       <!--</div>-->
+//       <div class="col">
+//         <!-- <button type="button" @click="exportExcel" v-bind:disabled="lstLocation.length <= 0 ? true : false" -->
+//         <button type="button" v-bind:disabled="lstLocation.length <= 0 ? true : false" style="margin-left:-15px;"
+//           class="btn btn-info btn-export rounded-0">
+//           <i class="fa fa-file-excel-o"></i>&nbsp;Export Excel
+//         </button>
+//       </div>
+//     </div>
+//   </div>
+//   <div class="container">
+//     <div class="row">
+//       <table class="table table-bordered table-kanban-detail">
+//         <thead>
+//           <tr class="f12">
+//             <!-- <th scope="col" class="sort" @click="sort('cfmdate')"> -->
+//             <th scope="col" class="sort">
+//               CFM Date &nbsp;
+//               <i
+//                 :class="sortCFMDate == '' ? 'fa fa-arrows-v' : sortCFMDate == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+//             </th>
+//             <!-- <th scope="col" class="sort" @click="sort('exportdate')"> -->
+//             <th scope="col" class="sort">
+//               Export Date &nbsp;
+//               <i
+//                 :class="sortExportDate == '' ? 'fa fa-arrows-v' : sortExportDate == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+//             </th>
+//             <!-- <th scope="col" class="sort" @click="sort('lpd')"> -->
+//             <th scope="col" class="sort">
+//               LPD &nbsp;
+//               <i
+//                 :class="sortLPD == '' ? 'fa fa-arrows-v' : sortLPD == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+//             </th>
+//             <!-- <th scope="col" class="sort" @click="sort('pono')"> -->
+//             <th scope="col" class="sort">
+//               Po No. &nbsp;
+//               <i
+//                 :class="sortPoNo == '' ? 'fa fa-arrows-v' : sortPoNo == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+//             </th>
+//             <th scope="col">Model Name</th>
+//             <th scope="col">ART</th>
+//             <th scope="col">WH</th>
+//             <th scope="col">Building</th>
+//             <th scope="col">Floor</th>
+//             <th scope="col">Area</th>
+//             <th scope="col">Rack</th>
+//             <th scope="col">PO Qty</th>
+//             <th scope="col">WH Qty</th>
+//             <th scope="col">Rack Qty</th>
+//             <th scope="col">Rack CTN</th>
+//             <th scope="col">CBM</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           <tr class="f12" *ngFor="let item of listData">
+//             <td scope="col">{{item.comfirmed_Date | date: "yyyy/MM/dd"}}</td>
+//             <!--CFM Date-->
+//             <td scope="col">{{item.plan_Ship_Date| date: "yyyy/MM/dd"}}</td>
+//             <!--Export Date-->
+//             <td scope="col">{{item.real_Finish_Date| date: "yyyy/MM/dd"}}</td>
+//             <!--LPD-->
+//             <td scope="col">{{item.order_ID}}</td>
+//             <!--Po No.-->
+//             <td scope="col">{{item.model_Name}}</td>
+//             <!--Model Name-->
+//             <td scope="col">{{item.article}}</td>
+//             <!--ART-->
+//             <td scope="col">{{item.warehouse_Id}}</td>
+//             <!--WH-->
+//             <td scope="col">{{item.building_Name}}</td>
+//             <!--Building-->
+//             <td scope="col">{{item.floor_Name}}</td>
+//             <!--Floor-->
+//             <td scope="col" class="text-capitalize">{{item.area_Name}}</td>
+//             <!--Area-->
+//             <td scope="col">{{item.location_ID}}</td>
+//             <!--Rack-->
+//             <td scope="col" class="text-right">{{item.order_Qty | number}}</td>
+//             <!--PO Qty-->
+//             <td scope="col" class="text-right">{{item.countStockQty | number}}</td>
+//             <!--WH Qty-->
+//             <td scope="col" class="text-right">{{item.countCartonPairs | number}}</td>
+//             <!--Rack Qty-->
+//             <td scope="col" class="text-right">{{item.countCartons | number}}</td>
+//             <!--Rack CTN-->
+//             <td scope="col" class="text-right">{{item.volume | number}}</td>
+//             <!--CBM-->
+//           </tr>
+
+//           <tr *ngIf="dataFound">
+//             <td colspan="16">
+//               <div class="alert alert-warning text-center text-uppercase text-dark font-weight-bold" role="alert">
+//                 No data found !
+//               </div>
+//             </td>
+//           </tr>
+//         </tbody>
+//       </table>
+//       <pagination class="float-right" name="pagination" *ngIf="pagination.totalPage > 1"
+//         [totalItems]="pagination.totalCount" [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)"
+//         [itemsPerPage]="pagination.pageSize" [rotate]="false" [maxSize]="5" [boundaryLinks]="true" previousText="PREV"
+//         nextText="NEXT" firstText="FIRST" lastText="LAST">
+//       </pagination>
+//       <div class="container">
+//         <div class="row">
+//           <ng-container *ngFor="let item of listArea_CountTotal;let i = index">
+//             <div class='col footer-title  {{"footer-title-o"+ i}}'> <span>{{item.label}}</span></div>
+//             <div class="col footer-value"><span>{{item.totalCount | number}}</span></div>
+//           </ng-container>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+
+// <div class="line-gradient mt-4"></div>
+// <div class="row">
+// </div>

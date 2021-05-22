@@ -26,6 +26,11 @@ export class WMS_LocationService {
   getListArea() {
     return this.http.get<SelectOptions[]>(`${API}WMS_Location/GetListArea`);
   }
+  getListAreTotal() {
+    return this.http.get<SelectOptions[]>(
+      `${API}WMSF_Rack_Area/GetListAreaTotal`
+    );
+  }
   searchData(pagination: Pagination, objectSearch: any) {
     let params = new HttpParams();
     if (pagination.currentPage !== null && pagination.pageSize !== null) {
@@ -36,6 +41,14 @@ export class WMS_LocationService {
       `${API}WMS_Location/searchData`,
       objectSearch,
       { params }
+    );
+  }
+
+  searchDataNoPagintion(objectSearch: any) {
+    return this.http.post<any>(
+      `${API}WMS_Location/SearchDataNoPagintion`,
+      objectSearch,
+      {}
     );
   }
 }

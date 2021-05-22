@@ -9,7 +9,7 @@
     <app-kanban-detail #kanbanDetail>
     </app-kanban-detail>
   </ng-container>
-  <div class="bottom-main">
+  <div class="bottom-main" *ngIf="isVisible !== 1">
     <ng-container *ngFor="let item of listRackPairs;let i = index">
       <div class='col title-bottom {{"footer-title-o"+ i}}'> <span class="">{{item.area_Short_Title}}</span></div>
       <div class="col title-bottom"><span class="title-bottom">{{item.pairs_Subtotal | number}}</span></div>

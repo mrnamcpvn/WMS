@@ -18,7 +18,7 @@ namespace WMS_API.Controllers
         private readonly IMapper _mapper;
         private readonly IWMSF_Rack_AreaService _wMSF_Rack_AreaService;
 
-        public WMSF_Rack_AreaController(IConfiguration configuration, IMapper mapper, IWMSF_Rack_AreaService wMSF_Rack_AreaService )
+        public WMSF_Rack_AreaController(IConfiguration configuration, IMapper mapper, IWMSF_Rack_AreaService wMSF_Rack_AreaService)
         {
             _configuration = configuration;
             _mapper = mapper;
@@ -28,6 +28,12 @@ namespace WMS_API.Controllers
         public async Task<IActionResult> GetListRackPairs()
         {
             var result = await _wMSF_Rack_AreaService.GetListRackPairs();
+            return Ok(result);
+        }
+        [HttpGet("GetListAreaTotal")]
+        public async Task<IActionResult> GetListAreaTotal()
+        {
+            var result = await _wMSF_Rack_AreaService.GetListAreaTotal();
             return Ok(result);
         }
     }

@@ -11,8 +11,10 @@ import { KanbanDetailComponent } from "../kanban-detail/kanban-detail.component"
 })
 export class KanbanComponent implements OnInit {
   @ViewChild("kanbanChar", { static: false }) kanbanChar: KanbanCharComponent;
-  @ViewChild("kanbanDetail", { static: false }) kanbanDetail: KanbanDetailComponent;
+  @ViewChild("kanbanDetail", { static: false })
+  kanbanDetail: KanbanDetailComponent;
   listRackPairs: RackPairs[] = [];
+  isVisible: number = 1;
   constructor(private _wMSF_Rack_AreaService: WMSF_Rack_AreaService) {}
 
   ngOnInit() {
@@ -23,7 +25,6 @@ export class KanbanComponent implements OnInit {
   getListRackPairs() {
     this._wMSF_Rack_AreaService.getListRackPairs().subscribe((res) => {
       this.listRackPairs = res;
-      console.log(this.listRackPairs);
     });
   }
 }

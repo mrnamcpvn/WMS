@@ -137,5 +137,70 @@ namespace WMS_API._Services.Services
 
             return PageListUtility<WMS_LocationViewDto>.PageList(data, pagination.PageNumber, pagination.PageSize);
         }
+
+         public async Task<List<WMS_LocationViewDto>> SearchDataNoPagintion(ObjectSearchDto objectSearch)
+        {
+            objectSearch.WareHouseId = objectSearch.WareHouseId.Trim();
+            objectSearch.BuildingId = objectSearch.BuildingId.Trim();
+            objectSearch.FloorId = objectSearch.FloorId.Trim();
+            objectSearch.AreaId = objectSearch.AreaId.Trim();
+            objectSearch.RackNo = objectSearch.RackNo.Trim();
+            objectSearch.PoNo = objectSearch.PoNo.Trim();
+
+            // lấy data từ stored procedure
+            var data = await _dataContext.WMS_LocationView.FromSqlRaw("EXEC PRD_LOCATION_LIST").ToListAsync();
+
+            if (objectSearch.WareHouseId != string.Empty)
+            {
+                data = data.Where(x => x.Warehouse_Id == objectSearch.WareHouseId).ToList();
+            }
+            if (objectSearch.BuildingId != string.Empty)
+            {
+                data = data.Where(x => x.Building_Id == objectSearch.BuildingId).ToList();
+            }
+            if (objectSearch.FloorId != string.Empty)
+            {
+                data = data.Where(x => x.Floor_Id == objectSearch.FloorId).ToList();
+            }
+            if (objectSearch.AreaId != string.Empty)
+            {
+                data = data.Where(x => x.Area_ID == objectSearch.AreaId).ToList();
+            }
+            if (objectSearch.RackNo != string.Empty)
+            {
+                data = data.Where(x => x.Location_ID.ToLower().Contains(objectSearch.RackNo.ToLower())).ToList();
+            }
+            if (objectSearch.PoNo != string.Empty)
+            {
+                data = data.Where(x => x.Order_ID.ToLower().Contains(objectSearch.PoNo.ToLower())).ToList();
+            }
+
+            if (objectSearch.DateType != string.Empty)
+            {
+                //Search by date
+                DateTime formatFromDate = Convert.ToDateTime(objectSearch.FromDate + " 00:00");
+                DateTime formatToDate = Convert.ToDateTime(objectSearch.ToDate + " 23:59");
+                if (objectSearch.FromDate != string.Empty && objectSearch.ToDate == string.Empty)
+                {
+                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? x.Comfirmed_Date >= formatFromDate :
+                                           objectSearch.DateType == "export_date" ? x.Plan_Ship_Date >= formatFromDate :
+                                           x.Real_Finish_Date >= formatFromDate).ToList();
+                }
+                if (objectSearch.FromDate == string.Empty && objectSearch.ToDate != string.Empty)
+                {
+                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? x.Comfirmed_Date <= formatToDate :
+                                          objectSearch.DateType == "export_date" ? x.Plan_Ship_Date <= formatToDate :
+                                          x.Real_Finish_Date <= formatToDate).ToList();
+                }
+                if (objectSearch.FromDate != string.Empty && objectSearch.ToDate != string.Empty)
+                {
+                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? (x.Comfirmed_Date >= formatFromDate && x.Comfirmed_Date <= formatToDate) :
+                                          objectSearch.DateType == "export_date" ? (x.Plan_Ship_Date >= formatFromDate && x.Plan_Ship_Date <= formatToDate) :
+                                          (x.Real_Finish_Date >= formatFromDate && x.Real_Finish_Date <= formatToDate)).ToList();
+                }
+            }
+
+            return data;
+        }
     }
 }

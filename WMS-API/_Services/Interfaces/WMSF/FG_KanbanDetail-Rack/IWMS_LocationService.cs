@@ -12,6 +12,8 @@ namespace WMS_API._Services.Interface
         Task<List<SelectOptionsDto>> GetListBuilding();
         Task<List<SelectOptionsDto>> GetListFloor();
         Task<List<SelectOptionsDto>> GetListArea();
+
         Task<PageListUtility<WMS_LocationViewDto>> SearchData(PaginationParams paginationParams, ObjectSearchDto objectSearch);
+        Task<List<WMS_LocationViewDto>> SearchDataNoPagintion(ObjectSearchDto objectSearch);
     }
 }

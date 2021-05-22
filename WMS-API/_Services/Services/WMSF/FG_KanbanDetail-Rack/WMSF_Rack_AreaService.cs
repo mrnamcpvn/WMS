@@ -9,6 +9,8 @@ using WMS_API._Repositories.Interfaces;
 using System;
 using WMS_API.Dtos;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using WMS_API.Models;
 
 namespace WMS_API._Services.Services
 {
@@ -85,6 +87,16 @@ namespace WMS_API._Services.Services
             }
             result = result.OrderBy(x => x.Area_Number).ToList();
             return result;
+        }
+
+        public async Task<List<SelectOptionsDto>> GetListAreaTotal()
+        {
+            var AreaShows = await _wMSF_Rack_AreaRepository.FindAll(x => x.Hide_Rack == null || x.Hide_Rack == String.Empty).OrderBy(x => x.Area_ID).Select(x => new SelectOptionsDto()
+            {
+                Value = x.Area_ID,
+                Label = x.Area_Short_Title
+            }).ToListAsync();
+            return AreaShows;
         }
     }
 }
