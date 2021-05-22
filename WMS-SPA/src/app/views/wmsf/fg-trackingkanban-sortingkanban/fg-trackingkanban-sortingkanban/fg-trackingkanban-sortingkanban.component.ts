@@ -5,7 +5,7 @@ import { FgTrackingKanbanSortingkanbanService } from '../../../../_core/services
 import { Pagination } from '../../../../_core/utilities/pagination';
 import { SearchParams } from '../../../../_core/models/wmsf/fg-trackingkanban-sortingkanban/SearchParams';
 import { VW_FGIN_LOCAT_LIST } from '../../../../_core/models/wmsf/fg-trackingkanban-sortingkanban/cb-wms/VW_FGIN_LOCAT_LIST';
-import { stringify } from '@angular/compiler/src/util';
+import { Options } from 'select2';
 @Component({
   selector: 'app-fg-trackingkanban-sortingkanban',
   templateUrl: './fg-trackingkanban-sortingkanban.component.html',
@@ -14,6 +14,10 @@ import { stringify } from '@angular/compiler/src/util';
 export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   vw_fgin_locat_list: VW_FGIN_LOCAT_LIST[] = [];
   lines: Array<Select2OptionData>;
+  options: Options = {
+
+
+  };
   Cartons = 0;
   Pairs = 0;
   CBM = 0;
@@ -21,6 +25,7 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   sortReceivedTime: string = '';
   sortCompletedTime: string = 'desc';
   intervalData;
+  page: number
   checkInterval;
   isAutoRefreshAll: boolean = true;
   isAutoRefreshPage: boolean = true;
@@ -44,10 +49,10 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   ngOnInit() {
     this.spinner.show();
     this.getAllDepartments();
-    this.search();
+    this.loadData();
     this.spinner.hide();
   }
-  search() {
+  loadData() {
     this.spinner.show();
     if (this.isAutoRefreshAll) {
       clearInterval(this.checkInterval);
@@ -61,7 +66,6 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
       this.CBM = res.sumCBM
       this.pagination = res.dtos.pagination;
       this.vw_fgin_locat_list = res.dtos.result;
-      //xử lý hiển thị date
     });
     this.spinner.hide();
     if (this.isAutoRefreshAll) {
@@ -70,6 +74,10 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
     if (this.isAutoRefreshPage) {
       this.autoRefreshPage(true);
     }
+  }
+  search() {
+    this.pagination.currentPage = 1;
+    this.loadData();
   }
 
   exportExcel() {
@@ -85,7 +93,7 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
 
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
-    this.search();
+    this.loadData();
   }
 
   reset() {
@@ -100,7 +108,7 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
     this.sortTransferForm = '';
     this.sortReceivedTime = '';
     this.sortCompletedTime = 'desc';
-    this.search();
+    this.loadData();
   }
 
   autoRefreshPage(e) {
@@ -110,7 +118,7 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
           this.pagination.currentPage = 1;
         else
           this.pagination.currentPage += 1;
-        this.search();
+        this.loadData();
       }, 10000)
     } else if (e === false && this.isAutoRefreshAll === true) {
       clearInterval(this.intervalData);
@@ -122,7 +130,7 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   autoRefreshAll(e) {
     if (e === true && this.isAutoRefreshPage === false) {
       this.checkInterval = setInterval((page) => {
-        this.search();
+        this.loadData();
       }, 10000)
     } else {
       clearInterval(this.checkInterval);
@@ -151,7 +159,7 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
       this.sortTransferForm = '';
       this.sortReceivedTime = '';
     }
-    this.search();
+    this.loadData();
   }
   convertDate(date) {
     if (date) {

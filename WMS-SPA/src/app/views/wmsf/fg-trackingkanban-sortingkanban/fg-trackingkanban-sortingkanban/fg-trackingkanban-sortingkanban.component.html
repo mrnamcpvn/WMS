@@ -1,4 +1,4 @@
-<div>
+<div class="main">
   <div class="container-fluid header clearfix">
     <p class="pl-4 pt-3 header-title">FG Tracking Kanban - Sorting Kanban</p>
   </div>
@@ -9,11 +9,9 @@
         <div class="form-group row">
           <label class="col-4 input-group-text label-line">Line</label>
           <div class="col-8 ml-c">
-            <div>
-              <ng-select2 [data]="lines" [value]="searchParams.deptId" [(ngModel)]="searchParams.deptId" width="100%"
-                name="deptId">
-              </ng-select2>
-            </div>
+            <ng-select2 [data]="lines" [value]="searchParams.deptId" [(ngModel)]="searchParams.deptId" width="100%"
+              name="deptId" [options]="options" class="select2 select2-container select-option">
+            </ng-select2>
             <!--Styling ng-select2-->
           </div>
         </div>
@@ -94,9 +92,9 @@
         <tbody *ngIf="vw_fgin_locat_list.length === 0">
           <tr>
             <td colspan="14">
-              <alert class="text-center" type='warning'>
-                <strong>NO DATA FOUND !</strong>
-              </alert>
+              <div class="alert alert-warning text-center text-uppercase text-dark font-weight-bold" role="alert">
+                No data found !
+              </div>
             </td>
           </tr>
         </tbody>
@@ -106,15 +104,15 @@
             <td scope="row">{{item.line_Desc}}</td>
             <td>{{item.up_Trno}}</td>
             <td>{{item.cdr_No}}</td>
-            <td style="text-align: center;">{{convertDate2(item.plan_Export_Date)}}</td>
+            <td>{{convertDate2(item.plan_Export_Date)}}</td>
             <td>{{item.model_Name}}</td>
             <td>{{item.article}}</td>
             <td>{{item.ctN_Qty}}</td>
             <td>{{item.qty}}</td>
             <td>{{item.meas}}</td>
-            <td style="text-align: center;">{{convertDate(item.up_UTC_Dat)}}</td>
+            <td>{{convertDate(item.up_UTC_Dat)}}</td>
             <td>{{item.emp_Name}}</td>
-            <td style="text-align: center;">{{convertDate(item.in_UTC_Dat)}}</td>
+            <td>{{convertDate(item.in_UTC_Dat)}}</td>
             <td>{{item.locat}}</td>
             <td>{{item.suggest_Locat}}</td>
           </tr>
@@ -144,6 +142,7 @@
       </div>
     </div>
   </div>
+  <div class="line-gradient"></div>
   <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
     <p style="font-size: 20px; color: white">Loading...</p>
   </ngx-spinner>
