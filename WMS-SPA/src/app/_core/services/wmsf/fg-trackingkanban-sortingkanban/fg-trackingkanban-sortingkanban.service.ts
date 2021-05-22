@@ -14,9 +14,10 @@ export class FgTrackingKanbanSortingkanbanService {
     }
 
     search(searchParams: SearchParams, paginationParams: Pagination) {
+        let receivedTime = this.fuctionUtility.getStringDate(new Date(searchParams.receivedTime));
         let params = new HttpParams();
         params = params.append('deptId', searchParams.deptId);
-        params = params.append('receivedTime', searchParams.receivedTime.toString());
+        params = params.append('receivedTime', receivedTime);
         params = params.append('sortBy', searchParams.sortBy);
         params = params.append('sortType', searchParams.sortType);
         params = params.append('optionData', searchParams.optionData);
@@ -26,6 +27,8 @@ export class FgTrackingKanbanSortingkanbanService {
     }
 
     exportExcel(searchParams: SearchParams) {
+        let receivedTime = this.fuctionUtility.getStringDate(new Date(searchParams.receivedTime));
+        searchParams.receivedTime = receivedTime;
         return this.httpClient.post(this.baseUrl + 'FG_TrackingKanban_SortingKanban/exportExcel', searchParams, { responseType: 'blob' })
             .subscribe((result: Blob) => {
                 if (result.type !== 'application/xlsx') {

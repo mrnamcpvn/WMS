@@ -1,13 +1,13 @@
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgSelect2Module } from 'ng-select2';
 import { CommonModule } from "@angular/common";
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AlertModule } from 'ngx-bootstrap/alert'
 import { FgTrackingkanbanSortingkanbanComponent } from './fg-trackingkanban-sortingkanban/fg-trackingkanban-sortingkanban.component';
 import { TrackingKanBanRoutingModule } from './fg-trackingkanban-sortingkanban-routing.module';
-
+import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
     declarations: [
         FgTrackingkanbanSortingkanbanComponent
@@ -16,11 +16,12 @@ import { TrackingKanBanRoutingModule } from './fg-trackingkanban-sortingkanban-r
         CommonModule,
         BsDatepickerModule.forRoot(),
         NgSelect2Module,
-        NgxSpinnerModule,
         PaginationModule,
         AlertModule.forRoot(),
-        TrackingKanBanRoutingModule
+        TrackingKanBanRoutingModule,
+        FormsModule,
+        NgxSpinnerModule
     ],
-    schemas: [NO_ERRORS_SCHEMA]
+    // schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class TrackingKanBanModule { }
