@@ -16,6 +16,7 @@ body {
 
 .btn {
     border-radius: 0 !important;
+    line-height: 24px;
 }
 
 .header-title {
@@ -375,4 +376,8 @@ table th.sort {
 
 .label-check-box {
     color: white;
+}
+
+select#options.form-control {
+    height: 38px;
 }
