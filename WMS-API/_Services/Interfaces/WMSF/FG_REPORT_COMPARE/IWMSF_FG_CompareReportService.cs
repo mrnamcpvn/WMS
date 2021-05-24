@@ -11,7 +11,7 @@ namespace WMS_API._Services.Interfaces.WMSF.FG_REPORT_COMPARE
 {
     public interface IWMSF_FG_CompareReportService
     {
-        Task<PageListUtility<WMSF_FG_CompareReportDto>> GetAll(string reportTime, PaginationParams pagination);
+        Task<PageListUtility<WMSF_FG_CompareReportDto>> GetAll(string reportTime, string typeSort, PaginationParams pagination);
         Task<List<FRI_PODto>> ExportExcelByRack(string reportTime);
     }
 }

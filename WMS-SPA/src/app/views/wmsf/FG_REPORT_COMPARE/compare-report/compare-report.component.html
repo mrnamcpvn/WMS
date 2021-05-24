@@ -1,37 +1,83 @@
-<div>
-    <div class="row div-table">
-        <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>PO #</th>
-                        <th>Model Name</th>
-                        <th>Article #</th>
-                        <th>Rack</th>
-                        <th>WMS Qty</th>
-                        <th>HP Qty</th>
-                        <th>Balance</th>
-                        <th class="classSort">
-                            Accuracy &nbsp;
-                            <i :class="sortClass"></i>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of wMSF_FG_CompareReport">
-                        <td>{{item.Status}}</td>
-                        <td></td>
-                        <td>{{item.Name}}</td>
-                        <td>{{item.Article}}</td>
-                        <td>{{item.Rack}}</td>
-                        <td></td>
-                        <td></td>
-                        <td>{{item.Balance}}</td>
-                        <td>{{item.Accuracy}}</td>
-                    </tr>
-                </tbody>
-            </table>
+<div id="compare-body">
+  <div class="container-fluid header clearfix">
+    <p class="pl-4 pt-3 header-title">Compare Report</p>
+  </div>
+  <div class="line-gradient"></div>
+  <div class="container-fluid content-page p-4 clearfix content-1">
+    <div class="row ml-3 mr-3">
+      <div class="col-5">
+        <div class="form-group row">
+          <label class="col-5 input-group-text label-received-time" id="received-time">Closing Date</label>
+          <div class="col-7 ml-c">
+            <input placeholder="Datepicker"
+              [bsConfig]="{ containerClass: 'theme-dark-blue', showTodayButton: true, todayPosition: 'center' }"
+              style="text-align: center;" format="yyyy/MM/dd" name="report_time" class="form-control" bsDatepicker
+              [(ngModel)]="report_time">
+          </div>
         </div>
+      </div>
+      <div class="col-1">
+        <button type="button" class="btn btn-info btn-search" (click)="searchData()">Search</button>
+      </div>
+      <div class="col-1">
+      </div>
+      <div class="col-5">
+        <a class="btn btn-info btn-search button-a" (click)="exportExcelByPO(reportTime)">Excel (By PO)</a>
+        <a class="btn btn-info btn-search" (click)="exportExcelByrack(reportTime)">Excel
+          (By Rack)</a>
+        <div class="form-group d-inline-block pl-2">
+          <input type="checkbox" class="check-box" [(ngModel)]="isAutoPage" checked="checked" id="auto-refesh" />
+          <label class="label-check-box auto-refesh" for="auto-refesh">Auto Page</label>
+        </div>
+      </div>
     </div>
+    <div class="row div-table">
+      <div class="card-body">
+        <table class="table table-bordered list-detail">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>PO #</th>
+              <th>Model Name</th>
+              <th>Article #</th>
+              <th>Rack</th>
+              <th>WMS Qty</th>
+              <th>HP Qty</th>
+              <th>Balance</th>
+              <th class="classSort" (click)="sort()">
+                Accuracy &nbsp;
+                <i [class]="sortClass"></i>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of wMSF_FG_CompareReport">
+              <td>{{item.status}}</td>
+              <td>{{item.cdr_No}}</td>
+              <td>{{item.model_Name}}</td>
+              <td>{{item.article}}</td>
+              <td>{{item.location_ID}}</td>
+              <td>{{item.pO_Locat_Qty}}</td>
+              <td>{{item.pO_ERP_Qty}}</td>
+              <td>{{item.balance}}</td>
+              <td>{{item.accuracy}}</td>
+            </tr>
+            <tr *ngIf="wMSF_FG_CompareReport === null">
+              <td class="table-default text-center font-weight-bold" colspan="100%">NO DATA!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="wMSF_FG_CompareReport !=null" class="row margin-top-1 pagination">
+      <pagination class="pag" style="font-size: 19px;" [boundaryLinks]="true" [totalItems]="pagination.totalCount"
+        [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)"
+        [maxSize]=10></pagination>
+    </div>
+  </div>
 </div>
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white"></p>
+</ngx-spinner>
+<ng-snotify></ng-snotify>

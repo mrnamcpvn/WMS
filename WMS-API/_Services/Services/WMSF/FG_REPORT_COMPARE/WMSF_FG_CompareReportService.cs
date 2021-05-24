@@ -20,12 +20,14 @@ namespace WMS_API._Services.Services.WMSF.FG_REPORT_COMPARE
     public class WMSF_FG_CompareReportService : IWMSF_FG_CompareReportService
     {
         private readonly IWMSF_FG_CompareReportRepository _wMSF_FG_CompareReportRepository;
+        private readonly IWMSF_FGIN_ReportCompareRepository _wMSF_FGIN_ReportCompareRepository;
         private readonly IFRI_PORepository _fRI_PORepository;
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
         public WMSF_FG_CompareReportService(
             IWMSF_FG_CompareReportRepository wMSF_FG_CompareReportRepository,
+            IWMSF_FGIN_ReportCompareRepository wMSF_FGIN_ReportCompareRepository,
             IFRI_PORepository fRI_PORepository,
             IMapper mapper,
             IWebHostEnvironment webHostEnvironment,
@@ -38,7 +40,7 @@ namespace WMS_API._Services.Services.WMSF.FG_REPORT_COMPARE
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<PageListUtility<WMSF_FG_CompareReportDto>> GetAll(string reportTime, PaginationParams pagination)
+        public async Task<PageListUtility<WMSF_FG_CompareReportDto>> GetAll(string reportTime, string typeSort, PaginationParams pagination)
         {
             var reportTimeConvert = Convert.ToDateTime(reportTime);
             var dataFGIN_ReportCompare = await _wMSF_FG_CompareReportRepository.FindAll(x => x.Closing_Date == reportTimeConvert).ToListAsync();
@@ -52,7 +54,12 @@ namespace WMS_API._Services.Services.WMSF.FG_REPORT_COMPARE
                     (w, e) => new { CompareReport = w, FRI_PO = e })
                 .Select(x => new WMSF_FG_CompareReportDto
                 {
-                    Status = x.CompareReport.Order_Status,
+                    Status = (x.CompareReport.Order_Status == null || x.CompareReport.Order_Status == " ")
+                                                                    ? x.CompareReport.Order_Status = "Unship" : x.CompareReport.Order_Status == "Y"
+                                                                    ? x.CompareReport.Order_Status = "Close" : x.CompareReport.Order_Status == "P"
+                                                                    ? x.CompareReport.Order_Status = "Partial" : x.CompareReport.Order_Status == "D"
+                                                                    ? x.CompareReport.Order_Status = "Split" : x.CompareReport.Order_Status == "C"
+                                                                    ? x.CompareReport.Order_Status = "Cancel" : x.CompareReport.Order_Status = "",
                     Cdr_No = x.CompareReport.Cdr_No,
                     Model_Name = x.FRI_PO.Model_Name,
                     Article = x.FRI_PO.Article,
@@ -62,6 +69,22 @@ namespace WMS_API._Services.Services.WMSF.FG_REPORT_COMPARE
                     Balance = x.CompareReport.PO_WMS_Qty - x.CompareReport.PO_ERP_Qty,
                     Accuracy = (x.CompareReport.PO_WMS_Qty - x.CompareReport.PO_ERP_Qty) == 0 ? 1 : 0
                 }).OrderByDescending(x => x.Balance).ToList();
+
+            if (data.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                if (typeSort == "desc")
+                {
+                    data = data.OrderByDescending(x => x.Accuracy).ToList();
+                }
+                else
+                {
+                    data = data.OrderBy(x => x.Accuracy).ToList();
+                }
+            }
 
             var result = PageListUtility<WMSF_FG_CompareReportDto>.PageList(data, pagination.PageNumber, pagination.PageSize);
             return result;
@@ -89,7 +112,7 @@ namespace WMS_API._Services.Services.WMSF.FG_REPORT_COMPARE
                     PO_Locat_Qty = x.CompareReport.PO_ERP_Qty,
                     PO_ERP_Qty = x.CompareReport.PO_ERP_Qty,
                     Balance = x.CompareReport.PO_WMS_Qty - x.CompareReport.PO_ERP_Qty,
-                    Accuracy = (x.CompareReport.PO_WMS_Qty - x.CompareReport.PO_ERP_Qty) == 0 ? 1 : 0
+                    Accuracy = (x.CompareReport.PO_WMS_Qty - x.CompareReport.PO_ERP_Qty) == 0 ? 1 : 0,
                 }).OrderByDescending(x => x.Balance).ToList();
 
             data = data.OrderBy(x => x.Cdr_No).ThenBy(x => x.Location_ID).ToList();
@@ -126,7 +149,7 @@ namespace WMS_API._Services.Services.WMSF.FG_REPORT_COMPARE
         public async Task<List<WMSF_FG_CompareReportDto>> ExportExcelByPO(string reportTime)
         {
             DateTime reportTimeConvert = Convert.ToDateTime(reportTime);
-            var dataFGIN_ReportCompare = await _wMSF_FG_CompareReportRepository.FindAll(x => x.Closing_Date == reportTimeConvert).ToListAsync();
+            var dataFGIN_ReportCompare = await _wMSF_FGIN_ReportCompareRepository.FindAll(x => x.Report_Date == reportTimeConvert).ToListAsync();
             var cdrNo = dataFGIN_ReportCompare.Select(k => k.Cdr_No.Trim()).ToList();
             var dataFRI_PO = await _fRI_PORepository.FindAll(x => cdrNo.Contains(x.PO.Trim())).ToListAsync();
             var data = dataFGIN_ReportCompare
@@ -141,9 +164,9 @@ namespace WMS_API._Services.Services.WMSF.FG_REPORT_COMPARE
                     Cdr_No = x.CompareReport.Cdr_No,
                     Model_Name = x.FRI_PO.Model_Name,
                     Article = x.FRI_PO.Article,
-                    PO_Locat_Qty = x.CompareReport.PO_ERP_Qty,
+                    PO_Locat_Qty = x.CompareReport.PO_Locat_Qty,
                     PO_ERP_Qty = x.CompareReport.PO_ERP_Qty,
-                    Balance = x.CompareReport.PO_WMS_Qty - x.CompareReport.PO_ERP_Qty,
+                    Balance = x.CompareReport.PO_Locat_Qty - x.CompareReport.PO_ERP_Qty,
                 }).OrderByDescending(x => x.Balance).ToList();
             foreach (var item in data)
             {

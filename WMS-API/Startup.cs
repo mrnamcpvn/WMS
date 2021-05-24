@@ -63,6 +63,7 @@ namespace WMS_API
             // services.AddScoped<IRepository, Repository>();
             services.AddScoped<IWMSF_FG_CompareReportRepository, WMSF_FG_CompareReportRepository>();
             services.AddScoped<IFRI_PORepository, FRI_PORepository>();
+            services.AddScoped<IWMSF_FGIN_ReportCompareRepository, WMSF_FGIN_CompareReportRepository>();
 
             // services.AddScoped<IService, Service>();
             services.AddScoped<IWMSF_FG_CompareReportService, WMSF_FG_CompareReportService>();

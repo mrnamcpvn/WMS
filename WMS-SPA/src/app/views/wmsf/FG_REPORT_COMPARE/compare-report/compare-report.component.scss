@@ -1,6 +1,8 @@
-body {
-    font-family: Myriad Pro Regular !important;
+#compare-body {
     background: #14131d !important;
+    font-family: Myriad Pro Regular !important;
+    background: #14131d;
+    height: 100vh;
 }
 
 /*custom*/
@@ -256,4 +258,90 @@ table th.sort {
 
 .classSort {
     cursor: pointer;
+}
+
+.pagination {
+    margin: 0;
+}
+
+width-wrapper {
+    width: 285px !important;
+}
+
+.auto-refesh:before,
+.auto-refesh:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.form-group input.check-box {
+    padding: 0;
+    height: initial;
+    width: initial;
+    margin-bottom: 0;
+    display: none;
+    cursor: pointer;
+}
+
+.form-group .label-check-box {
+    position: relative;
+    cursor: pointer;
+}
+
+.form-group .label-check-box:before {
+    content: "";
+    -webkit-appearance: none;
+    background-color: #1d1d3f;
+    border: 1px solid #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+    padding: 8px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.form-group input.check-box:checked + .label-check-box:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 7px;
+    height: 12px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.label-check-box {
+    color: white;
+}
+
+.content-1 {
+    margin-top: -0.7%;
+}
+
+.pagination {
+    margin-left: 1.5%;
+}
+
+.div-table {
+    margin-top: -1.5%;
+}
+
+tr {
+    height: 1% !important;
+}
+
+.line-gradient {
+    margin-top: -1%;
+}
+
+.margin-top-1 {
+    margin-top: -1.5%;
 }

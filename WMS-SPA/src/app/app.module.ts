@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -8,6 +8,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { IconModule, IconSetModule, IconSetService } from '@coreui/icons-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http'
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -43,9 +44,9 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     HttpClientModule,
+    BrowserAnimationsModule,
     BrowserModule,
     CommonModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     AppAsideModule,
     AppBreadcrumbModule.forRoot(),
@@ -58,6 +59,7 @@ import { FormsModule } from '@angular/forms';
     ChartsModule,
     IconModule,
     IconSetModule.forRoot(),
+    SnotifyModule
 
   ],
   declarations: [
@@ -69,6 +71,11 @@ import { FormsModule } from '@angular/forms';
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
+    },
+    SnotifyService,
+    {
+      provide: 'SnotifyToastConfig',
+      useValue: ToastDefaults
     },
     IconSetService,
   ],

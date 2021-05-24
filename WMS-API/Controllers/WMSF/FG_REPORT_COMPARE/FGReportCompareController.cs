@@ -23,9 +23,9 @@ namespace WMS_API.Controllers.WMSF.FG_REPORT_COMPARE
         }
 
         [HttpGet("GetCompareByRack")]
-        public async Task<IActionResult> GetCompareByRack(string reportTime, [FromQuery] PaginationParams pagination)
+        public async Task<IActionResult> GetCompareByRack(string reportTime, string typeSort, [FromQuery] PaginationParams pagination)
         {
-            var result = await _FG_CompareReportService.GetAll(reportTime, pagination);
+            var result = await _FG_CompareReportService.GetAll(reportTime, typeSort, pagination);
             return Ok(result);
         }
 
@@ -109,7 +109,7 @@ namespace WMS_API.Controllers.WMSF.FG_REPORT_COMPARE
                 ws.Row(1).Style.SetAlignCenter();
                 ws.Row(1).Style.Font.Bold = true;
                 ws.Column(3).Style.SetDateFormat();
-                ws.Column(7).Style.SetPercentFormat();
+                //ws.Column(7).Style.SetPercentFormat();
                 ws.Cells[1, 1, 1, 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 ws.Cells[1, 1, 1, 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#20a8d8"));
                 ws.Cells[1, 1, 1, 7].Style.Font.Color.SetColor(Color.White);
