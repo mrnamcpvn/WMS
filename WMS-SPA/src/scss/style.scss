@@ -54,3 +54,27 @@ body {
     line-height: 1.5;
     height: 38px !important;
 }
+// pagination
+.pagination .page-item:nth-child(2):not(.active) .page-link,
+.pagination .page-item:nth-last-child(2):not(.active) .page-link,
+.pagination .page-item:first-child:not(.active) .page-link,
+.pagination .page-item:last-child:not(.active) .page-link {
+    color: #0ff3a6 !important;
+    border: 1px solid #fff !important;
+    background: #14131d !important;
+    text-transform: uppercase;
+    line-height: 20px !important;
+}
+
+.page-item.active .page-link {
+    color: #30303c !important;
+    background: #fcfcfc !important;
+    line-height: 20px !important;
+}
+
+.page-item .page-link {
+    border: 1px solid #fff !important;
+    color: #fff !important;
+    background: #14131d !important;
+    line-height: 20px !important;
+}

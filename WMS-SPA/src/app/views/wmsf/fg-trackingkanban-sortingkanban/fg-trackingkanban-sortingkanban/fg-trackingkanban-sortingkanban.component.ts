@@ -14,10 +14,6 @@ import { Options } from 'select2';
 export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   vw_fgin_locat_list: VW_FGIN_LOCAT_LIST[] = [];
   lines: Array<Select2OptionData>;
-  options: Options = {
-
-
-  };
   Cartons = 0;
   Pairs = 0;
   CBM = 0;
@@ -25,7 +21,6 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   sortReceivedTime: string = '';
   sortCompletedTime: string = 'desc';
   intervalData;
-  page: number
   checkInterval;
   isAutoRefreshAll: boolean = true;
   isAutoRefreshPage: boolean = true;
@@ -67,13 +62,13 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
       this.pagination = res.dtos.pagination;
       this.vw_fgin_locat_list = res.dtos.result;
     });
-    this.spinner.hide();
     if (this.isAutoRefreshAll) {
       this.autoRefreshAll(true);
     }
     if (this.isAutoRefreshPage) {
       this.autoRefreshPage(true);
     }
+    this.spinner.hide();
   }
   search() {
     this.pagination.currentPage = 1;
@@ -129,7 +124,7 @@ export class FgTrackingkanbanSortingkanbanComponent implements OnInit {
   }
   autoRefreshAll(e) {
     if (e === true && this.isAutoRefreshPage === false) {
-      this.checkInterval = setInterval((page) => {
+      this.checkInterval = setInterval(() => {
         this.loadData();
       }, 10000)
     } else {

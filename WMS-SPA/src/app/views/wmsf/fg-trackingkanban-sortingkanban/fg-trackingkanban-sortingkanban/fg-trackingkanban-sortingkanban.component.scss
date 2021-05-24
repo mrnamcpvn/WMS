@@ -34,8 +34,11 @@ body {
 /*#region content-page */
 
 .content-page {
+    line-height: 24px;
 }
-
+div.card-body {
+    line-height: 24px;
+}
 .content-page .card {
     background: #14131d !important;
     border: 1px solid #c0c0c0;
@@ -72,7 +75,15 @@ table.list-detail tr td {
     vertical-align: middle;
     padding: 0.5em;
 }
-
+th {
+    line-height: 24px !important;
+    font-weight: 750 !important;
+}
+td {
+    font-size: 15px;
+    font-weight: 500 !important;
+    padding: 8px !important;
+}
 /*style cho cột sort*/
 table th.sort {
     cursor: pointer;
@@ -200,8 +211,8 @@ table th.sort {
 .bg-blue {
     background: #0473ea;
 }
-.bg-yellow {
-    background: #ca750d;
+.bg-yellow1 {
+    background: #e28716;
 }
 .bg-dark-green {
     background: #282849;

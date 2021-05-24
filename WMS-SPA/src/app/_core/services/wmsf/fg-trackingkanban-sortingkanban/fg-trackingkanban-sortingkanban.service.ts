@@ -28,8 +28,8 @@ export class FgTrackingKanbanSortingkanbanService {
 
     exportExcel(searchParams: SearchParams) {
         let receivedTime = this.fuctionUtility.getStringDate(new Date(searchParams.receivedTime));
-        searchParams.receivedTime = receivedTime;
-        return this.httpClient.post(this.baseUrl + 'FG_TrackingKanban_SortingKanban/exportExcel', searchParams, { responseType: 'blob' })
+        searchParams.receivedTime = receivedTime.toString();
+        return this.httpClient.post(this.baseUrl + 'fg_TrackingKanban_SortingKanban/exportExcel', searchParams, { responseType: 'blob' })
             .subscribe((result: Blob) => {
                 if (result.type !== 'application/xlsx') {
                     alert(result.type);

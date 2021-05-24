@@ -10,7 +10,7 @@
           <label class="col-4 input-group-text label-line">Line</label>
           <div class="col-8 ml-c">
             <ng-select2 [data]="lines" [value]="searchParams.deptId" [(ngModel)]="searchParams.deptId" width="100%"
-              name="deptId" [options]="options" class="select2 select2-container select-option">
+              name="deptId" class="select2 select2-container select-option">
             </ng-select2>
             <!--Styling ng-select2-->
           </div>
@@ -99,7 +99,7 @@
           </tr>
         </tbody>
         <tbody *ngFor="let item of vw_fgin_locat_list; let i = index">
-          <tr [class]="item.colorRow == 'blue' ? 'bg-dark-green' : 'bg-yellow'">
+          <tr [class]="item.colorRow == 'blue' ? 'bg-dark-green' : 'bg-yellow1'">
             <!-- xử lí hiển thị date -->
             <td scope="row">{{item.line_Desc}}</td>
             <td>{{item.up_Trno}}</td>
@@ -131,7 +131,7 @@
         </div>
         <div class="col">
           <div class="d-flex float-right pt-3 row" *ngIf="this.pagination.totalPage > 1">
-            <pagination class="my-pagination" [boundaryLinks]="true" [totalItems]="pagination.totalCount"
+            <pagination class="pagination" [boundaryLinks]="true" [totalItems]="pagination.totalCount"
               [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.pageSize"
               (pageChanged)="pageChanged($event)" previousText="PREVIOUS" nextText="NEXT" firstText="FIRST"
               lastText="LAST" [maxSize]=7 *ngIf="this.pagination.totalPage > 1">
