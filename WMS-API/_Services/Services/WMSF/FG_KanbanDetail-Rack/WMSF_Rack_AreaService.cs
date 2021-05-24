@@ -89,12 +89,14 @@ namespace WMS_API._Services.Services
             return result;
         }
 
-        public async Task<List<SelectOptionsDto>> GetListAreaTotal()
+        public async Task<List<Area_TotalCountDto>> GetListAreaTotal()
         {
-            var AreaShows = await _wMSF_Rack_AreaRepository.FindAll(x => x.Hide_Rack == null || x.Hide_Rack == String.Empty).OrderBy(x => x.Area_ID).Select(x => new SelectOptionsDto()
+            var AreaShows = await _wMSF_Rack_AreaRepository.FindAll().OrderBy(x => x.Area_ID).Select(x => new Area_TotalCountDto()
             {
                 Value = x.Area_ID,
-                Label = x.Area_Short_Title
+                Label = x.Area_Short_Title,
+                TotalCount = 0,
+                Visible = x.Hide_Rack == null ? true : false
             }).ToListAsync();
             return AreaShows;
         }

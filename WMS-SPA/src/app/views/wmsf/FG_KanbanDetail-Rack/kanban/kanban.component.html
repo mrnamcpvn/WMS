@@ -6,7 +6,7 @@
   </ng-container>
 
   <ng-container>
-    <app-kanban-detail #kanbanDetail>
+    <app-kanban-detail *ngIf="isVisible === 1" #kanbanDetail  (visible)="setVisible($event)">
     </app-kanban-detail>
   </ng-container>
   <div class="bottom-main" *ngIf="isVisible !== 1">

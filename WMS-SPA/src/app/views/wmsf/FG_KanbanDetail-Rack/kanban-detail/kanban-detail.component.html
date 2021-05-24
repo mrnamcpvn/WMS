@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container kanban-detail-top">
   <div class="row">
     <div class="col-6 pl">
       <h3 class="m-portlet__head-text kanban_detail_header">
@@ -6,7 +6,7 @@
       </h3>
     </div>
     <div class="col-6 pr">
-      <a class="btn btn-back btn-dark fr">
+      <a class="btn btn-back btn-dark fr" (click)="setVisible()">
         <!-- <a href="javascript:;" @click="backTable" class="btn btn-back btn-dark"> -->
         <span>
           <i class="cil-arrow-left whitr"></i>
@@ -20,12 +20,6 @@
 </div>
 <div class="line-gradient mb-4"></div>
 
-
-
-
-
-
-
 <div class="container br">
   <div class="m-portlet__head container">
     <div class="row">
@@ -33,7 +27,8 @@
         <div class="form-group row">
           <label class="col-md-3 lable-bgr">WH</label>
           <div class="col-sm-9" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.wareHouseId">
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.wareHouseId"
+              (ngModelChange)="autoRefresh()">
               <option value="">All Warehouse</option>
               <option *ngFor="let item of listWareHouses" value={{item.id}}>{{item.id}}</option>
             </select>
@@ -44,7 +39,8 @@
         <div class="form-group row">
           <label class="col-sm-4 lable-bgr">Building</label>
           <div class="col-sm-8" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.buildingId">
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.buildingId"
+              (ngModelChange)="autoRefresh()">
               <option value="">All Building</option>
               <option *ngFor="let item of listBuildings" value={{item.id}}>{{item.text}}</option>
             </select>
@@ -55,7 +51,8 @@
         <div class="form-group row">
           <label class="col-sm-5 lable-bgr">Floor</label>
           <div class="col-sm-7" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.floorId">
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.floorId"
+              (ngModelChange)="autoRefresh()">
               <option value="">All Floor</option>
               <option *ngFor="let item of listFloors" value={{item.id}}>{{item.text}}</option>
             </select>
@@ -66,7 +63,8 @@
         <div class="form-group row">
           <label class="col-sm-3 lable-bgr">Area</label>
           <div class="col-sm-9" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.areaId">
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.areaId"
+              (ngModelChange)="autoRefresh()">
               <option value="">All Area</option>
               <option *ngFor="let item of listAreas" value={{item.id}}>{{item.text}}</option>
             </select>
@@ -77,7 +75,7 @@
         <div class="form-group row">
           <label class="col-sm-5  lable-bgr">Rack</label>
           <div class="col-sm-7" style="margin-left:-15px;">
-            <input type="text" [(ngModel)]="objectSearch.rackNo"
+            <input type="text" [(ngModel)]="objectSearch.rackNo" (ngModelChange)="autoRefresh()"
               class="form-control content-background-input rounded-0">
           </div>
         </div>
@@ -86,7 +84,8 @@
         <div class="form-group row">
           <label class="col-sm-3 lable-bgr">PO</label>
           <div class="col-sm-9" style="margin-left:-15px;">
-            <input type="text" [(ngModel)]="objectSearch.poNo" class="form-control content-background-input rounded-0">
+            <input type="text" [(ngModel)]="objectSearch.poNo" class="form-control content-background-input rounded-0"
+              (ngModelChange)="autoRefresh()">
           </div>
         </div>
       </div>
@@ -95,7 +94,8 @@
         <div class="form-group row">
           <label class="col-md-4 lable-bgr">Date Type</label>
           <div class="col-sm-8" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.dateType">
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.dateType"
+              (ngModelChange)="autoRefresh()">
               <!-- @change="onChangeDateType($event)"> -->
               <option value="">Please select date type</option>
               <option value="cfm_date">CFM Date</option>
@@ -109,9 +109,9 @@
         <div class="form-group row">
           <label class="col-sm-4 lable-bgr">From Date</label>
           <div class="col-sm-8" style="margin-left:-15px;">
-            <input placeholder="Datepicker" type="text" [disabled]="objectSearch.dateType != '' ? false : true"
+            <input placeholder="From date" type="text" [disabled]="objectSearch.dateType != '' ? false : true"
               class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-              bsDatepicker [outsideClick]="true" [(ngModel)]="objectSearch.fromDate" (ngModelChange)="setMinDate()">
+              bsDatepicker [outsideClick]="true" [(ngModel)]="objectSearch.fromDate" (ngModelChange)="setFromDate()">
           </div>
         </div>
       </div>
@@ -119,10 +119,10 @@
         <div class="form-group row">
           <label class="col-sm-4  lable-bgr">To Date</label>
           <div class="col-sm-8" style="margin-left:-15px;">
-            <input placeholder="Datepicker" type="text" class="form-control"
+            <input placeholder="To date" type="text" class="form-control"
               [disabled]="objectSearch.dateType != '' ? false : true" bsDatepicker #dp="bsDatepicker"
-              [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" [minDate]="mindate" bsDatepicker [outsideClick]="true"
-              [(ngModel)]="objectSearch.toDate">
+              [minDate]="mindate" [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker [outsideClick]="true"
+              [(ngModel)]="objectSearch.toDate" (ngModelChange)="setToDate()">
           </div>
         </div>
       </div>
@@ -131,14 +131,14 @@
         <button type="button" style="margin-left:-15px;" class="btn btn-primary btn-refresh rounded-0"
           (click)="search()">Refresh</button>
         <div class="form-group d-inline-block pl-2">
-          <input type="checkbox" class="check-box" v-model="isAutoRefresh" id="auto-refesh" />
+          <input type="checkbox" class="check-box" [(ngModel)]="isAutoRefresh" id="auto-refesh" />
           <label class="label-check-box auto-refesh" for="auto-refesh">Auto Refresh</label>
         </div>
       </div>
       <!--</div>-->
       <div class="col">
         <!-- <button type="button" @click="exportExcel" v-bind:disabled="lstLocation.length <= 0 ? true : false" -->
-        <button type="button" v-bind:disabled="lstLocation.length <= 0 ? true : false" style="margin-left:-15px;"
+        <button type="button" (click)="exportExcel()" style="margin-left:-15px;"
           class="btn btn-info btn-export rounded-0">
           <i class="fa fa-file-excel-o"></i>&nbsp;Export Excel
         </button>
@@ -243,8 +243,10 @@
       <div class="container">
         <div class="row">
           <ng-container *ngFor="let item of listArea_CountTotal;let i = index">
-            <div class='col footer-title footer-value {{"footer-title-o"+ i}}'> <span>{{item.label}}</span></div>
-            <div class="col footer-value"><span>{{item.totalCount | number}}</span></div>
+            <div *ngIf="item.visible" class='col footer-title footer-value {{"footer-title-o"+ i}}'>
+              <span>{{item.label}}</span>
+            </div>
+            <div *ngIf="item.visible" class="col footer-value"><span>{{item.totalCount | number}}</span></div>
           </ng-container>
         </div>
       </div>

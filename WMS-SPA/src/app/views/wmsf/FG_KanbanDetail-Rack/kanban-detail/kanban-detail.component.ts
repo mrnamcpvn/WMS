@@ -1,9 +1,16 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from "@angular/core";
 import { WMS_LocationService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wms-location.service";
 import { Select2OptionData } from "ng-select2";
 import { BsDatepickerConfig, BsLocaleService } from "ngx-bootstrap/datepicker";
 import { Pagination } from "../../../../_core/utilities/pagination";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
+import { WMSF_Rack_AreaService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-rack-area.service";
 
 @Component({
   selector: "app-kanban-detail",
@@ -11,6 +18,8 @@ import { PageChangedEvent } from "ngx-bootstrap/pagination";
   styleUrls: ["./kanban-detail.component.scss"],
 })
 export class KanbanDetailComponent implements AfterViewInit {
+  @Output() visible = new EventEmitter<any>();
+
   pagination: Pagination = {
     currentPage: 1,
     pageSize: 10,
@@ -21,12 +30,12 @@ export class KanbanDetailComponent implements AfterViewInit {
   listBuildings: Array<Select2OptionData>;
   listFloors: Array<Select2OptionData>;
   listAreas: Array<Select2OptionData>;
-  listArea_CountTotalLoad: any = [];
   listArea_CountTotal: any = [];
   listDataAfterSearch: any = [];
   listDataAll: any;
   listData: any;
   isSearch: boolean = false;
+  isAutoRefresh: boolean = false;
   objectSearch: any = {
     wareHouseId: "",
     buildingId: "",
@@ -49,22 +58,43 @@ export class KanbanDetailComponent implements AfterViewInit {
   bsConfig: Partial<BsDatepickerConfig>;
   constructor(
     private _wMS_LocationService: WMS_LocationService,
+    private _wMSF_Rack_AreaService: WMSF_Rack_AreaService,
     private localeService: BsLocaleService
   ) {
     this.localeService.use(this.locale);
   }
-  setMinDate() {
-    debugger;
-    if (this.objectSearch.fromDate !== null) {
+  setFromDate() {
+    if (
+      this.objectSearch.fromDate !== null &&
+      this.objectSearch.fromDate !== ""
+    ) {
+      this.objectSearch.fromDate.setHours(0, 0, 0, 0);
       this.mindate = new Date();
       this.mindate.setTime(this.objectSearch.fromDate.getTime());
     } else {
       this.mindate = undefined;
     }
+    if (this.isAutoRefresh) {
+      this.search();
+    }
+  }
+  setToDate() {
+    if (this.objectSearch.toDate !== null && this.objectSearch.toDate !== "") {
+      this.objectSearch.toDate.setHours(23, 59, 0, 0);
+    }
+    if (this.isAutoRefresh) {
+      this.search();
+    }
+  }
+
+  autoRefresh() {
+    if (this.isAutoRefresh) {
+      this.search();
+    }
   }
   search() {
-    debugger;
     if (
+      this.objectSearch.warehouse_Id !== "" ||
       this.objectSearch.buildingId !== "" ||
       this.objectSearch.floorId !== "" ||
       this.objectSearch.areaId !== "" ||
@@ -171,28 +201,27 @@ export class KanbanDetailComponent implements AfterViewInit {
     }
   }
   area_CountTotal() {
-    if (this.listArea_CountTotal.length > 0) {
-      let areaReload = this.listArea_CountTotalLoad;
-      this.listArea_CountTotal = [];
-      this.listArea_CountTotal = areaReload;
-      let subTotal: number = 0;
-      this.listArea_CountTotal.map((i) => {
-        let listAreaWithID = this.listData.filter((f) => f.area_ID == i.value);
-        let total: number = 0;
-        listAreaWithID.map((i) => {
-          total += i.countCartonPairs;
-        });
-        i.totalCount = total;
-        subTotal += total;
-      });
-      this.listArea_CountTotal.push({
-        value: "Total",
-        label: "Total",
-        totalCount: subTotal,
-      });
-
-      console.log(this.listArea_CountTotalLoad);
-    }
+    setTimeout(() => {
+      if (this.listArea_CountTotal.length > 0) {
+        let subTotal: number = 0;
+        this.listArea_CountTotal
+          .filter((f) => f.value !== "Total")
+          .map((i) => {
+            let listAreaWithID = this.listDataAfterSearch.filter(
+              (f) => f.area_ID == i.value
+            );
+            let total: number = 0;
+            listAreaWithID.map((i) => {
+              total += i.countCartonPairs;
+            });
+            i.totalCount = total;
+            subTotal += total;
+          });
+        let total = this.listArea_CountTotal.find((f) => f.value === "Total");
+        if (total !== null) total.totalCount = subTotal;
+        console.log(this.listArea_CountTotal);
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -207,9 +236,10 @@ export class KanbanDetailComponent implements AfterViewInit {
     this.getListBuilding();
     this.getListFloor();
     this.getListArea();
-    this.getListAreaTotal();
   }
-
+  setVisible() {
+    this.visible.emit(5);
+  }
   loadData() {
     this._wMS_LocationService
       .searchData(this.pagination, this.objectSearch)
@@ -231,6 +261,7 @@ export class KanbanDetailComponent implements AfterViewInit {
       .subscribe(
         (res) => {
           this.listDataAll = res;
+          this.listDataAfterSearch = res;
           if (res.length < 1) {
             this.dataFound = true;
           }
@@ -239,12 +270,15 @@ export class KanbanDetailComponent implements AfterViewInit {
           const endItem =
             this.pagination.currentPage * this.pagination.pageSize;
           this.listData = res.slice(startItem, endItem);
+          this.getListAreaTotal();
         },
         (error) => {}
       );
   }
+  exportExcel() {
+    this._wMSF_Rack_AreaService.exportExcel(this.listDataAfterSearch);
+  }
   pageChanged(event: any): void {
-    debugger;
     const startItem = (event.page - 1) * event.itemsPerPage;
     const endItem = event.page * event.itemsPerPage;
     if (this.isSearch) {
@@ -258,6 +292,7 @@ export class KanbanDetailComponent implements AfterViewInit {
     } else {
       this.dataFound = false;
     }
+    this.area_CountTotal();
   }
 
   getListWarehouse() {
@@ -302,8 +337,15 @@ export class KanbanDetailComponent implements AfterViewInit {
   }
   getListAreaTotal() {
     this._wMS_LocationService.getListAreTotal().subscribe((res) => {
+      res.push({
+        value: "Total",
+        label: "Total",
+        totalCount: 0,
+        visible: true,
+      });
       this.listArea_CountTotal = res;
-      this.listArea_CountTotalLoad = res;
+
+      this.area_CountTotal();
     });
   }
 }

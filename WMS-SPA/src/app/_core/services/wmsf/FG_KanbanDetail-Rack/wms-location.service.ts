@@ -27,7 +27,7 @@ export class WMS_LocationService {
     return this.http.get<SelectOptions[]>(`${API}WMS_Location/GetListArea`);
   }
   getListAreTotal() {
-    return this.http.get<SelectOptions[]>(
+    return this.http.get<any[]>(
       `${API}WMSF_Rack_Area/GetListAreaTotal`
     );
   }

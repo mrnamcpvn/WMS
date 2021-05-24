@@ -27,4 +27,10 @@ export class KanbanComponent implements OnInit {
       this.listRackPairs = res;
     });
   }
+
+  setVisible(event) {
+    this.isVisible = event;
+    console.log(this.isVisible);
+    
+  }
 }
