@@ -107,7 +107,7 @@ export class CompareReportComponent implements OnInit, OnDestroy {
     if (val) {
       this.intervalReloadData = setInterval(() => {
         this.pagination.currentPage = this.pagination.currentPage === this.pagination.totalPage ? 1 : this.pagination.currentPage + 1;
-      }, 10000);
+      }, 120000);
     } else {
       clearInterval(this.intervalReloadData);
     }
