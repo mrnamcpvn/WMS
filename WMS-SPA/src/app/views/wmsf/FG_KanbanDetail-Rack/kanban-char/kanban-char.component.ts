@@ -1,258 +1,37 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from "@angular/core";
-import { NodeSelectService } from "@dabeng/ng-orgchart/lib/components/orgchart/shared/services/node-select.service";
-//import { NodeSelectService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/node-select.service";
-
+import { Component, OnInit } from "@angular/core";
+import * as go from "gojs";
+import { DataSyncService } from "gojs-angular";
+import { WMSF_Carton_LocatService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-carton-locat.service";
 @Component({
   selector: "app-kanban-char",
   templateUrl: "./kanban-char.component.html",
   styleUrls: ["./kanban-char.component.scss"],
 })
 export class KanbanCharComponent implements OnInit {
-  @Input() datasource;
-  @Input() nodeHeading = "name";
-  @Input() nodeContent = "title";
-  @Input() nodeTemplate: TemplateRef<any>;
-  @Input() groupScale = 3;
-  @Input() pan = true;
-  @Input() zoom = true;
-  @Input() zoomoutLimit = 0.5;
-  @Input() zoominLimit = 7;
-  @Input() containerClass = "";
-  @Input() chartClass = "";
-  @Input() select = "single";
-  @Output() nodeClick = new EventEmitter<any>();
-  @Output() chartClick = new EventEmitter();
-  nodeSelectService: NodeSelectService;
-  cursorVal = "default";
-  panning = true;
-  startX = 0;
-  startY = 0;
-  transformVal = "";
-  // sample of core source code
-  nodes: any = [
-    {
-      name: "Sundar Pichai",
-      cssClass: "ngx-org-ceo",
-      image: "",
-      title: "Chief Executive Officer",
-      childs: [
-        {
-          name: "Thomas Kurian",
-          cssClass: "ngx-org-ceo",
-          image: "assets/node.svg",
-          title: "CEO, Google Cloud",
-        },
-        {
-          name: "Susan Wojcicki",
-          cssClass: "ngx-org-ceo",
-          image: "assets/node.svg",
-          title: "CEO, YouTube",
-          childs: [
-            {
-              name: "Beau Avril",
-              cssClass: "ngx-org-head",
-              image: "assets/node.svg",
-              title: "Global Head of Business Operations",
-              childs: [],
-            },
-            {
-              name: "Tara Walpert Levy",
-              cssClass: "ngx-org-vp",
-              image: "assets/node.svg",
-              title: "VP, Agency and Brand Solutions",
-              childs: [],
-            },
-            {
-              name: "Ariel Bardin",
-              cssClass: "ngx-org-vp",
-              image: "assets/node.svg",
-              title: "VP, Product Management",
-              childs: [],
-            },
-          ],
-        },
-        {
-          name: "Jeff Dean",
-          cssClass: "ngx-org-head",
-          image: "assets/node.svg",
-          title: "Head of Artificial Intelligence",
-          childs: [
-            {
-              name: "David Feinberg",
-              cssClass: "ngx-org-ceo",
-              image: "assets/node.svg",
-              title: "CEO, Google Health",
-              childs: [],
-            },
-          ],
-        },
-      ],
-    },
-  ];
-  ds = {
-    id: "1",
-    name: "Lao Lao",
-    title: "general manager",
-    children: [
-      { id: "2", name: "Bo Miao", title: "department manager" },
-      {
-        id: "3",
-        name: "Su Miao",
-        title: "department manager",
-        children: [
-          { id: "4", name: "Tie Hua", title: "senior engineer" },
-          {
-            id: "5",
-            name: "Hei Hei",
-            title: "senior engineer",
-            children: [
-              { id: "6", name: "Dan Zai", title: "engineer" },
-              { id: "7", name: "Dan Dan", title: "engineer" },
-              { id: "8", name: "Xiang Xiang", title: "engineer" },
-              { id: "9", name: "Ke Xin", title: "engineer" },
-              { id: "10", name: "Xiao Dan", title: "engineer" },
-              { id: "11", name: "Dan Dan Zai", title: "engineer" },
-            ],
-          },
-          { id: "12", name: "Pang Pang", title: "senior engineer" },
-          { id: "13", name: "Er Pang", title: "senior engineer" },
-          { id: "14", name: "San Pang", title: "senior engineer" },
-          { id: "15", name: "Si Pang", title: "senior engineer" },
-        ],
-      },
-      { id: "16", name: "Hong Miao", title: "department manager" },
-      { id: "17", name: "Chun Miao", title: "department manager" },
-      { id: "18", name: "Yu Li", title: "department manager" },
-      { id: "19", name: "Yu Jie", title: "department manager" },
-      { id: "20", name: "Yu Wei", title: "department manager" },
-      { id: "21", name: "Yu Tie", title: "department manager" },
-    ],
-  };
-  constructor() {}
-
-  ngOnInit() {}
-
-  panEndHandler() {
-    this.panning = false;
-    this.cursorVal = "default";
+  constructor(private _wMSF_Rack_AreaService: WMSF_Carton_LocatService) {}
+  rack_AreaTree: any = [];
+  rackFirst: any = [];
+  ngOnInit() {
+    // this.loadDataChar();
   }
-
-  panHandler(e) {
-    let newX = 0;
-    let newY = 0;
-    if (!e.targetTouches) {
-      // pand on desktop
-      newX = e.pageX - this.startX;
-      newY = e.pageY - this.startY;
-    } else if (e.targetTouches.length === 1) {
-      // pan on mobile device
-      newX = e.targetTouches[0].pageX - this.startX;
-      newY = e.targetTouches[0].pageY - this.startY;
-    } else if (e.targetTouches.length > 1) {
-      return;
-    }
-    if (this.transformVal === "") {
-      if (this.transformVal.indexOf("3d") === -1) {
-        this.transformVal = "matrix(1,0,0,1," + newX + "," + newY + ")";
-      } else {
-        this.transformVal =
-          "matrix3d(1,0,0,0,0,1,0,0,0,0,1,0," + newX + ", " + newY + ",0,1)";
-      }
-    } else {
-      const matrix = this.transformVal.split(",");
-      if (this.transformVal.indexOf("3d") === -1) {
-        matrix[4] = newX.toString();
-        matrix[5] = newY + ")";
-      } else {
-        matrix[12] = newX.toString();
-        matrix[13] = newY.toString();
-      }
-      this.transformVal = matrix.join(",");
-    }
+  ngAfterViewInit() {
+    this.loadDataChar();
   }
-
-  panStartHandler(e) {
-    if (
-      e.target.querySelectorAll(".node") &&
-      e.target.querySelectorAll(".node").length
-    ) {
-      this.panning = false;
-      return;
-    } else {
-      this.cursorVal = "move";
-      this.panning = true;
-    }
-    let lastX = 0;
-    let lastY = 0;
-    if (this.transformVal !== "") {
-      const matrix = this.transformVal.split(",");
-      if (this.transformVal.indexOf("3d") === -1) {
-        lastX = parseInt(matrix[4], 10);
-        lastY = parseInt(matrix[5], 10);
-      } else {
-        lastX = parseInt(matrix[12], 10);
-        lastY = parseInt(matrix[13], 10);
-      }
-    }
-    if (!e.targetTouches) {
-      // pand on desktop
-      this.startX = e.pageX - lastX;
-      this.startY = e.pageY - lastY;
-    } else if (e.targetTouches.length === 1) {
-      // pan on mobile device
-      this.startX = e.targetTouches[0].pageX - lastX;
-      this.startY = e.targetTouches[0].pageY - lastY;
-    } else if (e.targetTouches.length > 1) {
-      return;
-    }
+  groupByKey(data, key) {
+    return data.reduce(function (rv, x) {
+      (rv[x[key]] = rv[x[key]] || []).push(x);
+      return rv;
+    }, {});
   }
-
-  setChartScale(newScale) {
-    let matrix = [];
-    let targetScale = 1;
-    if (this.transformVal === "") {
-      this.transformVal =
-        "matrix(" + newScale + ", 0, 0, " + newScale + ", 0, 0)";
-    } else {
-      matrix = this.transformVal.split(",");
-      if (this.transformVal.indexOf("3d") === -1) {
-        targetScale = Math.abs(parseFloat(matrix[3]) * newScale);
-        if (targetScale > this.zoomoutLimit && targetScale < this.zoominLimit) {
-          matrix[0] = "matrix(" + targetScale;
-          matrix[3] = targetScale;
-          this.transformVal = matrix.join(",");
-        }
-      } else {
-        targetScale = Math.abs(parseFloat(matrix[5]) * newScale);
-        if (targetScale > this.zoomoutLimit && targetScale < this.zoominLimit) {
-          matrix[0] = "matrix3d(" + targetScale;
-          matrix[5] = targetScale;
-          this.transformVal = matrix.join(",");
-        }
-      }
-    }
+  loadDataChar() {
+    this._wMSF_Rack_AreaService.getListWareHouse().subscribe((res) => {
+      this.rack_AreaTree = res;
+      this.rackFirst.push(res[0]);
+      console.log(this.rackFirst);
+    });
   }
-
-  zoomHandler(e) {
-    const newScale = 1 + (e.deltaY > 0 ? -0.2 : 0.2);
-    this.setChartScale(newScale);
-  }
-
-  onClickChart(e) {
-    if (!e.target.closest(".oc-node")) {
-      this.chartClick.emit();
-      this.nodeSelectService.clearSelect();
-    }
-  }
-
-  onNodeClick(nodeData: any) {
-    this.nodeClick.emit(nodeData);
+  itemClick(event) {
+    debugger;
+    let a = event;
   }
 }

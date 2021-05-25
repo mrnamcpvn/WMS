@@ -51,6 +51,8 @@
     "core-js": "^3.9.1",
     "flag-icon-css": "^3.5.0",
     "font-awesome": "^4.7.0",
+    "gojs": "^2.1.40",
+    "gojs-angular": "^1.0.17",
     "jquery": "^3.6.0",
     "ng-org-chart": "^1.2.0",
     "ng-select2": "^1.2.5",

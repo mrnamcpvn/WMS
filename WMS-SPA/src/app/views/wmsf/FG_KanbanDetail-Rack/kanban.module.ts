@@ -11,6 +11,7 @@ import { KanbanRoutingModule } from "./kanban.routing";
 import { KanbanComponent } from "./kanban/kanban.component";
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale, viLocale } from 'ngx-bootstrap/chronos';
+import { GojsAngularModule } from "gojs-angular";
 defineLocale('vi', viLocale);
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ defineLocale('vi', viLocale);
     CommonModule,
     NgSelect2Module,
     BsDatepickerModule.forRoot(),
+    GojsAngularModule
     //OrgchartModule
   ],
   declarations: [KanbanCharComponent, KanbanDetailComponent, KanbanComponent],

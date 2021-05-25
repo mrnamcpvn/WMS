@@ -1,14 +1,44 @@
-<div class="orgchart-container" (wheel)="zoom ? zoomHandler($event) : true"
-    (mouseup)="pan && panning ? panEndHandler() : true">
-    <div class="orgchart"
-        (mousedown)="pan ? panStartHandler($event) : true" (mousemove)="pan && panning ? panHandler($event) : true"
-        (click)="onClickChart($event)">
-        <!-- <ngx-org-chart [contentEditable]="true" [nodes]="nodes" direction="horizontal">
-            
-        </ngx-org-chart> --> 
-        <label>GoDetail</label>
-    </div>
+<div>
+    <h3>Vertical tree with root</h3>
+    <ul class="tree horizontal">
+        <li>
+            <div class="class0" *ngFor="let item of rackFirst">{{item.factoryName}}</div>
+            <ng-container>
+                <ul>
+                    <li *ngFor="let item of rack_AreaTree">
+                        <div class={{item.className}}>
+                            <div class="title">{{item.name}}</div>
+                            <div [innerHtml]="item.title" class="content">{{item.title}}</div>
+                        </div>
+                        <ul>
+                            <li *ngFor="let item2 of item.childs">
+                                <div class={{item2.className}}>
+                                    <div class="title">{{item2.name}}</div>
+                                    <div [innerHtml]="item2.title" class="content">{{item2.title}}</div>
+                                </div>
+                                <ul>
+                                    <li *ngFor="let item3 of item2.childs">
+                                        <div class={{item3.className}}>
+                                            <div class="title">{{item3.name}}</div>
+                                            <div [innerHtml]="item3.title" class="content">{{item3.title}}</div>
+                                        </div>
+                                        <ul>
+                                            <li *ngFor="let item4 of item3.childs">
+                                                <div class={{item4.className}}>
+                                                    <div [innerHtml]="item4.name" class="title">
+                                                        {{item4.name}}</div>
+                                                    <div [innerHtml]="item4.title" class="content">{{item4.title}}</div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </ng-container>
+
+        </li>
+    </ul>
 </div>
-
-
-<!-- <organization-chart [datasource]="ds" [pan]="true" [zoom]="true"></organization-chart> -->

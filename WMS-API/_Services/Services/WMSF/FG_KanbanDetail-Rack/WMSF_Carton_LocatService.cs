@@ -22,7 +22,7 @@ namespace WMS_API._Services.Services
         private readonly IWMSF_Carton_LocatRepository _wMSF_Carton_LocatRepository;
         private readonly IWMSF_Rack_AreaRepository _wMSF_Rack_AreaRepository;
         private readonly IWMS_LocationRepository _wMS_LocationRepository;
-          private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         public WMSF_Carton_LocatService(IMapper mapper, MapperConfiguration mapperConfiguration, IConfiguration configuration, IWMSF_Rack_AreaRepository wMSF_Rack_AreaRepository, IWMSF_Carton_LocatRepository wMSF_Carton_LocatRepository, IWMS_LocationRepository wMS_LocationRepository)
         {
             _configuration = configuration;
@@ -71,26 +71,26 @@ namespace WMS_API._Services.Services
                 id = w.Key,
                 className = "class1",
                 title =
-                         $"<span class=" + classTextTitle + ">PRS</span>  " + $"<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID && areaListCheck.Contains(x.Area_ID)).Sum(x => x.Carton_Pairs)) + "</span> " + "\n" +
-                         $"<span class=" + classTextTitle + ">CTN</span>  " + $"<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Count(x => x.Barcode != string.Empty)) + "</span> " + "\n" +
-                         $"<span class=" + classTextTitle + ">STO</span>  " + $"<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Sum(x => x.Volume)) + "</span> " + "\n" +
-                         $"<span class=" + classTextTitle + ">BAL</span>  " + $"<span class=" + classTextData + ">" + String.Format("{0:#,##0}", (w.Sum(x => x.CBM) - data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Sum(x => x.Volume))) + "</span> ",
-                name = w.FirstOrDefault().Warehouse_ID,
+                         "<span class=" + classTextTitle + ">PRS</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID && areaListCheck.Contains(x.Area_ID)).Sum(x => x.Carton_Pairs)) + "</span> " + "\n" +
+                         "<span class=" + classTextTitle + ">CTN</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Count(x => x.Barcode != string.Empty)) + "</span> " + "\n" +
+                         "<span class=" + classTextTitle + ">STO</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Sum(x => x.Volume)) + "</span> " + "\n" +
+                         "<span class=" + classTextTitle + ">BAL</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", (w.Sum(x => x.CBM) - data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Sum(x => x.Volume))) + "</span> ",
+                name = w.FirstOrDefault().Warehouse_ID.Trim(),
 
                 childs = dataLocation.Where(b => b.Warehouse_ID == w.FirstOrDefault().Warehouse_ID).GroupBy(b => b.Building_ID).Select(b => new ChartModelDto
                 {
                     id = b.Key,
                     className = "class2",
                     title =
-                            @"<span class=" + classTextTitle + ">PRS</span>  " + "@<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
+                            "<span class=" + classTextTitle + ">PRS</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                         x.Building_Id == b.FirstOrDefault().Building_ID && areaListCheck.Contains(x.Area_ID)).Sum(x => x.Carton_Pairs)) + "</span> " + "\n" +
-                            @"<span class=" + classTextTitle + ">CTN</span>  " + "@<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
+                            "<span class=" + classTextTitle + ">CTN</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                         x.Building_Id == b.FirstOrDefault().Building_ID).Count(x => x.Barcode != string.Empty)) + "</span> " + "\n" +
-                              @"<span class=" + classTextTitle + ">STO</span>  " + "@<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
+                              "<span class=" + classTextTitle + ">STO</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                         x.Building_Id == b.FirstOrDefault().Building_ID).Sum(x => x.Volume)) + "</span> " + "\n" +
-                               @"<span class=" + classTextTitle + ">BAL</span>  " + "@<span class=" + classTextData + ">" + String.Format("{0:#,##0}", (b.Sum(x => x.CBM) - data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
+                               "<span class=" + classTextTitle + ">BAL</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", (b.Sum(x => x.CBM) - data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                        x.Building_Id == b.FirstOrDefault().Building_ID).Sum(x => x.Volume))) + "</span> ",
-                    name = b.FirstOrDefault().Building_Name,
+                    name = b.FirstOrDefault().Building_Name.Trim(),
 
                     childs = dataLocation.Where(f => f.Warehouse_ID == w.FirstOrDefault().Warehouse_ID &&
                     f.Building_ID == b.FirstOrDefault().Building_ID).GroupBy(f => f.Floor_ID).Select(f => new ChartModelDto
@@ -111,14 +111,14 @@ namespace WMS_API._Services.Services
                                                 - data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                                x.Building_Id == b.FirstOrDefault().Building_ID &&
                                                x.Floor_Id == f.FirstOrDefault().Floor_ID).Sum(x => x.Volume))) + "</span> ",
-                        name = f.FirstOrDefault().Floor_Name,
+                        name = f.FirstOrDefault().Floor_Name.Trim(),
 
                         childs = dataLocation.Where(a => a.Warehouse_ID == w.FirstOrDefault().Warehouse_ID &&
                                     a.Building_ID == b.FirstOrDefault().Building_ID &&
                                     a.Floor_ID == f.FirstOrDefault().Floor_ID).GroupBy(a => a.Area_ID).Select(a => new ChartModelDto
                                     {
                                         id = a.Key,
-                                        name = "<span class='text-capitalize'>" + a.FirstOrDefault().Area_Name + "</span>",
+                                        name = "<span class='text-capitalize'>" + (a.FirstOrDefault().Area_Name.Trim().Length > 13 ? a.FirstOrDefault().Area_Name.Trim().Substring(0, 13) + "..." : a.FirstOrDefault().Area_Name.Trim()) + "</span>",
                                         className = "class4",
                                         title =
                                        "<span class=" + classTextTitle + ">PRS</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&

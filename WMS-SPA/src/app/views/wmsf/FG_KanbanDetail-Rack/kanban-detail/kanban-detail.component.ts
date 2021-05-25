@@ -63,6 +63,19 @@ export class KanbanDetailComponent implements AfterViewInit {
   ) {
     this.localeService.use(this.locale);
   }
+  ngAfterViewInit() {
+    // setTimeout(() => {
+    //   this.loadDataNoPagination();
+    //   this.area_CountTotal();
+    // });
+  }
+  ngOnInit() {
+    // this.loadDataNoPagination();
+    // this.getListWarehouse();
+    // this.getListBuilding();
+    // this.getListFloor();
+    // this.getListArea();
+  }
   setFromDate() {
     if (
       this.objectSearch.fromDate !== null &&
@@ -224,19 +237,7 @@ export class KanbanDetailComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.loadDataNoPagination();
-      this.area_CountTotal();
-    });
-  }
-  ngOnInit() {
-    this.loadDataNoPagination();
-    this.getListWarehouse();
-    this.getListBuilding();
-    this.getListFloor();
-    this.getListArea();
-  }
+  
   setVisible() {
     this.visible.emit(5);
   }
