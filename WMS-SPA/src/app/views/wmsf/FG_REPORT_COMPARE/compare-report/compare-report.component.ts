@@ -62,18 +62,20 @@ export class CompareReportComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
-  exportExcelByrack(reportTime: string) {
+  exportExcelByrack(report_time: string) {
+    console.log(this.report_time);
+
     if (this.report_time == null) {
       this.customSnotifyService.error("Invalid Date", "");
     }
-    this.fgReportCompareService.ExportExcelByRack(this.reportTime)
+    this.fgReportCompareService.ExportExcelByRack(this.fu.getStringDate(this.report_time))
   }
 
-  exportExcelByPO(reportTime: string) {
+  exportExcelByPO(report_time: string) {
     if (this.report_time == null) {
       this.customSnotifyService.error("Invalid Date", "");
     }
-    this.fgReportCompareService.ExportExcelCompare(this.reportTime)
+    this.fgReportCompareService.ExportExcelCompare(this.fu.getStringDate(this.report_time))
   }
 
   loadData() {
@@ -81,13 +83,12 @@ export class CompareReportComponent implements OnInit, OnDestroy {
     this.fgReportCompareService.getAll(this.fu.getStringDate(this.report_time), this.typeSort, this.pagination).subscribe(res => {
       this.spinnerService.hide();
       if (res === null) {
-        this.customSnotifyService.error("Error  notice", "Please select report time !!!");
+        this.customSnotifyService.error("Please select report time !!!", "Error  notice");
         this.wMSF_FG_CompareReport = null;
       } else {
         this.wMSF_FG_CompareReport = res.result;
         this.pagination = res.pagination;
       }
-
     })
   }
 
@@ -101,7 +102,6 @@ export class CompareReportComponent implements OnInit, OnDestroy {
   }
 
   autoRefreshPage(val) {
-    debugger
     if (val) {
       this.intervalReloadData = setInterval(() => {
         this.pagination.currentPage = this.pagination.currentPage === this.pagination.totalPage ? 1 : this.pagination.currentPage + 1;

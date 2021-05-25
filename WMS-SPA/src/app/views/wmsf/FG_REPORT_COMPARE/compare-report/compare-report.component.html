@@ -22,8 +22,8 @@
       <div class="col-1">
       </div>
       <div class="col-5">
-        <a class="btn btn-info btn-search button-a" (click)="exportExcelByPO(reportTime)">Excel (By PO)</a>
-        <a class="btn btn-info btn-search" (click)="exportExcelByrack(reportTime)">Excel
+        <a class="btn btn-info btn-search button-a" (click)="exportExcelByPO(report_time.toString())">Excel (By PO)</a>
+        <a class="btn btn-info btn-search" (click)="exportExcelByrack(report_time.toString())">Excel
           (By Rack)</a>
         <div class="form-group d-inline-block pl-2">
           <input type="checkbox" class="check-box" [(ngModel)]="isAutoPage" checked="checked" id="auto-refesh" />
@@ -71,8 +71,8 @@
     </div>
     <div *ngIf="wMSF_FG_CompareReport !=null" class="row margin-top-1 pagination">
       <pagination class="pag" style="font-size: 19px;" [boundaryLinks]="true" [totalItems]="pagination.totalCount"
-        [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.pageSize" (pageChanged)="pageChanged($event)"
-        [maxSize]=10></pagination>
+        [(ngModel)]="pagination.currentPage" [rotate]="false" [itemsPerPage]="pagination.pageSize"
+        (pageChanged)="pageChanged($event)" [maxSize]="5"></pagination>
     </div>
   </div>
 </div>
