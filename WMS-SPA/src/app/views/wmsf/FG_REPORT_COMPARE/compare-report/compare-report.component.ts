@@ -80,16 +80,18 @@ export class CompareReportComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.spinnerService.show()
-    this.fgReportCompareService.getAll(this.fu.getStringDate(this.report_time), this.typeSort, this.pagination).subscribe(res => {
-      this.spinnerService.hide();
-      if (res === null) {
-        this.customSnotifyService.error("Please select report time !!!", "Error  notice");
-        this.wMSF_FG_CompareReport = null;
-      } else {
-        this.wMSF_FG_CompareReport = res.result;
-        this.pagination = res.pagination;
-      }
-    })
+    this.fgReportCompareService.getAll(this.fu.getStringDate(this.report_time), this.typeSort, this.pagination)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(res => {
+        this.spinnerService.hide();
+        if (res === null) {
+          this.customSnotifyService.error("Please select report time !!!", "Error  notice");
+          this.wMSF_FG_CompareReport = null;
+        } else {
+          this.wMSF_FG_CompareReport = res.result;
+          this.pagination = res.pagination;
+        }
+      })
   }
 
   searchData() {
@@ -105,8 +107,7 @@ export class CompareReportComponent implements OnInit, OnDestroy {
     if (val) {
       this.intervalReloadData = setInterval(() => {
         this.pagination.currentPage = this.pagination.currentPage === this.pagination.totalPage ? 1 : this.pagination.currentPage + 1;
-        this.loadData();
-      }, 180000);
+      }, 10000);
     } else {
       clearInterval(this.intervalReloadData);
     }
