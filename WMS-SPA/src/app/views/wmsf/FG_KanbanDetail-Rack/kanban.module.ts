@@ -25,7 +25,6 @@ defineLocale('vi', viLocale);
     NgSelect2Module,
     BsDatepickerModule.forRoot(),
     GojsAngularModule
-    //OrgchartModule
   ],
   declarations: [KanbanCharComponent, KanbanDetailComponent, KanbanComponent],
   providers: [],

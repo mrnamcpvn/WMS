@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from "@angular/core";
 import { WMS_LocationService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wms-location.service";
@@ -12,7 +11,6 @@ import { BsDatepickerConfig, BsLocaleService } from "ngx-bootstrap/datepicker";
 import { Pagination } from "../../../../_core/utilities/pagination";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
 import { WMSF_Rack_AreaService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-rack-area.service";
-import { Subject } from "rxjs";
 
 @Component({
   selector: "app-kanban-detail",
@@ -22,12 +20,6 @@ import { Subject } from "rxjs";
 export class KanbanDetailComponent implements AfterViewInit {
   @Output() visible = new EventEmitter<any>();
   @Input() object: any;
-  // @Input() object: any = {
-  //   wareHouseId: "",
-  //   buildingId: "",
-  //   floorId: "",
-  //   areaId: "",
-  // };
   pagination: Pagination = {
     currentPage: 1,
     pageSize: 10,
@@ -79,14 +71,12 @@ export class KanbanDetailComponent implements AfterViewInit {
     });
   }
   ngOnInit() {
-    // this.loadDataNoPagination();
     this.getListWarehouse();
     this.getListBuilding();
     this.getListFloor();
     this.getListArea();
   }
   getObjectFromParent(obj) {
-    debugger;
     this.objectSearch.wareHouseId = obj.wareHouseId;
     this.objectSearch.buildingId = obj.buildingId;
     this.objectSearch.floorId = obj.floorId;
@@ -215,19 +205,13 @@ export class KanbanDetailComponent implements AfterViewInit {
           });
         }
       }
-      //var a =  +this.objectSearch.fromDate.getTime();
-      // var b = this.objectSearch.toDate.getTime();
-      // var c = Date.parse(this.listDataAll[0].comfirmed_Date);
       this.listDataAfterSearch = newList;
-      console.log(this.listDataAfterSearch);
-
       const event: PageChangedEvent = {
         page: 1,
         itemsPerPage: this.pagination.pageSize,
       };
       this.pageChanged(event);
     } else {
-      // tslint:disable-next-line: prefer-const
       let event: any = {
         page: 1,
         itemsPerPage: this.pagination.pageSize,
@@ -256,27 +240,12 @@ export class KanbanDetailComponent implements AfterViewInit {
           });
         let total = this.listArea_CountTotal.find((f) => f.value === "Total");
         if (total !== null) total.totalCount = subTotal;
-        console.log(this.listArea_CountTotal);
       }
     });
   }
 
   setVisible() {
     this.visible.emit(5);
-  }
-  loadData() {
-    this._wMS_LocationService
-      .searchData(this.pagination, this.objectSearch)
-      .subscribe(
-        (res) => {
-          this.listData = res.result;
-          if (res.result.length < 1) {
-            this.dataFound = true;
-          }
-          this.pagination = res.pagination;
-        },
-        (error) => {}
-      );
   }
 
   loadDataNoPagination() {
@@ -369,7 +338,6 @@ export class KanbanDetailComponent implements AfterViewInit {
         visible: true,
       });
       this.listArea_CountTotal = res;
-
       this.area_CountTotal();
     });
   }

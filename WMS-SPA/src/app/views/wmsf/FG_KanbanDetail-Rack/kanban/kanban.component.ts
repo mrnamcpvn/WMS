@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { Subject } from "rxjs";
 import { RackPairs } from "../../../../_core/models/wmsf/FG_KanbanDetail-Rack/rack-paris.model";
 import { WMSF_Rack_AreaService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-rack-area.service";
 import { KanbanCharComponent } from "../kanban-char/kanban-char.component";
@@ -14,7 +13,6 @@ export class KanbanComponent implements OnInit {
   @ViewChild("kanbanChar", { static: false }) kanbanChar: KanbanCharComponent;
   @ViewChild("kanbanDetail", { static: false })
   kanbanDetail: KanbanDetailComponent;
-  sendObject: Subject<any> = new Subject();
   object: any = {
     wareHouseId: "",
     buildingId: "",

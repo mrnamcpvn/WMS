@@ -34,7 +34,6 @@ namespace WMS_API._Services.Services
             _wMSF_Rack_AreaRepository = wMSF_Rack_AreaRepository;
             _mapper = mapper;
             _mapperConfiguration = mapperConfiguration;
-
         }
 
         public async Task<object> GetListRackPairs()
