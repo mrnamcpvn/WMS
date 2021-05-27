@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
 } from "@angular/core";
@@ -11,6 +12,7 @@ import { BsDatepickerConfig, BsLocaleService } from "ngx-bootstrap/datepicker";
 import { Pagination } from "../../../../_core/utilities/pagination";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
 import { WMSF_Rack_AreaService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-rack-area.service";
+import { Subject } from "rxjs";
 
 @Component({
   selector: "app-kanban-detail",
@@ -19,7 +21,13 @@ import { WMSF_Rack_AreaService } from "../../../../_core/services/wmsf/FG_Kanban
 })
 export class KanbanDetailComponent implements AfterViewInit {
   @Output() visible = new EventEmitter<any>();
-
+  @Input() object: any;
+  // @Input() object: any = {
+  //   wareHouseId: "",
+  //   buildingId: "",
+  //   floorId: "",
+  //   areaId: "",
+  // };
   pagination: Pagination = {
     currentPage: 1,
     pageSize: 10,
@@ -64,17 +72,33 @@ export class KanbanDetailComponent implements AfterViewInit {
     this.localeService.use(this.locale);
   }
   ngAfterViewInit() {
-    // setTimeout(() => {
-    //   this.loadDataNoPagination();
-    //   this.area_CountTotal();
-    // });
+    setTimeout(() => {
+      this.loadDataNoPagination();
+      this.area_CountTotal();
+
+    });
   }
   ngOnInit() {
     // this.loadDataNoPagination();
-    // this.getListWarehouse();
-    // this.getListBuilding();
-    // this.getListFloor();
-    // this.getListArea();
+    this.getListWarehouse();
+    this.getListBuilding();
+    this.getListFloor();
+    this.getListArea();
+  }
+  getObjectFromParent(obj) {
+    debugger;
+    this.objectSearch.wareHouseId = obj.wareHouseId;
+    this.objectSearch.buildingId = obj.buildingId;
+    this.objectSearch.floorId = obj.floorId;
+    this.objectSearch.areaId = obj.areaId;
+    if (
+      obj.wareHouseId !== "" ||
+      obj.buildingId !== "" ||
+      obj.floorId !== "" ||
+      obj.areaId !== ""
+    )
+      this.isSearch = true;
+    this.search();
   }
   setFromDate() {
     if (
@@ -237,7 +261,6 @@ export class KanbanDetailComponent implements AfterViewInit {
     });
   }
 
-  
   setVisible() {
     this.visible.emit(5);
   }
@@ -272,6 +295,7 @@ export class KanbanDetailComponent implements AfterViewInit {
             this.pagination.currentPage * this.pagination.pageSize;
           this.listData = res.slice(startItem, endItem);
           this.getListAreaTotal();
+          this.getObjectFromParent(this.object);
         },
         (error) => {}
       );

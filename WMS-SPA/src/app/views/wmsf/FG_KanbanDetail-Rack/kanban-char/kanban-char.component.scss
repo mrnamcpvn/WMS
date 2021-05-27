@@ -11,13 +11,13 @@ h3 {
 }
 .tree {
   $color: #222;
-  $border-color: rgba(217,83,79,.8);
+  $border-color: rgba(217, 83, 79, 0.8);
   $background-color: #eee;
   $border-weight: 2px;
   $margin: 12px;
 
   margin: $margin * 2;
-  padding: 0;
+  padding: 30px 0 0 0 ;
 
   &:not(:empty):before,
   &:not(:empty):after,
@@ -29,7 +29,24 @@ h3 {
     position: absolute;
     content: "";
   }
-
+  ///
+  li .title {
+    color: black;
+    text-align: center;
+    font-weight: bold;
+  }
+  .hoveritem {
+    padding: 5px !important;
+    border: none;
+    position: relative;
+  }
+  .hoveritem:hover {
+    background-color: rgba(231, 209, 46, 0.5) !important;
+  }
+  div {
+    margin: $margin/2 0;
+  }
+  ///
   ul,
   li {
     position: relative;
@@ -42,7 +59,7 @@ h3 {
   }
 
   li > div {
-    background-color: $background-color;
+    //background-color: $background-color;
     color: $color;
     padding: 5px;
     display: inline-block;
@@ -98,7 +115,38 @@ h3 {
       display: flex;
       align-items: center;
       margin-left: $margin * 2;
+      li .title {
+        color: black;
+        text-align: center;
+      }
+      .hoveritem {
+        //padding: 5px !important;
+        border: none;
+      }
+      .hoveritem:hover {
+        background-color: rgba(231, 209, 46, 0.5) !important;
+      }
 
+      .hoveritem:hover i {
+        display: block;
+      }
+      .hoveritemSHD {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+        border: none;
+        position: relative;
+        display: inline-table;
+        height: 44px !important;
+      }
+      .hoveritemSHD:hover {
+        background-color: rgba(231, 209, 46, 0.5) !important;
+      }
+
+      .hoveritemSHD:hover i {
+        display: block;
+      }
       div {
         margin: $margin/2 0;
       }
@@ -315,11 +363,11 @@ h3 {
 //////
 
 .class1 {
-  background-color: #14131d !important;
+  //background-color: #14131d !important;
   display: inline-table !important;
   color: #fff !important;
-  border: 1px solid #fff !important;
-  border-top: none !important;
+  //border: 1px solid #fff !important;
+  //border-top: none !important;
   width: 148px !important;
   height: 100px !important;
   line-height: 22px !important;
@@ -327,14 +375,14 @@ h3 {
   white-space: pre !important;
   font-weight: 300;
   padding: 0px !important;
-  border-radius: 5px !important;
+  //border-radius: 5px !important;
 }
 .class2 {
-  background-color: #14131d !important;
+  //background-color: #14131d !important;
   display: inline-table !important;
   color: #fff !important;
-  border: 1px solid #fff !important;
-  border-top: none !important;
+  //border: 1px solid #fff !important;
+  //border-top: none !important;
   width: 148px !important;
   height: 100px !important;
   line-height: 22px !important;
@@ -342,14 +390,14 @@ h3 {
   white-space: pre !important;
   font-weight: 300;
   padding: 0px !important;
-  border-radius: 5px !important;
+  //border-radius: 5px !important;
 }
 .class3 {
-  background-color: #14131d !important;
+  // background-color: #14131d !important;
   display: inline-table !important;
   color: #fff !important;
-  border: 1px solid #fff !important;
-  border-top: none !important;
+  //border: 1px solid #fff !important;
+  // border-top: none !important;
   width: 148px !important;
   height: 100px !important;
   line-height: 22px !important;
@@ -357,14 +405,14 @@ h3 {
   white-space: pre !important;
   font-weight: 300;
   padding: 0px !important;
-  border-radius: 5px !important;
+  //border-radius: 5px !important;
 }
 .class4 {
-  background-color: #14131d !important;
+  //background-color: #14131d !important;
   display: inline-table !important;
   color: #fff !important;
-  border: 1px solid #fff !important;
-  border-top: none !important;
+  //border: 1px solid #fff !important;
+  //border-top: none !important;
   width: 148px !important;
   height: 100px !important;
   line-height: 22px !important;
@@ -372,9 +420,9 @@ h3 {
   white-space: pre !important;
   font-weight: 300;
   padding: 0px !important;
-  border-radius: 5px !important;
+  //border-radius: 5px !important;
 }
-.class0 {
+:host ::ng-deep .class0 {
   background-color: #dcdcdc !important;
   color: #000 !important;
   border: 2px solid;
@@ -391,8 +439,23 @@ h3 {
 :host ::ng-deep .title {
   text-align: center;
   margin: 0px !important;
-  border-top-left-radius: 5px 5px !important;
-  border-top-right-radius: 5px 5px !important;
+  border-top-left-radius: 5px !important;
+  border-top-right-radius: 5px !important;
+  padding: 5px;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+:host ::ng-deep .content {
+  background-color: #14131d !important;
+  margin: 0px !important;
+  padding: 5px;
+  border-bottom-left-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  border-bottom: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
 }
 :host ::ng-deep .classTextTitle {
   float: left !important;
@@ -462,6 +525,73 @@ th {
 }
 .chart-main {
   margin-top: 30px !important;
+}
+.class1 .title {
+  background-color: #39bfcb !important;
+}
+
+.class2 .title {
+  background-color: #c7cc53 !important;
+}
+
+.class3 .title {
+  background-color: #d2556d !important;
+}
+
+.class4 .title {
+  background-color: #f8d731 !important;
+}
+.right-custom-shd {
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  top: 40%;
+  margin-right: 0px;
+  color: #00ca87;
+  display: none;
+}
+.right-custom-shd:hover {
+  color: #0ff3a6;
+
+
+}
+.right-custom {
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  top: 40%;
+  margin-right: 0px;
+  color: #00ca87;
+  display: none;
+}
+.left-custom {
+  z-index: 10;
+  position: absolute;
+  left: 0;
+  top: 40%;
+  margin-left: 0px;
+  color: #00ca87;
+  display: none;
+}
+.right-custom:hover {
+  color: #0ff3a6;
+}
+.left-custom:hover {
+  color: #0ff3a6;
+}
+.fa-angle-up {
+  position: absolute;
+  top: 0;
+  left: 40%;
+  margin-top: 0px;
+  color: #00ca87;
+}
+.fa-angle-down {
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+  margin-bottom: 0px;
+  color: #00ca87;
 }
 
 //////

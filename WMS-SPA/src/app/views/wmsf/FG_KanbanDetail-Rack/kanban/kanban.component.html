@@ -1,12 +1,12 @@
 <div class="container-fluid kaban-main">
 
   <ng-container>
-    <app-kanban-char #kanbanChar>
+    <app-kanban-char *ngIf="isVisible !== 1" #kanbanChar (sendObject)="getObjectFromChar($event)">
     </app-kanban-char>
   </ng-container>
 
   <ng-container>
-    <app-kanban-detail *ngIf="isVisible === 1" #kanbanDetail  (visible)="setVisible($event)">
+    <app-kanban-detail *ngIf="isVisible === 1" #kanbanDetail [object]="object" (visible)="setVisible($event)">
     </app-kanban-detail>
   </ng-container>
   <div class="bottom-main" *ngIf="isVisible !== 1">

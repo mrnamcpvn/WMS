@@ -8,11 +8,12 @@ namespace WMS_API.Dtos
 {
     public class ChartModelDto
     {
-        public string factoryName { get; set; }
-        public string id { get; set; }
-        public string name { get; set; }
-        public string title { get; set; }
-        public string className { get; set; }
-        public List<ChartModelDto> childs { get; set; }
+        public string FactoryName { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Title { get; set; }
+        public string ClassName { get; set; }
+        public bool Visible { get; set; }
+        public List<ChartModelDto> Childs { get; set; }
     }
 }

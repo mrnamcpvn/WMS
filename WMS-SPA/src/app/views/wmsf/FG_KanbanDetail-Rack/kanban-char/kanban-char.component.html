@@ -1,33 +1,92 @@
 <div>
-    <h3>Vertical tree with root</h3>
     <ul class="tree horizontal">
         <li>
-            <div class="class0" *ngFor="let item of rackFirst">{{item.factoryName}}</div>
-            <ng-container>
-                <ul>
-                    <li *ngFor="let item of rack_AreaTree">
-                        <div class={{item.className}}>
-                            <div class="title">{{item.name}}</div>
-                            <div [innerHtml]="item.title" class="content">{{item.title}}</div>
+            <ng-container *ngFor="let item0 of rack_AreaTree">
+
+                <div class="hoveritemSHD">
+                    <div class={{item0.className}} (click)="itemClick('','','','')">
+                        {{item0.factoryName}}
+                    </div>
+                    <ng-container *ngIf="!item0.visible">
+                        <i class="fa fa-angle-right fa-lg right-custom-shd" (click)="onVisible(item0)"></i>
+                    </ng-container>
+                    <ng-container *ngIf="item0.visible">
+                        <i class="fa fa-angle-left fa-lg right-custom-shd" (click)="onVisible(item0)"></i>
+                    </ng-container>
+                </div>
+                <ul *ngIf="item0.visible">
+                    <li *ngFor="let item of item0.childs">
+                        <div class="hoveritem {{item.className}}">
+                            <div class="title" (click)="itemClick(item.id,'','','')">{{item.name}}</div>
+                            <div [innerHtml]="item.title" class="content" (click)="itemClick(item.id,'','','')">
+                                {{item.title}}</div>
+                            <ng-container *ngIf="!item.visible">
+                                <i class="fa fa-angle-right fa-lg right-custom" (click)="onVisible(item)"></i>
+                            </ng-container>
+                            <ng-container *ngIf="item.visible">
+                                <i class="fa fa-angle-left fa-lg right-custom" (click)="onVisible(item)"></i>
+                            </ng-container>
+                            <ng-container *ngIf="!item0.visible">
+                                <i class="fa fa-angle-right fa-lg left-custom" (click)="onVisible(item0)"></i>
+                            </ng-container>
+                            <ng-container *ngIf="item0.visible">
+                                <i class="fa fa-angle-left fa-lg left-custom" (click)="onVisible(item0)"></i>
+                            </ng-container>
                         </div>
-                        <ul>
+                        <ul *ngIf="item.visible">
                             <li *ngFor="let item2 of item.childs">
-                                <div class={{item2.className}}>
-                                    <div class="title">{{item2.name}}</div>
-                                    <div [innerHtml]="item2.title" class="content">{{item2.title}}</div>
+                                <div class="hoveritem {{item2.className}}">
+                                    <div class="title" (click)="itemClick(item.id,item2.id,'','')">{{item2.name}}</div>
+                                    <div [innerHtml]="item2.title" class="content"
+                                        (click)="itemClick(item.id,item2.id,'','')">{{item2.title}}</div>
+                                    <ng-container *ngIf="!item2.visible">
+                                        <i class="fa fa-angle-right fa-lg right-custom" (click)="onVisible(item2)"></i>
+                                    </ng-container>
+                                    <ng-container *ngIf="item2.visible">
+                                        <i class="fa fa-angle-left fa-lg right-custom" (click)="onVisible(item2)"></i>
+                                    </ng-container>
+                                    <ng-container *ngIf="!item.visible">
+                                        <i class="fa fa-angle-right fa-lg left-custom" (click)="onVisible(item)"></i>
+                                    </ng-container>
+                                    <ng-container *ngIf="item.visible">
+                                        <i class="fa fa-angle-left fa-lg left-custom" (click)="onVisible(item)"></i>
+                                    </ng-container>
                                 </div>
-                                <ul>
+                                <ul *ngIf="item2.visible">
                                     <li *ngFor="let item3 of item2.childs">
-                                        <div class={{item3.className}}>
-                                            <div class="title">{{item3.name}}</div>
-                                            <div [innerHtml]="item3.title" class="content">{{item3.title}}</div>
+                                        <div class="hoveritem {{item3.className}}">
+                                            <div class=" title" (click)="itemClick(item.id,item2.id,item3.id,'')">{{item3.name}}</div>
+                                            <div [innerHtml]="item3.title" class="content"
+                                                (click)="itemClick(item.id,item2.id,item3.id,'')">{{item3.title}}</div>
+                                            <ng-container *ngIf="!item3.visible">
+                                                <i class="fa fa-angle-right fa-lg right-custom"
+                                                    (click)="onVisible(item3)"></i>
+                                            </ng-container>
+                                            <ng-container *ngIf="item3.visible">
+                                                <i class="fa fa-angle-left fa-lg right-custom"
+                                                    (click)="onVisible(item3)"></i>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="!item2.visible">
+                                                <i class="fa fa-angle-right fa-lg left-custom"
+                                                    (click)="onVisible(item2)"></i>
+                                            </ng-container>
+                                            <ng-container *ngIf="item2.visible">
+                                                <i class="fa fa-angle-left fa-lg left-custom"
+                                                    (click)="onVisible(item2)"></i>
+                                            </ng-container>
+
+                                            <!-- <i class="fa fa-angle-left fa-lg left-custom"></i> -->
+                                            <!-- <i class="fa fa-angle-up fa-lg"></i>
+                                            <i class="fa fa-angle-down fa-lg"></i> -->
                                         </div>
-                                        <ul>
+                                        <ul *ngIf="item3.visible">
                                             <li *ngFor="let item4 of item3.childs">
-                                                <div class={{item4.className}}>
-                                                    <div [innerHtml]="item4.name" class="title">
-                                                        {{item4.name}}</div>
-                                                    <div [innerHtml]="item4.title" class="content">{{item4.title}}</div>
+                                                <div class="hoveritem {{item4.className}}">
+                                                    <div [innerHtml]="item4.name" class="title"
+                                                        (click)="itemClick(item.id,item2.id,item3.id,item4.id)">{{item4.name}}</div>
+                                                    <div [innerHtml]="item4.title" class="content"
+                                                        (click)="itemClick(item.id,item2.id,item3.id,item4.id)">{{item4.title}}</div>
                                                 </div>
                                             </li>
                                         </ul>
@@ -38,7 +97,6 @@
                     </li>
                 </ul>
             </ng-container>
-
         </li>
     </ul>
 </div>

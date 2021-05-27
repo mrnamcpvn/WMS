@@ -65,23 +65,28 @@ namespace WMS_API._Services.Services
 
             var classTextTitle = "classTextTitle";
             var classTextData = "classTextData";
+            var shdMain = new List<ChartModelDto>();
+
+
             var listWareHouse = dataLocation.GroupBy(w => w.Warehouse_ID).Select(w => new ChartModelDto
             {
-                factoryName = _configuration.GetSection("AppSettings:FactoryName").Value,
-                id = w.Key,
-                className = "class1",
-                title =
+                FactoryName = _configuration.GetSection("AppSettings:FactoryName").Value,
+                Id = w.Key,
+                ClassName = "class1",
+                Visible = true,
+                Title =
                          "<span class=" + classTextTitle + ">PRS</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID && areaListCheck.Contains(x.Area_ID)).Sum(x => x.Carton_Pairs)) + "</span> " + "\n" +
                          "<span class=" + classTextTitle + ">CTN</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Count(x => x.Barcode != string.Empty)) + "</span> " + "\n" +
                          "<span class=" + classTextTitle + ">STO</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Sum(x => x.Volume)) + "</span> " + "\n" +
                          "<span class=" + classTextTitle + ">BAL</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", (w.Sum(x => x.CBM) - data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID).Sum(x => x.Volume))) + "</span> ",
-                name = w.FirstOrDefault().Warehouse_ID.Trim(),
+                Name = w.FirstOrDefault().Warehouse_ID.Trim(),
 
-                childs = dataLocation.Where(b => b.Warehouse_ID == w.FirstOrDefault().Warehouse_ID).GroupBy(b => b.Building_ID).Select(b => new ChartModelDto
+                Childs = dataLocation.Where(b => b.Warehouse_ID == w.FirstOrDefault().Warehouse_ID).GroupBy(b => b.Building_ID).Select(b => new ChartModelDto
                 {
-                    id = b.Key,
-                    className = "class2",
-                    title =
+                    Id = b.Key,
+                    ClassName = "class2",
+                    Visible = true,
+                    Title =
                             "<span class=" + classTextTitle + ">PRS</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                         x.Building_Id == b.FirstOrDefault().Building_ID && areaListCheck.Contains(x.Area_ID)).Sum(x => x.Carton_Pairs)) + "</span> " + "\n" +
                             "<span class=" + classTextTitle + ">CTN</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
@@ -90,14 +95,15 @@ namespace WMS_API._Services.Services
                                         x.Building_Id == b.FirstOrDefault().Building_ID).Sum(x => x.Volume)) + "</span> " + "\n" +
                                "<span class=" + classTextTitle + ">BAL</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", (b.Sum(x => x.CBM) - data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                        x.Building_Id == b.FirstOrDefault().Building_ID).Sum(x => x.Volume))) + "</span> ",
-                    name = b.FirstOrDefault().Building_Name.Trim(),
+                    Name = b.FirstOrDefault().Building_Name.Trim(),
 
-                    childs = dataLocation.Where(f => f.Warehouse_ID == w.FirstOrDefault().Warehouse_ID &&
+                    Childs = dataLocation.Where(f => f.Warehouse_ID == w.FirstOrDefault().Warehouse_ID &&
                     f.Building_ID == b.FirstOrDefault().Building_ID).GroupBy(f => f.Floor_ID).Select(f => new ChartModelDto
                     {
-                        id = f.Key,
-                        className = "class3",
-                        title =
+                        Id = f.Key,
+                        ClassName = "class3",
+                        Visible = false,
+                        Title =
                                   "<span class=" + classTextTitle + ">PRS</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                                 x.Building_Id == b.FirstOrDefault().Building_ID &&
                                                 x.Floor_Id == f.FirstOrDefault().Floor_ID && areaListCheck.Contains(x.Area_ID)).Sum(x => x.Carton_Pairs)) + "</span> " + "\n" +
@@ -111,16 +117,17 @@ namespace WMS_API._Services.Services
                                                 - data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                                x.Building_Id == b.FirstOrDefault().Building_ID &&
                                                x.Floor_Id == f.FirstOrDefault().Floor_ID).Sum(x => x.Volume))) + "</span> ",
-                        name = f.FirstOrDefault().Floor_Name.Trim(),
+                        Name = f.FirstOrDefault().Floor_Name.Trim(),
 
-                        childs = dataLocation.Where(a => a.Warehouse_ID == w.FirstOrDefault().Warehouse_ID &&
+                        Childs = dataLocation.Where(a => a.Warehouse_ID == w.FirstOrDefault().Warehouse_ID &&
                                     a.Building_ID == b.FirstOrDefault().Building_ID &&
                                     a.Floor_ID == f.FirstOrDefault().Floor_ID).GroupBy(a => a.Area_ID).Select(a => new ChartModelDto
                                     {
-                                        id = a.Key,
-                                        name = "<span class='text-capitalize'>" + (a.FirstOrDefault().Area_Name.Trim().Length > 13 ? a.FirstOrDefault().Area_Name.Trim().Substring(0, 13) + "..." : a.FirstOrDefault().Area_Name.Trim()) + "</span>",
-                                        className = "class4",
-                                        title =
+                                        Id = a.Key,
+                                        Name = "<span class='text-capitalize'>" + (a.FirstOrDefault().Area_Name.Trim().Length > 13 ? a.FirstOrDefault().Area_Name.Trim().Substring(0, 13) + "..." : a.FirstOrDefault().Area_Name.Trim()) + "</span>",
+                                        ClassName = "class4",
+                                        Visible = false,
+                                        Title =
                                        "<span class=" + classTextTitle + ">PRS</span>  " + "<span class=" + classTextData + ">" + String.Format("{0:#,##0}", data.Where(x => x.Warehouse_Id == w.FirstOrDefault().Warehouse_ID &&
                                                         x.Building_Id == b.FirstOrDefault().Building_ID &&
                                                         x.Floor_Id == f.FirstOrDefault().Floor_ID &&
@@ -140,11 +147,22 @@ namespace WMS_API._Services.Services
                                                          x.Floor_Id == f.FirstOrDefault().Floor_ID &&
                                                          x.Area_ID == a.FirstOrDefault().Area_ID).Sum(x => x.Volume))) + "</span> ",
                                     }).ToList()
-                    }).OrderBy(f => f.id).ToList()
+                    }).OrderBy(f => f.Id).ToList()
                 }).ToList()
             }).ToList();
+            ChartModelDto shd = new ChartModelDto()
+            {
+                FactoryName = _configuration.GetSection("AppSettings:FactoryName").Value,
+                Id = _configuration.GetSection("AppSettings:FactoryName").Value,
+                Title = _configuration.GetSection("AppSettings:FactoryName").Value,
+                Name = _configuration.GetSection("AppSettings:FactoryName").Value,
+                ClassName = "class0",
+                Visible = true,
+                Childs = listWareHouse
 
-            return listWareHouse;
+            };
+            shdMain.Add(shd);
+            return shdMain;
         }
     }
 }
