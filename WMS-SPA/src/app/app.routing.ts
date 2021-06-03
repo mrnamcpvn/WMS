@@ -9,11 +9,12 @@ import { KanbanComponent } from './views/wmsf/FG_KanbanDetail-Rack/kanban/kanban
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
   },
   {
-    path: 'wmsf/fg-kanban-detail-rack',
+    path: '',
+    component: DefaultLayoutComponent,
     data: {
       title: 'Home'
     },

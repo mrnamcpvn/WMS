@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using Machine_API.Data;
 using WMS_API.Data;
+using WMS_API.ViewModels;
 
 namespace WMS_API._Services.Services
 {
@@ -73,130 +74,132 @@ namespace WMS_API._Services.Services
             return await result;
         }
 
-        public async Task<PageListUtility<WMS_LocationViewDto>> SearchData(PaginationParams pagination, ObjectSearchDto objectSearch)
+        public async Task<PageListUtility<WMS_LocationViewDto>> SearchData(PaginationParams pagination, SearchParam searchParam)
         {
-            objectSearch.WareHouseId = objectSearch.WareHouseId.Trim();
-            objectSearch.BuildingId = objectSearch.BuildingId.Trim();
-            objectSearch.FloorId = objectSearch.FloorId.Trim();
-            objectSearch.AreaId = objectSearch.AreaId.Trim();
-            objectSearch.RackNo = objectSearch.RackNo.Trim();
-            objectSearch.PoNo = objectSearch.PoNo.Trim();
+            searchParam.wareHouseId = searchParam.wareHouseId.Trim();
+            searchParam.buildingId = searchParam.buildingId.Trim();
+            searchParam.floorId = searchParam.floorId.Trim();
+            searchParam.areaId = searchParam.areaId.Trim();
+            searchParam.rackNo = searchParam.rackNo.Trim();
+            searchParam.poNo = searchParam.poNo.Trim();
 
             // lấy data từ stored procedure
             var data = await _dataContext.WMS_LocationView.FromSqlRaw("EXEC PRD_LOCATION_LIST").ToListAsync();
+            data = data.OrderBy(x => x.Comfirmed_Date).ToList();
 
-            if (objectSearch.WareHouseId != string.Empty)
+            if (searchParam.wareHouseId != string.Empty)
             {
-                data = data.Where(x => x.Warehouse_Id == objectSearch.WareHouseId).ToList();
+                data = data.Where(x => x.Warehouse_Id == searchParam.wareHouseId).ToList();
             }
-            if (objectSearch.BuildingId != string.Empty)
+            if (searchParam.buildingId != string.Empty)
             {
-                data = data.Where(x => x.Building_Id == objectSearch.BuildingId).ToList();
+                data = data.Where(x => x.Building_Id == searchParam.buildingId).ToList();
             }
-            if (objectSearch.FloorId != string.Empty)
+            if (searchParam.floorId != string.Empty)
             {
-                data = data.Where(x => x.Floor_Id == objectSearch.FloorId).ToList();
+                data = data.Where(x => x.Floor_Id == searchParam.floorId).ToList();
             }
-            if (objectSearch.AreaId != string.Empty)
+            if (searchParam.areaId != string.Empty)
             {
-                data = data.Where(x => x.Area_ID == objectSearch.AreaId).ToList();
+                data = data.Where(x => x.Area_ID == searchParam.areaId).ToList();
             }
-            if (objectSearch.RackNo != string.Empty)
+            if (searchParam.rackNo != string.Empty)
             {
-                data = data.Where(x => x.Location_ID.ToLower().Contains(objectSearch.RackNo.ToLower())).ToList();
+                data = data.Where(x => x.Location_ID.ToLower().Contains(searchParam.rackNo.ToLower())).ToList();
             }
-            if (objectSearch.PoNo != string.Empty)
+            if (searchParam.poNo != string.Empty)
             {
-                data = data.Where(x => x.Order_ID.ToLower().Contains(objectSearch.PoNo.ToLower())).ToList();
+                data = data.Where(x => x.Order_ID.ToLower().Contains(searchParam.poNo.ToLower())).ToList();
             }
 
-            if (objectSearch.DateType != string.Empty)
+            if (searchParam.dateType != string.Empty)
             {
                 //Search by date
-                DateTime formatFromDate = Convert.ToDateTime(objectSearch.FromDate + " 00:00");
-                DateTime formatToDate = Convert.ToDateTime(objectSearch.ToDate + " 23:59");
-                if (objectSearch.FromDate != string.Empty && objectSearch.ToDate == string.Empty)
+                DateTime formatfromDate = Convert.ToDateTime(searchParam.fromDate + " 00:00");
+                DateTime formattoDate = Convert.ToDateTime(searchParam.toDate + " 23:59");
+                if (searchParam.fromDate != null && searchParam.toDate == null)
                 {
-                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? x.Comfirmed_Date >= formatFromDate :
-                                           objectSearch.DateType == "export_date" ? x.Plan_Ship_Date >= formatFromDate :
-                                           x.Real_Finish_Date >= formatFromDate).ToList();
+                    data = data.Where(x => searchParam.dateType == "cfm_date" ? x.Comfirmed_Date >= formatfromDate :
+                                           searchParam.dateType == "export_date" ? x.Plan_Ship_Date >= formatfromDate :
+                                           x.Real_Finish_Date >= formatfromDate).ToList();
                 }
-                if (objectSearch.FromDate == string.Empty && objectSearch.ToDate != string.Empty)
+                if (searchParam.fromDate == null && searchParam.toDate != null)
                 {
-                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? x.Comfirmed_Date <= formatToDate :
-                                          objectSearch.DateType == "export_date" ? x.Plan_Ship_Date <= formatToDate :
-                                          x.Real_Finish_Date <= formatToDate).ToList();
+                    data = data.Where(x => searchParam.dateType == "cfm_date" ? x.Comfirmed_Date <= formattoDate :
+                                          searchParam.dateType == "export_date" ? x.Plan_Ship_Date <= formattoDate :
+                                          x.Real_Finish_Date <= formattoDate).ToList();
                 }
-                if (objectSearch.FromDate != string.Empty && objectSearch.ToDate != string.Empty)
+                if (searchParam.fromDate != null && searchParam.toDate != null)
                 {
-                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? (x.Comfirmed_Date >= formatFromDate && x.Comfirmed_Date <= formatToDate) :
-                                          objectSearch.DateType == "export_date" ? (x.Plan_Ship_Date >= formatFromDate && x.Plan_Ship_Date <= formatToDate) :
-                                          (x.Real_Finish_Date >= formatFromDate && x.Real_Finish_Date <= formatToDate)).ToList();
+                    data = data.Where(x => searchParam.dateType == "cfm_date" ? (x.Comfirmed_Date >= formatfromDate && x.Comfirmed_Date <= formattoDate) :
+                                          searchParam.dateType == "export_date" ? (x.Plan_Ship_Date >= formatfromDate && x.Plan_Ship_Date <= formattoDate) :
+                                          (x.Real_Finish_Date >= formatfromDate && x.Real_Finish_Date <= formattoDate)).ToList();
                 }
             }
 
             return PageListUtility<WMS_LocationViewDto>.PageList(data, pagination.PageNumber, pagination.PageSize);
         }
 
-         public async Task<List<WMS_LocationViewDto>> SearchDataNoPagintion(ObjectSearchDto objectSearch)
+         public async Task<List<WMS_LocationViewDto>> SearchDataNoPagintion(SearchParam searchParam)
         {
-            objectSearch.WareHouseId = objectSearch.WareHouseId.Trim();
-            objectSearch.BuildingId = objectSearch.BuildingId.Trim();
-            objectSearch.FloorId = objectSearch.FloorId.Trim();
-            objectSearch.AreaId = objectSearch.AreaId.Trim();
-            objectSearch.RackNo = objectSearch.RackNo.Trim();
-            objectSearch.PoNo = objectSearch.PoNo.Trim();
+            searchParam.wareHouseId = searchParam.wareHouseId.Trim();
+            searchParam.buildingId = searchParam.buildingId.Trim();
+            searchParam.floorId = searchParam.floorId.Trim();
+            searchParam.areaId = searchParam.areaId.Trim();
+            searchParam.rackNo = searchParam.rackNo.Trim();
+            searchParam.poNo = searchParam.poNo.Trim();
 
             // lấy data từ stored procedure
             var data = await _dataContext.WMS_LocationView.FromSqlRaw("EXEC PRD_LOCATION_LIST").ToListAsync();
+            data = data.OrderBy(x => x.Comfirmed_Date).ToList();
 
-            if (objectSearch.WareHouseId != string.Empty)
+            if (searchParam.wareHouseId != string.Empty)
             {
-                data = data.Where(x => x.Warehouse_Id == objectSearch.WareHouseId).ToList();
+                data = data.Where(x => x.Warehouse_Id == searchParam.wareHouseId).ToList();
             }
-            if (objectSearch.BuildingId != string.Empty)
+            if (searchParam.buildingId != string.Empty)
             {
-                data = data.Where(x => x.Building_Id == objectSearch.BuildingId).ToList();
+                data = data.Where(x => x.Building_Id == searchParam.buildingId).ToList();
             }
-            if (objectSearch.FloorId != string.Empty)
+            if (searchParam.floorId != string.Empty)
             {
-                data = data.Where(x => x.Floor_Id == objectSearch.FloorId).ToList();
+                data = data.Where(x => x.Floor_Id == searchParam.floorId).ToList();
             }
-            if (objectSearch.AreaId != string.Empty)
+            if (searchParam.areaId != string.Empty)
             {
-                data = data.Where(x => x.Area_ID == objectSearch.AreaId).ToList();
+                data = data.Where(x => x.Area_ID == searchParam.areaId).ToList();
             }
-            if (objectSearch.RackNo != string.Empty)
+            if (searchParam.rackNo != string.Empty)
             {
-                data = data.Where(x => x.Location_ID.ToLower().Contains(objectSearch.RackNo.ToLower())).ToList();
+                data = data.Where(x => x.Location_ID.ToLower().Contains(searchParam.rackNo.ToLower())).ToList();
             }
-            if (objectSearch.PoNo != string.Empty)
+            if (searchParam.poNo != string.Empty)
             {
-                data = data.Where(x => x.Order_ID.ToLower().Contains(objectSearch.PoNo.ToLower())).ToList();
+                data = data.Where(x => x.Order_ID.ToLower().Contains(searchParam.poNo.ToLower())).ToList();
             }
 
-            if (objectSearch.DateType != string.Empty)
+            if (searchParam.dateType != string.Empty)
             {
                 //Search by date
-                DateTime formatFromDate = Convert.ToDateTime(objectSearch.FromDate + " 00:00");
-                DateTime formatToDate = Convert.ToDateTime(objectSearch.ToDate + " 23:59");
-                if (objectSearch.FromDate != string.Empty && objectSearch.ToDate == string.Empty)
+                DateTime formatfromDate = Convert.ToDateTime(searchParam.fromDate + " 00:00");
+                DateTime formattoDate = Convert.ToDateTime(searchParam.toDate + " 23:59");
+                if (searchParam.fromDate != null && searchParam.toDate == null)
                 {
-                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? x.Comfirmed_Date >= formatFromDate :
-                                           objectSearch.DateType == "export_date" ? x.Plan_Ship_Date >= formatFromDate :
-                                           x.Real_Finish_Date >= formatFromDate).ToList();
+                    data = data.Where(x => searchParam.dateType == "cfm_date" ? x.Comfirmed_Date >= formatfromDate :
+                                           searchParam.dateType == "export_date" ? x.Plan_Ship_Date >= formatfromDate :
+                                           x.Real_Finish_Date >= formatfromDate).ToList();
                 }
-                if (objectSearch.FromDate == string.Empty && objectSearch.ToDate != string.Empty)
+                if (searchParam.fromDate == null && searchParam.toDate != null)
                 {
-                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? x.Comfirmed_Date <= formatToDate :
-                                          objectSearch.DateType == "export_date" ? x.Plan_Ship_Date <= formatToDate :
-                                          x.Real_Finish_Date <= formatToDate).ToList();
+                    data = data.Where(x => searchParam.dateType == "cfm_date" ? x.Comfirmed_Date <= formattoDate :
+                                          searchParam.dateType == "export_date" ? x.Plan_Ship_Date <= formattoDate :
+                                          x.Real_Finish_Date <= formattoDate).ToList();
                 }
-                if (objectSearch.FromDate != string.Empty && objectSearch.ToDate != string.Empty)
+                if (searchParam.fromDate != null && searchParam.toDate != null)
                 {
-                    data = data.Where(x => objectSearch.DateType == "cfm_date" ? (x.Comfirmed_Date >= formatFromDate && x.Comfirmed_Date <= formatToDate) :
-                                          objectSearch.DateType == "export_date" ? (x.Plan_Ship_Date >= formatFromDate && x.Plan_Ship_Date <= formatToDate) :
-                                          (x.Real_Finish_Date >= formatFromDate && x.Real_Finish_Date <= formatToDate)).ToList();
+                    data = data.Where(x => searchParam.dateType == "cfm_date" ? (x.Comfirmed_Date >= formatfromDate && x.Comfirmed_Date <= formattoDate) :
+                                          searchParam.dateType == "export_date" ? (x.Plan_Ship_Date >= formatfromDate && x.Plan_Ship_Date <= formattoDate) :
+                                          (x.Real_Finish_Date >= formatfromDate && x.Real_Finish_Date <= formattoDate)).ToList();
                 }
             }
 

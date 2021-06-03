@@ -6,6 +6,10 @@ export const navItems: INavData[] = [
     url: '/dashboard',
     icon: 'icon-speedometer'
   },
+  {
+    name: 'Kanban',
+    url: '/kanban'
+  }
   // {
   //   name: 'Buttons',
   //   url: '/buttons',

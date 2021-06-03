@@ -27,7 +27,7 @@
         <div class="form-group row">
           <label class="col-md-3 lable-bgr">WH</label>
           <div class="col-sm-9" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.wareHouseId"
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="searchParam.wareHouseId"
               (ngModelChange)="autoRefresh()">
               <option value="">All Warehouse</option>
               <option *ngFor="let item of listWareHouses" value={{item.id}}>{{item.id}}</option>
@@ -39,7 +39,7 @@
         <div class="form-group row">
           <label class="col-sm-4 lable-bgr">Building</label>
           <div class="col-sm-8" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.buildingId"
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="searchParam.buildingId"
               (ngModelChange)="autoRefresh()">
               <option value="">All Building</option>
               <option *ngFor="let item of listBuildings" value={{item.id}}>{{item.text}}</option>
@@ -51,7 +51,7 @@
         <div class="form-group row">
           <label class="col-sm-5 lable-bgr">Floor</label>
           <div class="col-sm-7" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.floorId"
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="searchParam.floorId"
               (ngModelChange)="autoRefresh()">
               <option value="">All Floor</option>
               <option *ngFor="let item of listFloors" value={{item.id}}>{{item.text}}</option>
@@ -63,7 +63,7 @@
         <div class="form-group row">
           <label class="col-sm-3 lable-bgr">Area</label>
           <div class="col-sm-9" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.areaId"
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="searchParam.areaId"
               (ngModelChange)="autoRefresh()">
               <option value="">All Area</option>
               <option *ngFor="let item of listAreas" value={{item.id}}>{{item.text}}</option>
@@ -75,7 +75,7 @@
         <div class="form-group row">
           <label class="col-sm-5  lable-bgr">Rack</label>
           <div class="col-sm-7" style="margin-left:-15px;">
-            <input type="text" [(ngModel)]="objectSearch.rackNo" (ngModelChange)="autoRefresh()"
+            <input type="text" [(ngModel)]="searchParam.rackNo" (ngModelChange)="autoRefresh()"
               class="form-control content-background-input rounded-0">
           </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="form-group row">
           <label class="col-sm-3 lable-bgr">PO</label>
           <div class="col-sm-9" style="margin-left:-15px;">
-            <input type="text" [(ngModel)]="objectSearch.poNo" class="form-control content-background-input rounded-0"
+            <input type="text" [(ngModel)]="searchParam.poNo" class="form-control content-background-input rounded-0"
               (ngModelChange)="autoRefresh()">
           </div>
         </div>
@@ -94,7 +94,7 @@
         <div class="form-group row">
           <label class="col-md-4 lable-bgr">Date Type</label>
           <div class="col-sm-8" style="margin-left:-15px;">
-            <select class="form-control content-background-output rounded-0" [(ngModel)]="objectSearch.dateType"
+            <select class="form-control content-background-output rounded-0" [(ngModel)]="searchParam.dateType"
               (ngModelChange)="autoRefresh()">
               <!-- @change="onChangeDateType($event)"> -->
               <option value="">Please select date type</option>
@@ -109,9 +109,9 @@
         <div class="form-group row">
           <label class="col-sm-4 lable-bgr">From Date</label>
           <div class="col-sm-8" style="margin-left:-15px;">
-            <input placeholder="From date" type="text" [disabled]="objectSearch.dateType != '' ? false : true"
+            <input placeholder="From date" type="text" [disabled]="searchParam.dateType != '' ? false : true"
               class="form-control" bsDatepicker #dp="bsDatepicker" [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }"
-              bsDatepicker [outsideClick]="true" [(ngModel)]="objectSearch.fromDate" (ngModelChange)="setFromDate()">
+              bsDatepicker [outsideClick]="true" [(ngModel)]="searchParam.fromDate" (ngModelChange)="setFromDate()">
           </div>
         </div>
       </div>
@@ -120,9 +120,9 @@
           <label class="col-sm-4  lable-bgr">To Date</label>
           <div class="col-sm-8" style="margin-left:-15px;">
             <input placeholder="To date" type="text" class="form-control"
-              [disabled]="objectSearch.dateType != '' ? false : true" bsDatepicker #dp="bsDatepicker"
+              [disabled]="searchParam.dateType != '' ? false : true" bsDatepicker #dp="bsDatepicker"
               [minDate]="mindate" [bsConfig]="{ dateInputFormat: 'YYYY/MM/DD' }" bsDatepicker [outsideClick]="true"
-              [(ngModel)]="objectSearch.toDate" (ngModelChange)="setToDate()">
+              [(ngModel)]="searchParam.toDate" (ngModelChange)="setToDate()">
           </div>
         </div>
       </div>

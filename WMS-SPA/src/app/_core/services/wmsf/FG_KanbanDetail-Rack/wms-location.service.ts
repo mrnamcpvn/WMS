@@ -1,3 +1,4 @@
+import { SearchParam } from './../../../models/wmsf/FG_KanbanDetail-Rack/search-param.model';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../../../environments/environment";
@@ -31,24 +32,19 @@ export class WMS_LocationService {
       `${API}WMSF_Rack_Area/GetListAreaTotal`
     );
   }
-  searchData(pagination: Pagination, objectSearch: any) {
+  searchData(pagination: Pagination, searchParam: SearchParam) {
     let params = new HttpParams();
     if (pagination.currentPage !== null && pagination.pageSize !== null) {
       params = params.append("pageNumber", pagination.currentPage.toString());
       params = params.append("pageSize", pagination.pageSize.toString());
     }
     return this.http.post<PaginationResult<any>>(
-      `${API}WMS_Location/searchData`,
-      objectSearch,
-      { params }
+      `${API}WMS_Location/searchData`, searchParam, { params }
     );
   }
 
-  searchDataNoPagintion(objectSearch: any) {
-    return this.http.post<any>(
-      `${API}WMS_Location/SearchDataNoPagintion`,
-      objectSearch,
-      {}
-    );
+  searchDataNoPagintion(searchParam: SearchParam) {
+    debugger
+    return this.http.post<any>(`${API}WMS_Location/SearchDataNoPagintion`, searchParam);
   }
 }

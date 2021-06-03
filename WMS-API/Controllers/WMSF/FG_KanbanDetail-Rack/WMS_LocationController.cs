@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using WMS_API._Services.Interface;
 using WMS_API.Helpers.Params;
 using WMS_API.Dtos;
+using WMS_API.ViewModels;
 
 namespace WMS_API.Controllers
 {
@@ -26,15 +27,15 @@ namespace WMS_API.Controllers
             _mapper = mapper;
         }
         [HttpPost("searchData")]
-        public async Task<IActionResult> SearchData([FromQuery] PaginationParams paginationParams, ObjectSearchDto objectSearch)
+        public async Task<IActionResult> SearchData([FromQuery] PaginationParams paginationParams, SearchParam searchParam)
         {
-            var result = await _wMS_LocationService.SearchData(paginationParams, objectSearch);
+            var result = await _wMS_LocationService.SearchData(paginationParams, searchParam);
             return Ok(result);
         }
         [HttpPost("SearchDataNoPagintion")]
-        public async Task<IActionResult> searchDataNoPagintion(ObjectSearchDto objectSearch)
+        public async Task<IActionResult> searchDataNoPagintion(SearchParam searchParam)
         {
-            var result = await _wMS_LocationService.SearchDataNoPagintion(objectSearch);
+            var result = await _wMS_LocationService.SearchDataNoPagintion(searchParam);
             return Ok(result);
         }
 

@@ -1,15 +1,15 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { KanbanComponent } from "./kanban/kanban.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { KanbanComponent } from './kanban/kanban.component';
 
 const routes: Routes = [
-      {
-        path: '',
-        component: KanbanComponent,
-        data: {
-          title: 'Home'
-        },
-      },
+  {
+    path: '',
+    component: KanbanComponent,
+    data: {
+      title: 'Home',
+    },
+  },
 ];
 
 @NgModule({

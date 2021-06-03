@@ -4,18 +4,19 @@ import {
   EventEmitter,
   Input,
   Output,
-} from "@angular/core";
-import { WMS_LocationService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wms-location.service";
-import { Select2OptionData } from "ng-select2";
-import { BsDatepickerConfig, BsLocaleService } from "ngx-bootstrap/datepicker";
-import { Pagination } from "../../../../_core/utilities/pagination";
-import { PageChangedEvent } from "ngx-bootstrap/pagination";
-import { WMSF_Rack_AreaService } from "../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-rack-area.service";
+} from '@angular/core';
+import { WMS_LocationService } from '../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wms-location.service';
+import { Select2OptionData } from 'ng-select2';
+import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { Pagination } from '../../../../_core/utilities/pagination';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { WMSF_Rack_AreaService } from '../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-rack-area.service';
+import { SearchParam } from '../../../../_core/models/wmsf/FG_KanbanDetail-Rack/search-param.model';
 
 @Component({
-  selector: "app-kanban-detail",
-  templateUrl: "./kanban-detail.component.html",
-  styleUrls: ["./kanban-detail.component.scss"],
+  selector: 'app-kanban-detail',
+  templateUrl: './kanban-detail.component.html',
+  styleUrls: ['./kanban-detail.component.scss'],
 })
 export class KanbanDetailComponent implements AfterViewInit {
   @Output() visible = new EventEmitter<any>();
@@ -32,28 +33,26 @@ export class KanbanDetailComponent implements AfterViewInit {
   listAreas: Array<Select2OptionData>;
   listArea_CountTotal: any = [];
   listDataAfterSearch: any = [];
-  listDataAll: any;
+  listDataAll = [];
   listData: any;
   isSearch: boolean = false;
   isAutoRefresh: boolean = false;
-  objectSearch: any = {
-    wareHouseId: "",
-    buildingId: "",
-    floorId: "",
-    areaId: "",
-    rackNo: "",
-    poNo: "",
-    dateType: "",
-    fromDate: "",
-    toDate: "",
-    sortBy: "",
-    sortType: "",
-    function: "",
-  };
+  searchParam: SearchParam = {
+    wareHouseId: '',
+    buildingId: '',
+    floorId: '',
+    areaId: '',
+    dateType: '',
+    rackNo: '',
+    poNo: '',
+    sortBy: '',
+    sortType: '',
+    function: ''
+  } as SearchParam;
   mindate: Date;
   dataFound: boolean = false;
-  locale = "vi";
-  colorTheme = "theme-green";
+  locale = 'vi';
+  colorTheme = 'theme-green';
 
   bsConfig: Partial<BsDatepickerConfig>;
   constructor(
@@ -67,7 +66,6 @@ export class KanbanDetailComponent implements AfterViewInit {
     setTimeout(() => {
       this.loadDataNoPagination();
       this.area_CountTotal();
-
     });
   }
   ngOnInit() {
@@ -77,27 +75,25 @@ export class KanbanDetailComponent implements AfterViewInit {
     this.getListArea();
   }
   getObjectFromParent(obj) {
-    this.objectSearch.wareHouseId = obj.wareHouseId;
-    this.objectSearch.buildingId = obj.buildingId;
-    this.objectSearch.floorId = obj.floorId;
-    this.objectSearch.areaId = obj.areaId;
+    this.searchParam.wareHouseId = obj.wareHouseId;
+    this.searchParam.buildingId = obj.buildingId;
+    this.searchParam.floorId = obj.floorId;
+    this.searchParam.areaId = obj.areaId;
     if (
-      obj.wareHouseId !== "" ||
-      obj.buildingId !== "" ||
-      obj.floorId !== "" ||
-      obj.areaId !== ""
-    )
+      obj.wareHouseId !== '' ||
+      obj.buildingId !== '' ||
+      obj.floorId !== '' ||
+      obj.areaId !== ''
+    ) {
       this.isSearch = true;
+    }
     this.search();
   }
   setFromDate() {
-    if (
-      this.objectSearch.fromDate !== null &&
-      this.objectSearch.fromDate !== ""
-    ) {
-      this.objectSearch.fromDate.setHours(0, 0, 0, 0);
+    if (this.searchParam.fromDate !== null) {
+      this.searchParam.fromDate.setHours(0, 0, 0, 0);
       this.mindate = new Date();
-      this.mindate.setTime(this.objectSearch.fromDate.getTime());
+      this.mindate.setTime(this.searchParam.fromDate.getTime());
     } else {
       this.mindate = undefined;
     }
@@ -106,8 +102,8 @@ export class KanbanDetailComponent implements AfterViewInit {
     }
   }
   setToDate() {
-    if (this.objectSearch.toDate !== null && this.objectSearch.toDate !== "") {
-      this.objectSearch.toDate.setHours(23, 59, 0, 0);
+    if (this.searchParam.toDate !== null) {
+      this.searchParam.toDate.setHours(23, 59, 0, 0);
     }
     if (this.isAutoRefresh) {
       this.search();
@@ -121,84 +117,66 @@ export class KanbanDetailComponent implements AfterViewInit {
   }
   search() {
     if (
-      this.objectSearch.warehouse_Id !== "" ||
-      this.objectSearch.buildingId !== "" ||
-      this.objectSearch.floorId !== "" ||
-      this.objectSearch.areaId !== "" ||
-      this.objectSearch.rackNo !== "" ||
-      this.objectSearch.poNo !== "" ||
-      this.objectSearch.dateType !== "" ||
-      this.objectSearch.fromDate !== "" ||
-      this.objectSearch.toDate !== ""
+      this.searchParam.wareHouseId !== '' ||
+      this.searchParam.buildingId !== '' ||
+      this.searchParam.floorId !== '' ||
+      this.searchParam.areaId !== '' ||
+      this.searchParam.rackNo !== '' ||
+      this.searchParam.poNo !== '' ||
+      this.searchParam.dateType !== '' ||
+      this.searchParam.fromDate ||
+      this.searchParam.toDate
     ) {
       this.isSearch = true;
       let newList: any[] = this.listDataAll;
       newList = newList.filter((item) => {
         return (
-          (item.warehouse_Id
-            .toLowerCase()
-            .includes(this.objectSearch.wareHouseId.toLowerCase()) ||
-            this.objectSearch.wareHouseId == "") &&
-          (item.building_Id
-            .toLowerCase()
-            .includes(this.objectSearch.buildingId.toLowerCase()) ||
-            this.objectSearch.buildingId == "") &&
-          (item.floor_Id
-            .toLowerCase()
-            .includes(this.objectSearch.floorId.toLowerCase()) ||
-            this.objectSearch.floorId == "") &&
-          (item.area_ID
-            .toLowerCase()
-            .includes(this.objectSearch.areaId.toLowerCase()) ||
-            this.objectSearch.areaId == "") &&
-          (item.location_ID
-            .toLowerCase()
-            .includes(this.objectSearch.rackNo.toLowerCase()) ||
-            this.objectSearch.rackNo == "") &&
-          (item.order_ID
-            .toLowerCase()
-            .includes(this.objectSearch.poNo.toLowerCase()) ||
-            this.objectSearch.poNo == "")
+          (item.warehouse_Id.toLowerCase().includes(this.searchParam.wareHouseId.toLowerCase()) ||
+            this.searchParam.wareHouseId == '') &&
+          (item.building_Id.toLowerCase().includes(this.searchParam.buildingId.toLowerCase()) ||
+            this.searchParam.buildingId == '') &&
+          (item.floor_Id.toLowerCase().includes(this.searchParam.floorId.toLowerCase()) ||
+            this.searchParam.floorId == '') &&
+          (item.area_ID.toLowerCase().includes(this.searchParam.areaId.toLowerCase()) ||
+            this.searchParam.areaId == '') &&
+          (item.location_ID.toLowerCase().includes(this.searchParam.rackNo.toLowerCase()) ||
+            this.searchParam.rackNo == '') &&
+          (item.order_ID.toLowerCase().includes(this.searchParam.poNo.toLowerCase()) ||
+            this.searchParam.poNo == '')
         );
       });
-      if (this.objectSearch.dateType !== "") {
-        if (
-          this.objectSearch.fromDate !== null &&
-          this.objectSearch.fromDate !== ""
-        ) {
+      if (this.searchParam.dateType !== '') {
+        if (this.searchParam.fromDate !== null) {
           newList = newList.filter((item) => {
-            return this.objectSearch.dateType == "cfm_date"
-              ? +this.objectSearch.fromDate.getTime() <=
+            return this.searchParam.dateType == 'cfm_date'
+              ? +this.searchParam.fromDate.getTime() <=
                   (item.comfirmed_Date !== null
                     ? +Date.parse(item.comfirmed_Date)
                     : 0)
-              : this.objectSearch.dateType == "export_date"
-              ? +this.objectSearch.fromDate.getTime() <=
+              : this.searchParam.dateType == 'export_date'
+              ? +this.searchParam.fromDate.getTime() <=
                 (item.plan_Ship_Date !== null
                   ? +Date.parse(item.plan_Ship_Date)
                   : 0)
-              : +this.objectSearch.fromDate.getTime() <=
+              : +this.searchParam.fromDate.getTime() <=
                 (item.real_Finish_Date !== null
                   ? +Date.parse(item.real_Finish_Date)
                   : 0);
           });
         }
-        if (
-          this.objectSearch.toDate !== "" &&
-          this.objectSearch.toDate !== null
-        ) {
+        if (this.searchParam.toDate !== null) {
           newList = newList.filter((item) => {
-            return this.objectSearch.dateType == "cfm_date"
-              ? +this.objectSearch.toDate.getTime() >=
+            return this.searchParam.dateType == 'cfm_date'
+              ? +this.searchParam.toDate.getTime() >=
                   (item.comfirmed_Date !== null
                     ? +Date.parse(item.comfirmed_Date)
                     : 0)
-              : this.objectSearch.dateType == "export_date"
-              ? +this.objectSearch.toDate.getTime() >=
+              : this.searchParam.dateType == 'export_date'
+              ? +this.searchParam.toDate.getTime() >=
                 (item.plan_Ship_Date !== null
                   ? +Date.parse(item.plan_Ship_Date)
                   : 0)
-              : +this.objectSearch.toDate.getTime() >=
+              : +this.searchParam.toDate.getTime() >=
                 (item.real_Finish_Date !== null
                   ? +Date.parse(item.real_Finish_Date)
                   : 0);
@@ -212,7 +190,7 @@ export class KanbanDetailComponent implements AfterViewInit {
       };
       this.pageChanged(event);
     } else {
-      let event: any = {
+      const event: any = {
         page: 1,
         itemsPerPage: this.pagination.pageSize,
       };
@@ -224,22 +202,24 @@ export class KanbanDetailComponent implements AfterViewInit {
   area_CountTotal() {
     setTimeout(() => {
       if (this.listArea_CountTotal.length > 0) {
-        let subTotal: number = 0;
+        let subTotal = 0;
         this.listArea_CountTotal
-          .filter((f) => f.value !== "Total")
+          .filter((f) => f.value !== 'Total')
           .map((i) => {
-            let listAreaWithID = this.listDataAfterSearch.filter(
+            const listAreaWithID = this.listDataAfterSearch.filter(
               (f) => f.area_ID == i.value
             );
-            let total: number = 0;
-            listAreaWithID.map((i) => {
-              total += i.countCartonPairs;
+            let total = 0;
+            listAreaWithID.map((x) => {
+              total += x.countCartonPairs;
             });
             i.totalCount = total;
             subTotal += total;
           });
-        let total = this.listArea_CountTotal.find((f) => f.value === "Total");
-        if (total !== null) total.totalCount = subTotal;
+        const total = this.listArea_CountTotal.find((f) => f.value === 'Total');
+        if (total !== null) {
+          total.totalCount = subTotal;
+        }
       }
     });
   }
@@ -249,25 +229,24 @@ export class KanbanDetailComponent implements AfterViewInit {
   }
 
   loadDataNoPagination() {
-    this._wMS_LocationService
-      .searchDataNoPagintion(this.objectSearch)
-      .subscribe(
-        (res) => {
-          this.listDataAll = res;
-          this.listDataAfterSearch = res;
-          if (res.length < 1) {
-            this.dataFound = true;
-          }
-          const startItem =
-            (this.pagination.currentPage - 1) * this.pagination.pageSize;
-          const endItem =
-            this.pagination.currentPage * this.pagination.pageSize;
-          this.listData = res.slice(startItem, endItem);
-          this.getListAreaTotal();
-          this.getObjectFromParent(this.object);
-        },
-        (error) => {}
-      );
+    console.log('search param: ', this.searchParam);
+    this._wMS_LocationService.searchDataNoPagintion(this.searchParam).subscribe(
+      (res) => {
+        debugger
+        this.listDataAll = res;
+        this.listDataAfterSearch = res;
+        if (res.length < 1) {
+          this.dataFound = true;
+        }
+        const startItem =
+          (this.pagination.currentPage - 1) * this.pagination.pageSize;
+        const endItem = this.pagination.currentPage * this.pagination.pageSize;
+        this.listData = res.slice(startItem, endItem);
+        this.getListAreaTotal();
+        this.getObjectFromParent(this.object);
+      },
+      (error) => {}
+    );
   }
   exportExcel() {
     this._wMSF_Rack_AreaService.exportExcel(this.listDataAfterSearch);
@@ -332,8 +311,8 @@ export class KanbanDetailComponent implements AfterViewInit {
   getListAreaTotal() {
     this._wMS_LocationService.getListAreTotal().subscribe((res) => {
       res.push({
-        value: "Total",
-        label: "Total",
+        value: 'Total',
+        label: 'Total',
         totalCount: 0,
         visible: true,
       });

@@ -1,4 +1,16 @@
 <div>
+  <div class="container">
+    <div class="row">
+      <ng-container *ngFor="let item of listRackPairs; let i = index">
+        <div class='col footer-title footer-value {{"footer-title-o"+ i}}'>
+          <span>{{item.area_Short_Title}}</span>
+        </div>
+        <div class="col footer-value">
+          <span>{{item.pairs_Subtotal | number}}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
     <ul class="tree horizontal">
         <li>
             <ng-container *ngFor="let item0 of rack_AreaTree">
