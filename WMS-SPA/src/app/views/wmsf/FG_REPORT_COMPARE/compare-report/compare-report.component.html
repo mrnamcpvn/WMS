@@ -22,8 +22,8 @@
       <div class="col-1">
       </div>
       <div class="col-5">
-        <a class="btn btn-info btn-search button-a" (click)="exportExcelByPO(report_time.toString())">Excel (By PO)</a>
-        <a class="btn btn-info btn-search" (click)="exportExcelByrack(report_time.toString())">Excel
+        <a class="btn btn-info btn-search button-a" (click)="exportExcelByPO(report_time)">Excel (By PO)</a>
+        <a class="btn btn-info btn-search" (click)="exportExcelByrack(report_time)">Excel
           (By Rack)</a>
         <div class="form-group d-inline-block pl-2">
           <input type="checkbox" class="check-box" [(ngModel)]="isAutoPage" checked="checked" id="auto-refesh" />

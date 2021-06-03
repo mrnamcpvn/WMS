@@ -17,9 +17,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class CompareReportComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$: Subject<void> = new Subject();
   isAutoPage: boolean = true;
-  date = new Date();
-  report_time: Date = new Date(this.date.getFullYear() + '/' + (this.date.getMonth() + 1) + '/' + (this.date.getDate() - 1));
-  reportTime = this.date.getFullYear() + '/' + (this.date.getMonth() + 1) + '/' + (this.date.getDate() - 1);
+  report_time = new Date();
+  reportTime = new Date();
   wMSF_FG_CompareReport: WMSF_FG_CompareReport[]
   pagination: Pagination = {
     currentPage: 1,
@@ -37,13 +36,14 @@ export class CompareReportComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.GetDateReport();
     this.getData();
     this.spinnerService.show();
-
     setTimeout(() => {
       /** spinner ends after 5 seconds */
       this.spinnerService.hide();
     }, 5000);
+    console.log(this.report_time)
   }
 
   getData() {
@@ -68,19 +68,20 @@ export class CompareReportComponent implements OnInit, OnDestroy {
     if (this.report_time == null) {
       this.customSnotifyService.error("Invalid Date", "");
     }
-    this.fgReportCompareService.ExportExcelByRack(this.fu.getStringDate(this.report_time))
+    this.fgReportCompareService.ExportExcelByRack(this.report_time.toDateString())
   }
 
   exportExcelByPO(report_time: string) {
+    console.log(this.report_time);
     if (this.report_time == null) {
       this.customSnotifyService.error("Invalid Date", "");
     }
-    this.fgReportCompareService.ExportExcelCompare(this.fu.getStringDate(this.report_time))
+    this.fgReportCompareService.ExportExcelCompare(this.report_time.toDateString())
   }
 
   loadData() {
     this.spinnerService.show()
-    this.fgReportCompareService.getAll(this.fu.getStringDate(this.report_time), this.typeSort, this.pagination)
+    this.fgReportCompareService.getAll(this.report_time.toDateString(), this.typeSort, this.pagination)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(res => {
         this.spinnerService.hide();
@@ -122,6 +123,35 @@ export class CompareReportComponent implements OnInit, OnDestroy {
       this.sortClass = 'fa fa-sort-amount-desc';
     }
     this.searchData();
+  }
+
+  GetDateReport() {
+    const today = new Date();
+    if (today.getDate() != 1) {
+
+      const date = new Date(today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + (today.getDate() - 1));
+      this.report_time = date;
+    }
+    else if ((today.getMonth() + 1) == 1) {
+      const date = new Date((today.getFullYear() - 1) + '/' + '12' + '/' + '31');
+      this.report_time = date
+    }
+    else if (today.getMonth() == 1 || today.getMonth() == 3 || today.getMonth() == 5 || today.getMonth() == 7 || today.getMonth() == 8 || today.getMonth() == 10) {
+      const date = new Date(today.getFullYear() + '/' + (today.getMonth()) + '/' + '31');
+      this.report_time = date
+    }
+    else if (today.getMonth() == 2 && (today.getFullYear() % 4) == 0) {
+      const date = new Date(today.getFullYear() + '/' + (today.getMonth()) + '/' + '29');
+      this.report_time = date
+    }
+    else if (today.getMonth() == 2 && (today.getFullYear() % 4) != 0) {
+      const date = new Date(today.getFullYear() + '/' + (today.getMonth()) + '/' + '28');
+      this.report_time = date
+    }
+    else {
+      const date = new Date(today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + '30');
+      this.report_time = date
+    }
   }
 
   ngOnDestroy() {
