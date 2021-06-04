@@ -9,7 +9,5 @@ export interface SearchParam {
   dateType: string;
   fromDate: Date;
   toDate: Date;
-  sortBy: string;
-  sortType: string;
   function: string;
 }

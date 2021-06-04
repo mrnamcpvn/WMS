@@ -1,14 +1,15 @@
+import { LocatinParamDTO } from './../../../utilities/location-param-dto';
 import { SearchParam } from './../../../models/wmsf/FG_KanbanDetail-Rack/search-param.model';
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { environment } from "../../../../../environments/environment";
-import { RackPairs } from "../../../models/wmsf/FG_KanbanDetail-Rack/rack-paris.model";
-import { SelectOptions } from "../../../models/wmsf/FG_KanbanDetail-Rack/select-options.model";
-import { Pagination, PaginationResult } from "../../../utilities/pagination";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
+import { RackPairs } from '../../../models/wmsf/FG_KanbanDetail-Rack/rack-paris.model';
+import { SelectOptions } from '../../../models/wmsf/FG_KanbanDetail-Rack/select-options.model';
+import { Pagination, PaginationResult } from '../../../utilities/pagination';
 
 const API = environment.apiUrl;
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class WMS_LocationService {
   constructor(private http: HttpClient) {}
@@ -32,19 +33,18 @@ export class WMS_LocationService {
       `${API}WMSF_Rack_Area/GetListAreaTotal`
     );
   }
-  searchData(pagination: Pagination, searchParam: SearchParam) {
+  searchData(pagination: Pagination, locationParamDTO: LocatinParamDTO) {
     let params = new HttpParams();
     if (pagination.currentPage !== null && pagination.pageSize !== null) {
-      params = params.append("pageNumber", pagination.currentPage.toString());
-      params = params.append("pageSize", pagination.pageSize.toString());
+      params = params.append('pageNumber', pagination.currentPage.toString());
+      params = params.append('pageSize', pagination.pageSize.toString());
     }
     return this.http.post<PaginationResult<any>>(
-      `${API}WMS_Location/searchData`, searchParam, { params }
+      `${API}WMS_Location/searchData`, locationParamDTO, { params }
     );
   }
 
-  searchDataNoPagintion(searchParam: SearchParam) {
-    debugger
-    return this.http.post<any>(`${API}WMS_Location/SearchDataNoPagintion`, searchParam);
+  searchDataNoPagintion(locationParamDTO: LocatinParamDTO) {
+    return this.http.post<any>(`${API}WMS_Location/SearchDataNoPagintion`, locationParamDTO);
   }
 }

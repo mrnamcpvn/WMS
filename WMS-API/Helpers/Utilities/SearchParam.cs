@@ -1,6 +1,6 @@
 using System;
 
-namespace WMS_API.ViewModels
+namespace WMS_API.Helpers.Utilities
 {
     public class SearchParam
     {
@@ -13,8 +13,6 @@ namespace WMS_API.ViewModels
         public string dateType { get; set; }
         public DateTime fromDate { get; set; }
         public DateTime toDate { get; set; }
-        public string sortBy { get; set; }
-        public string sortType { get; set; }
         public string function { get; set; }
     }
 }

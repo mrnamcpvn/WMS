@@ -15,7 +15,6 @@ using Microsoft.Extensions.Configuration;
 using System;
 using Machine_API.Data;
 using WMS_API.Data;
-using WMS_API.ViewModels;
 
 namespace WMS_API._Services.Services
 {
@@ -74,132 +73,184 @@ namespace WMS_API._Services.Services
             return await result;
         }
 
-        public async Task<PageListUtility<WMS_LocationViewDto>> SearchData(PaginationParams pagination, SearchParam searchParam)
+        public async Task<PageListUtility<WMS_LocationViewDto>> SearchData(PaginationParams pagination, LocationParamDTO locationParamDTO)
         {
-            searchParam.wareHouseId = searchParam.wareHouseId.Trim();
-            searchParam.buildingId = searchParam.buildingId.Trim();
-            searchParam.floorId = searchParam.floorId.Trim();
-            searchParam.areaId = searchParam.areaId.Trim();
-            searchParam.rackNo = searchParam.rackNo.Trim();
-            searchParam.poNo = searchParam.poNo.Trim();
+            locationParamDTO.SearchParam.wareHouseId = locationParamDTO.SearchParam.wareHouseId.Trim();
+            locationParamDTO.SearchParam.buildingId = locationParamDTO.SearchParam.buildingId.Trim();
+            locationParamDTO.SearchParam.floorId = locationParamDTO.SearchParam.floorId.Trim();
+            locationParamDTO.SearchParam.areaId = locationParamDTO.SearchParam.areaId.Trim();
+            locationParamDTO.SearchParam.rackNo = locationParamDTO.SearchParam.rackNo.Trim();
+            locationParamDTO.SearchParam.poNo = locationParamDTO.SearchParam.poNo.Trim();
 
             // lấy data từ stored procedure
             var data = await _dataContext.WMS_LocationView.FromSqlRaw("EXEC PRD_LOCATION_LIST").ToListAsync();
-            data = data.OrderBy(x => x.Comfirmed_Date).ToList();
+            
 
-            if (searchParam.wareHouseId != string.Empty)
+            if (locationParamDTO.SearchParam.wareHouseId != string.Empty)
             {
-                data = data.Where(x => x.Warehouse_Id == searchParam.wareHouseId).ToList();
+                data = data.Where(x => x.Warehouse_Id == locationParamDTO.SearchParam.wareHouseId).ToList();
             }
-            if (searchParam.buildingId != string.Empty)
+            if (locationParamDTO.SearchParam.buildingId != string.Empty)
             {
-                data = data.Where(x => x.Building_Id == searchParam.buildingId).ToList();
+                data = data.Where(x => x.Building_Id == locationParamDTO.SearchParam.buildingId).ToList();
             }
-            if (searchParam.floorId != string.Empty)
+            if (locationParamDTO.SearchParam.floorId != string.Empty)
             {
-                data = data.Where(x => x.Floor_Id == searchParam.floorId).ToList();
+                data = data.Where(x => x.Floor_Id == locationParamDTO.SearchParam.floorId).ToList();
             }
-            if (searchParam.areaId != string.Empty)
+            if (locationParamDTO.SearchParam.areaId != string.Empty)
             {
-                data = data.Where(x => x.Area_ID == searchParam.areaId).ToList();
+                data = data.Where(x => x.Area_ID == locationParamDTO.SearchParam.areaId).ToList();
             }
-            if (searchParam.rackNo != string.Empty)
+            if (locationParamDTO.SearchParam.rackNo != string.Empty)
             {
-                data = data.Where(x => x.Location_ID.ToLower().Contains(searchParam.rackNo.ToLower())).ToList();
+                data = data.Where(x => x.Location_ID.ToLower().Contains(locationParamDTO.SearchParam.rackNo.ToLower())).ToList();
             }
-            if (searchParam.poNo != string.Empty)
+            if (locationParamDTO.SearchParam.poNo != string.Empty)
             {
-                data = data.Where(x => x.Order_ID.ToLower().Contains(searchParam.poNo.ToLower())).ToList();
+                data = data.Where(x => x.Order_ID.ToLower().Contains(locationParamDTO.SearchParam.poNo.ToLower())).ToList();
             }
 
-            if (searchParam.dateType != string.Empty)
+            if (locationParamDTO.SearchParam.dateType != string.Empty)
             {
                 //Search by date
-                DateTime formatfromDate = Convert.ToDateTime(searchParam.fromDate + " 00:00");
-                DateTime formattoDate = Convert.ToDateTime(searchParam.toDate + " 23:59");
-                if (searchParam.fromDate != null && searchParam.toDate == null)
+                DateTime formatfromDate = Convert.ToDateTime(locationParamDTO.SearchParam.fromDate + " 00:00");
+                DateTime formattoDate = Convert.ToDateTime(locationParamDTO.SearchParam.toDate + " 23:59");
+                if (locationParamDTO.SearchParam.fromDate != null && locationParamDTO.SearchParam.toDate == null)
                 {
-                    data = data.Where(x => searchParam.dateType == "cfm_date" ? x.Comfirmed_Date >= formatfromDate :
-                                           searchParam.dateType == "export_date" ? x.Plan_Ship_Date >= formatfromDate :
+                    data = data.Where(x => locationParamDTO.SearchParam.dateType == "cfm_date" ? x.Comfirmed_Date >= formatfromDate :
+                                           locationParamDTO.SearchParam.dateType == "export_date" ? x.Plan_Ship_Date >= formatfromDate :
                                            x.Real_Finish_Date >= formatfromDate).ToList();
                 }
-                if (searchParam.fromDate == null && searchParam.toDate != null)
+                if (locationParamDTO.SearchParam.fromDate == null && locationParamDTO.SearchParam.toDate != null)
                 {
-                    data = data.Where(x => searchParam.dateType == "cfm_date" ? x.Comfirmed_Date <= formattoDate :
-                                          searchParam.dateType == "export_date" ? x.Plan_Ship_Date <= formattoDate :
+                    data = data.Where(x => locationParamDTO.SearchParam.dateType == "cfm_date" ? x.Comfirmed_Date <= formattoDate :
+                                          locationParamDTO.SearchParam.dateType == "export_date" ? x.Plan_Ship_Date <= formattoDate :
                                           x.Real_Finish_Date <= formattoDate).ToList();
                 }
-                if (searchParam.fromDate != null && searchParam.toDate != null)
+                if (locationParamDTO.SearchParam.fromDate != null && locationParamDTO.SearchParam.toDate != null)
                 {
-                    data = data.Where(x => searchParam.dateType == "cfm_date" ? (x.Comfirmed_Date >= formatfromDate && x.Comfirmed_Date <= formattoDate) :
-                                          searchParam.dateType == "export_date" ? (x.Plan_Ship_Date >= formatfromDate && x.Plan_Ship_Date <= formattoDate) :
+                    data = data.Where(x => locationParamDTO.SearchParam.dateType == "cfm_date" ? (x.Comfirmed_Date >= formatfromDate && x.Comfirmed_Date <= formattoDate) :
+                                          locationParamDTO.SearchParam.dateType == "export_date" ? (x.Plan_Ship_Date >= formatfromDate && x.Plan_Ship_Date <= formattoDate) :
                                           (x.Real_Finish_Date >= formatfromDate && x.Real_Finish_Date <= formattoDate)).ToList();
+                }
+            }
+
+            data = data.OrderBy(x => x.Comfirmed_Date).ToList();
+            foreach (var sort in locationParamDTO.SortParams)
+            {
+                switch(sort.SortColumn)
+                {
+                    case nameof(WMS_LocationViewDto.Comfirmed_Date) :
+                        data = sort.SortBy == SortBy.Asc ? data.OrderBy(x => x.Comfirmed_Date).ToList() : data.OrderByDescending(x => x.Comfirmed_Date).ToList();
+                        break;
+
+                    case nameof(WMS_LocationViewDto.Plan_Ship_Date) :
+                        data = sort.SortBy == SortBy.Asc ? data.OrderBy(x => x.Plan_Ship_Date).ToList() : data.OrderByDescending(x => x.Plan_Ship_Date).ToList();
+                        break;
+
+                    case nameof(WMS_LocationViewDto.Real_Finish_Date) :
+                        data = sort.SortBy == SortBy.Asc ? data.OrderBy(x => x.Real_Finish_Date).ToList() : data.OrderByDescending(x => x.Real_Finish_Date).ToList();
+                        break;
+                    
+                    case nameof(WMS_LocationViewDto.Order_ID) :
+                        data = sort.SortBy == SortBy.Asc ? data.OrderBy(x => x.Order_ID).ToList() : data.OrderByDescending(x => x.Order_ID).ToList();
+                        break;
+
+                    default: break;
                 }
             }
 
             return PageListUtility<WMS_LocationViewDto>.PageList(data, pagination.PageNumber, pagination.PageSize);
         }
 
-         public async Task<List<WMS_LocationViewDto>> SearchDataNoPagintion(SearchParam searchParam)
+         public async Task<List<WMS_LocationViewDto>> SearchDataNoPagintion(LocationParamDTO locationParamDTO)
         {
-            searchParam.wareHouseId = searchParam.wareHouseId.Trim();
-            searchParam.buildingId = searchParam.buildingId.Trim();
-            searchParam.floorId = searchParam.floorId.Trim();
-            searchParam.areaId = searchParam.areaId.Trim();
-            searchParam.rackNo = searchParam.rackNo.Trim();
-            searchParam.poNo = searchParam.poNo.Trim();
+            locationParamDTO.SearchParam.wareHouseId = locationParamDTO.SearchParam.wareHouseId.Trim();
+            locationParamDTO.SearchParam.buildingId = locationParamDTO.SearchParam.buildingId.Trim();
+            locationParamDTO.SearchParam.floorId = locationParamDTO.SearchParam.floorId.Trim();
+            locationParamDTO.SearchParam.areaId = locationParamDTO.SearchParam.areaId.Trim();
+            locationParamDTO.SearchParam.rackNo = locationParamDTO.SearchParam.rackNo.Trim();
+            locationParamDTO.SearchParam.poNo = locationParamDTO.SearchParam.poNo.Trim();
 
             // lấy data từ stored procedure
             var data = await _dataContext.WMS_LocationView.FromSqlRaw("EXEC PRD_LOCATION_LIST").ToListAsync();
-            data = data.OrderBy(x => x.Comfirmed_Date).ToList();
 
-            if (searchParam.wareHouseId != string.Empty)
+            if (locationParamDTO.SearchParam.wareHouseId != string.Empty)
             {
-                data = data.Where(x => x.Warehouse_Id == searchParam.wareHouseId).ToList();
+                data = data.Where(x => x.Warehouse_Id == locationParamDTO.SearchParam.wareHouseId).ToList();
             }
-            if (searchParam.buildingId != string.Empty)
+            if (locationParamDTO.SearchParam.buildingId != string.Empty)
             {
-                data = data.Where(x => x.Building_Id == searchParam.buildingId).ToList();
+                data = data.Where(x => x.Building_Id == locationParamDTO.SearchParam.buildingId).ToList();
             }
-            if (searchParam.floorId != string.Empty)
+            if (locationParamDTO.SearchParam.floorId != string.Empty)
             {
-                data = data.Where(x => x.Floor_Id == searchParam.floorId).ToList();
+                data = data.Where(x => x.Floor_Id == locationParamDTO.SearchParam.floorId).ToList();
             }
-            if (searchParam.areaId != string.Empty)
+            if (locationParamDTO.SearchParam.areaId != string.Empty)
             {
-                data = data.Where(x => x.Area_ID == searchParam.areaId).ToList();
+                data = data.Where(x => x.Area_ID == locationParamDTO.SearchParam.areaId).ToList();
             }
-            if (searchParam.rackNo != string.Empty)
+            if (locationParamDTO.SearchParam.rackNo != string.Empty)
             {
-                data = data.Where(x => x.Location_ID.ToLower().Contains(searchParam.rackNo.ToLower())).ToList();
+                data = data.Where(x => x.Location_ID.ToLower().Contains(locationParamDTO.SearchParam.rackNo.ToLower())).ToList();
             }
-            if (searchParam.poNo != string.Empty)
+            if (locationParamDTO.SearchParam.poNo != string.Empty)
             {
-                data = data.Where(x => x.Order_ID.ToLower().Contains(searchParam.poNo.ToLower())).ToList();
+                data = data.Where(x => x.Order_ID.ToLower().Contains(locationParamDTO.SearchParam.poNo.ToLower())).ToList();
             }
 
-            if (searchParam.dateType != string.Empty)
+            if (locationParamDTO.SearchParam.dateType != string.Empty)
             {
                 //Search by date
-                DateTime formatfromDate = Convert.ToDateTime(searchParam.fromDate + " 00:00");
-                DateTime formattoDate = Convert.ToDateTime(searchParam.toDate + " 23:59");
-                if (searchParam.fromDate != null && searchParam.toDate == null)
+                DateTime formatfromDate = Convert.ToDateTime(locationParamDTO.SearchParam.fromDate + " 00:00");
+                DateTime formattoDate = Convert.ToDateTime(locationParamDTO.SearchParam.toDate + " 23:59");
+                if (locationParamDTO.SearchParam.fromDate != null && locationParamDTO.SearchParam.toDate == null)
                 {
-                    data = data.Where(x => searchParam.dateType == "cfm_date" ? x.Comfirmed_Date >= formatfromDate :
-                                           searchParam.dateType == "export_date" ? x.Plan_Ship_Date >= formatfromDate :
+                    data = data.Where(x => locationParamDTO.SearchParam.dateType == "cfm_date" ? x.Comfirmed_Date >= formatfromDate :
+                                           locationParamDTO.SearchParam.dateType == "export_date" ? x.Plan_Ship_Date >= formatfromDate :
                                            x.Real_Finish_Date >= formatfromDate).ToList();
                 }
-                if (searchParam.fromDate == null && searchParam.toDate != null)
+                if (locationParamDTO.SearchParam.fromDate == null && locationParamDTO.SearchParam.toDate != null)
                 {
-                    data = data.Where(x => searchParam.dateType == "cfm_date" ? x.Comfirmed_Date <= formattoDate :
-                                          searchParam.dateType == "export_date" ? x.Plan_Ship_Date <= formattoDate :
+                    data = data.Where(x => locationParamDTO.SearchParam.dateType == "cfm_date" ? x.Comfirmed_Date <= formattoDate :
+                                          locationParamDTO.SearchParam.dateType == "export_date" ? x.Plan_Ship_Date <= formattoDate :
                                           x.Real_Finish_Date <= formattoDate).ToList();
                 }
-                if (searchParam.fromDate != null && searchParam.toDate != null)
+                if (locationParamDTO.SearchParam.fromDate != null && locationParamDTO.SearchParam.toDate != null)
                 {
-                    data = data.Where(x => searchParam.dateType == "cfm_date" ? (x.Comfirmed_Date >= formatfromDate && x.Comfirmed_Date <= formattoDate) :
-                                          searchParam.dateType == "export_date" ? (x.Plan_Ship_Date >= formatfromDate && x.Plan_Ship_Date <= formattoDate) :
+                    data = data.Where(x => locationParamDTO.SearchParam.dateType == "cfm_date" ? (x.Comfirmed_Date >= formatfromDate && x.Comfirmed_Date <= formattoDate) :
+                                          locationParamDTO.SearchParam.dateType == "export_date" ? (x.Plan_Ship_Date >= formatfromDate && x.Plan_Ship_Date <= formattoDate) :
                                           (x.Real_Finish_Date >= formatfromDate && x.Real_Finish_Date <= formattoDate)).ToList();
+                }
+            }
+
+            data = data.OrderBy(x => x.Comfirmed_Date)
+                        .ThenBy(x => x.Plan_Ship_Date)
+                        .ThenBy(x => x.Real_Finish_Date)
+                        .ThenBy(x => x.Order_ID).ToList();
+            foreach (var sort in locationParamDTO.SortParams)
+            {
+                switch(sort.SortColumn)
+                {
+                    case nameof(WMS_LocationViewDto.Comfirmed_Date) :
+                        data = sort.SortBy == SortBy.Asc ? data.OrderBy(x => x.Comfirmed_Date).ToList() : data.OrderByDescending(x => x.Comfirmed_Date).ToList();
+                        break;
+
+                    case nameof(WMS_LocationViewDto.Plan_Ship_Date) :
+                        data = sort.SortBy == SortBy.Asc ? data.OrderBy(x => x.Plan_Ship_Date).ToList() : data.OrderByDescending(x => x.Plan_Ship_Date).ToList();
+                        break;
+
+                    case nameof(WMS_LocationViewDto.Real_Finish_Date) :
+                        data = sort.SortBy == SortBy.Asc ? data.OrderBy(x => x.Real_Finish_Date).ToList() : data.OrderByDescending(x => x.Real_Finish_Date).ToList();
+                        break;
+                    
+                    case nameof(WMS_LocationViewDto.Order_ID) :
+                        data = sort.SortBy == SortBy.Asc ? data.OrderBy(x => x.Order_ID).ToList() : data.OrderByDescending(x => x.Order_ID).ToList();
+                        break;
+
+                    default: break;
                 }
             }
 

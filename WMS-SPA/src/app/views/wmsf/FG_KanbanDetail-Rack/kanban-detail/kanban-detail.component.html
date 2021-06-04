@@ -151,28 +151,24 @@
         <thead>
           <tr class="f12">
             <!-- <th scope="col" class="sort" @click="sort('cfmdate')"> -->
-            <th scope="col" class="sort">
+            <th scope="col" class="sort" (click)="toggleSort(sortColumn.CMFDate)">
               CFM Date &nbsp;
-              <i
-                :class="sortCFMDate == '' ? 'fa fa-arrows-v' : sortCFMDate == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+              <i [class]="sortParams[0].sortClass"></i>
             </th>
             <!-- <th scope="col" class="sort" @click="sort('exportdate')"> -->
-            <th scope="col" class="sort">
+            <th scope="col" class="sort" (click)="toggleSort(sortColumn.ExportDate)">
               Export Date &nbsp;
-              <i
-                :class="sortExportDate == '' ? 'fa fa-arrows-v' : sortExportDate == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+              <i [class]="sortParams[1].sortClass"></i>
             </th>
             <!-- <th scope="col" class="sort" @click="sort('lpd')"> -->
-            <th scope="col" class="sort">
+            <th scope="col" class="sort" (click)="toggleSort(sortColumn.LPD)">
               LPD &nbsp;
-              <i
-                :class="sortLPD == '' ? 'fa fa-arrows-v' : sortLPD == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+              <i [class]="sortParams[2].sortClass"></i>
             </th>
             <!-- <th scope="col" class="sort" @click="sort('pono')"> -->
-            <th scope="col" class="sort">
+            <th scope="col" class="sort" (click)="toggleSort(sortColumn.PoNo)">
               Po No. &nbsp;
-              <i
-                :class="sortPoNo == '' ? 'fa fa-arrows-v' : sortPoNo == 'asc' ? 'fa fa-sort-amount-asc' : 'fa fa-sort-amount-desc'"></i>
+              <i [class]="sortParams[3].sortClass"></i>
             </th>
             <th scope="col">Model Name</th>
             <th scope="col">ART</th>

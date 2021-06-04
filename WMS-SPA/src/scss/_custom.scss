@@ -17,7 +17,9 @@ body {
 
 /*#region custom style */
 
-html, body, .btn {
+html,
+body,
+.btn {
   font-family: Myriad Pro Regular !important;
   background: #242234 !important;
 }
@@ -59,20 +61,20 @@ html, body, .btn {
   height: 64px;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 
-  .lds-ripple div {
-    position: absolute;
-    border: 4px solid #fff;
-    opacity: 1;
-    border-radius: 50%;
-    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-  }
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
 
-    .lds-ripple div:nth-child(2) {
-      animation-delay: -0.5s;
-    }
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
 
 @keyframes lds-ripple {
   0% {
@@ -92,7 +94,6 @@ html, body, .btn {
   }
 }
 
-
 /*#endregion */
 
 /*#region styles kanban detail */
@@ -107,7 +108,7 @@ html, body, .btn {
 /*line color header command footer*/
 .line-gradient {
   height: 2px;
-  background-image: linear-gradient( to top right, #0ff3a6, #c909f4 );
+  background-image: linear-gradient(to top right, #0ff3a6, #c909f4);
 }
 /*search annd button resfesh*/
 
@@ -142,20 +143,21 @@ html, body, .btn {
 a.btn-back {
   color: #fff;
   border: 2px solid;
-  border-image-source: linear-gradient(to bottom, #c909f4, #0ff3a6 ) !important;
+  border-image-source: linear-gradient(to bottom, #c909f4, #0ff3a6) !important;
   border-image-slice: 1;
   background: #14131d;
 }
 
-  a.btn-back:hover {
-    color: #fff;
-    border: 2px solid;
-    border-image-source: linear-gradient(to bottom, #c909f4, #0ff3a6 ) !important;
-    border-image-slice: 1;
-    background: #14131d;
-  }
+a.btn-back:hover {
+  color: #fff;
+  border: 2px solid;
+  border-image-source: linear-gradient(to bottom, #c909f4, #0ff3a6) !important;
+  border-image-slice: 1;
+  background: #14131d;
+}
 
-.btn-refresh, .btn-export {
+.btn-refresh,
+.btn-export {
   border: 1px solid #fff !important;
   color: #fff !important;
   background: #7178cf !important;
@@ -219,10 +221,11 @@ table.table-kanban-detail tr td {
   display: table;
 }
 
-  .footer-title span, .footer-value span {
-    display: table-cell;
-    vertical-align: middle !important;
-  }
+.footer-title span,
+.footer-value span {
+  display: table-cell;
+  vertical-align: middle !important;
+}
 
 .footer-value {
   /*background: linear-gradient(to right, #d7d7d7, #fff) !important;*/
@@ -234,7 +237,7 @@ table.table-kanban-detail tr td {
   border-right: 2px solid #212529 !important;
 }
 
-.footer-title-o {
+.footer-title-o0 {
   background: linear-gradient(to right, #36a9b3, #39bfcb) !important;
 }
 
@@ -259,15 +262,25 @@ table.table-kanban-detail tr td {
 }
 .footer-title-o6 {
   /*background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)*/
-  background: linear-gradient(to right,#de3e89,#cf8cab) !important;
+  background: linear-gradient(to right, #de3e89, #cf8cab) !important;
 }
 .footer-title-o7 {
   /*background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)*/
-  background: linear-gradient(to right,#c49b85,#cb5414) !important;
-/*  background: linear-gradient(to right,#3a4ed1,#3a4ed1) !important;*/
+  background: linear-gradient(to right, #c49b85, #cb5414) !important;
+  /*  background: linear-gradient(to right,#3a4ed1,#3a4ed1) !important;*/
+}
+
+.footer-title-o8 {
+  background: rgb(34, 193, 195) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(45, 136, 253, 1) 100%
+  ) !important;
 }
 /* styles button auto refresh */
-.auto-refesh:before, .auto-refesh:after {
+.auto-refesh:before,
+.auto-refesh:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -289,22 +302,23 @@ table.table-kanban-detail tr td {
   cursor: pointer;
 }
 
-  .form-group .label-check-box:before {
-    content: '';
-    -webkit-appearance: none;
-    background-color: #1d1d3f;
-    border: 1px solid #fff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
-    padding: 8px;
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
-    cursor: pointer;
-    margin-right: 5px;
-  }
+.form-group .label-check-box:before {
+  content: "";
+  -webkit-appearance: none;
+  background-color: #1d1d3f;
+  border: 1px solid #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 8px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+}
 
 .form-group input.check-box:checked + .label-check-box:after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   top: 2px;
@@ -320,4 +334,3 @@ table.table-kanban-detail tr td {
 table th.sort {
   cursor: pointer;
 }
-

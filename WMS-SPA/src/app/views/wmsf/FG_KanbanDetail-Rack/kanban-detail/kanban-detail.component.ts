@@ -1,3 +1,5 @@
+import { LocatinParamDTO } from './../../../../_core/utilities/location-param-dto';
+import { SortBy, SortClass, SortParams } from './../../../../_core/utilities/sort-param';
 import {
   AfterViewInit,
   Component,
@@ -45,14 +47,37 @@ export class KanbanDetailComponent implements AfterViewInit {
     dateType: '',
     rackNo: '',
     poNo: '',
-    sortBy: '',
-    sortType: '',
     function: ''
   } as SearchParam;
   mindate: Date;
   dataFound: boolean = false;
   locale = 'vi';
   colorTheme = 'theme-green';
+  sortColumn = SortColumn;
+  sortBy = SortBy;
+  sortParams: SortParams[] = [
+    {
+      sortColumn: SortColumn.CMFDate,
+      sortBy: SortBy.Asc,
+      sortClass: SortClass.Asc
+    },
+    {
+      sortColumn: SortColumn.ExportDate,
+      sortBy: SortBy.Asc,
+      sortClass: SortClass.Asc
+    },
+    {
+      sortColumn: SortColumn.LPD,
+      sortBy: SortBy.Asc,
+      sortClass: SortClass.Asc
+    },
+    {
+      sortColumn: SortColumn.PoNo,
+      sortBy: SortBy.Asc,
+      sortClass: SortClass.Asc
+    }
+  ];
+  sortIndex: SortParams[] = [];
 
   bsConfig: Partial<BsDatepickerConfig>;
   constructor(
@@ -229,10 +254,12 @@ export class KanbanDetailComponent implements AfterViewInit {
   }
 
   loadDataNoPagination() {
-    console.log('search param: ', this.searchParam);
-    this._wMS_LocationService.searchDataNoPagintion(this.searchParam).subscribe(
+    const locationParamDTO: LocatinParamDTO = {
+      searchParam: this.searchParam,
+      sortParams: this.sortIndex
+    } ;
+    this._wMS_LocationService.searchDataNoPagintion(locationParamDTO).subscribe(
       (res) => {
-        debugger
         this.listDataAll = res;
         this.listDataAfterSearch = res;
         if (res.length < 1) {
@@ -320,4 +347,20 @@ export class KanbanDetailComponent implements AfterViewInit {
       this.area_CountTotal();
     });
   }
+
+  toggleSort(column: SortColumn) {
+    const index = this.sortParams.findIndex(x => x.sortColumn === column);
+    const currentSortBy = this.sortParams[index].sortBy;
+    this.sortParams[index].sortBy = currentSortBy === SortBy.Asc ? SortBy.Desc : SortBy.Asc;
+    this.sortParams[index].sortClass = currentSortBy === SortBy.Asc ? SortClass.Desc : SortClass.Asc;
+    this.sortIndex.push(this.sortParams[index]);
+    this.loadDataNoPagination();
+  }
+}
+
+enum SortColumn {
+  CMFDate = 'Comfirmed_Date',
+  ExportDate = 'Plan_Ship_Date',
+  LPD = 'Real_Finish_Date',
+  PoNo = 'Order_ID',
 }
