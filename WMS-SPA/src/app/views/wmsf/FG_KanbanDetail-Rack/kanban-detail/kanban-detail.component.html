@@ -9,7 +9,7 @@
       <a class="btn btn-back btn-dark fr" (click)="setVisible()">
         <!-- <a href="javascript:;" @click="backTable" class="btn btn-back btn-dark"> -->
         <span>
-          <i class="cil-arrow-left whitr"></i>
+          <i class="fa fa-arrow-left"></i>
           <span>
             Back
           </span>
@@ -221,7 +221,7 @@
           </tr>
 
 
-          <tr *ngIf="dataFound">
+          <tr *ngIf="dataNotFound">
             <td colspan="16">
               <div class="alert alert-warning text-center text-uppercase text-dark font-weight-bold" role="alert">
                 No data found !

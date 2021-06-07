@@ -1,8 +1,11 @@
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { RackPairs } from './../../../../_core/models/wmsf/FG_KanbanDetail-Rack/rack-paris.model';
 import { WMSF_Rack_AreaService } from './../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-rack-area.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WMS_LocationService } from '../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wms-location.service';
 import { WMSF_Carton_LocatService } from '../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-carton-locat.service';
+
+@UntilDestroy()
 @Component({
   selector: 'app-kanban-char',
   templateUrl: './kanban-char.component.html',
@@ -28,7 +31,7 @@ export class KanbanCharComponent implements OnInit {
   }
 
   loadDataChar() {
-    this._wMSF_Carton_LocatService.getListWareHouse().subscribe((res) => {
+    this._wMSF_Carton_LocatService.getListWareHouse().pipe(untilDestroyed(this)).subscribe((res) => {
       this.rack_AreaTree = res;
     });
     this.getListRackPairs();
@@ -46,7 +49,7 @@ export class KanbanCharComponent implements OnInit {
   }
 
   getListRackPairs() {
-    this._wMSF_Rack_AreaService.getListRackPairs().subscribe((res) => {
+    this._wMSF_Rack_AreaService.getListRackPairs().pipe(untilDestroyed(this)).subscribe((res) => {
       this.listRackPairs = res;
       console.log(this.listRackPairs);
     });

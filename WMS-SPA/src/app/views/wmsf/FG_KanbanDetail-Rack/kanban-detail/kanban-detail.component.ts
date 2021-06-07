@@ -14,7 +14,9 @@ import { Pagination } from '../../../../_core/utilities/pagination';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { WMSF_Rack_AreaService } from '../../../../_core/services/wmsf/FG_KanbanDetail-Rack/wmsf-rack-area.service';
 import { SearchParam } from '../../../../_core/models/wmsf/FG_KanbanDetail-Rack/search-param.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-kanban-detail',
   templateUrl: './kanban-detail.component.html',
@@ -50,7 +52,7 @@ export class KanbanDetailComponent implements AfterViewInit {
     function: ''
   } as SearchParam;
   mindate: Date;
-  dataFound: boolean = false;
+  dataNotFound: boolean = false;
   locale = 'vi';
   colorTheme = 'theme-green';
   sortColumn = SortColumn;
@@ -88,10 +90,8 @@ export class KanbanDetailComponent implements AfterViewInit {
     this.localeService.use(this.locale);
   }
   ngAfterViewInit() {
-    setTimeout(() => {
       this.loadDataNoPagination();
       this.area_CountTotal();
-    });
   }
   ngOnInit() {
     this.getListWarehouse();
@@ -225,7 +225,6 @@ export class KanbanDetailComponent implements AfterViewInit {
     }
   }
   area_CountTotal() {
-    setTimeout(() => {
       if (this.listArea_CountTotal.length > 0) {
         let subTotal = 0;
         this.listArea_CountTotal
@@ -246,7 +245,6 @@ export class KanbanDetailComponent implements AfterViewInit {
           total.totalCount = subTotal;
         }
       }
-    });
   }
 
   setVisible() {
@@ -257,13 +255,15 @@ export class KanbanDetailComponent implements AfterViewInit {
     const locationParamDTO: LocatinParamDTO = {
       searchParam: this.searchParam,
       sortParams: this.sortIndex
-    } ;
-    this._wMS_LocationService.searchDataNoPagintion(locationParamDTO).subscribe(
+    };
+    this._wMS_LocationService.searchDataNoPagintion(locationParamDTO)
+      .pipe(untilDestroyed(this))
+      .subscribe(
       (res) => {
         this.listDataAll = res;
         this.listDataAfterSearch = res;
         if (res.length < 1) {
-          this.dataFound = true;
+          this.dataNotFound = true;
         }
         const startItem =
           (this.pagination.currentPage - 1) * this.pagination.pageSize;
@@ -272,7 +272,9 @@ export class KanbanDetailComponent implements AfterViewInit {
         this.getListAreaTotal();
         this.getObjectFromParent(this.object);
       },
-      (error) => {}
+      (error) => {
+        console.log(error);
+      }
     );
   }
   exportExcel() {
@@ -288,15 +290,15 @@ export class KanbanDetailComponent implements AfterViewInit {
       this.listData = this.listDataAll.slice(startItem, endItem);
     }
     if (this.listData.length < 1) {
-      this.dataFound = true;
+      this.dataNotFound = true;
     } else {
-      this.dataFound = false;
+      this.dataNotFound = false;
     }
     this.area_CountTotal();
   }
 
   getListWarehouse() {
-    this._wMS_LocationService.getListWarehouse().subscribe((res) => {
+    this._wMS_LocationService.getListWarehouse().pipe(untilDestroyed(this)).subscribe((res) => {
       this.listWareHouses = res.map((item) => {
         return {
           id: item.value.toString(),
@@ -306,7 +308,7 @@ export class KanbanDetailComponent implements AfterViewInit {
     });
   }
   getListBuilding() {
-    this._wMS_LocationService.getListBuilding().subscribe((res) => {
+    this._wMS_LocationService.getListBuilding().pipe(untilDestroyed(this)).subscribe((res) => {
       this.listBuildings = res.map((item) => {
         return {
           id: item.value.toString(),
@@ -316,7 +318,7 @@ export class KanbanDetailComponent implements AfterViewInit {
     });
   }
   getListFloor() {
-    this._wMS_LocationService.getListFloor().subscribe((res) => {
+    this._wMS_LocationService.getListFloor().pipe(untilDestroyed(this)).subscribe((res) => {
       this.listFloors = res.map((item) => {
         return {
           id: item.value.toString(),
@@ -326,7 +328,7 @@ export class KanbanDetailComponent implements AfterViewInit {
     });
   }
   getListArea() {
-    this._wMS_LocationService.getListArea().subscribe((res) => {
+    this._wMS_LocationService.getListArea().pipe(untilDestroyed(this)).subscribe((res) => {
       this.listAreas = res.map((item) => {
         return {
           id: item.value.toString(),
@@ -336,7 +338,7 @@ export class KanbanDetailComponent implements AfterViewInit {
     });
   }
   getListAreaTotal() {
-    this._wMS_LocationService.getListAreTotal().subscribe((res) => {
+    this._wMS_LocationService.getListAreTotal().pipe(untilDestroyed(this)).subscribe((res) => {
       res.push({
         value: 'Total',
         label: 'Total',
